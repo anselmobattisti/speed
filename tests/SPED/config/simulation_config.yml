@@ -1,0 +1,12 @@
+simulation:
+  seed: 1
+  duration: 10000
+  auction:
+    duration: 50
+    node_cpu_default_cost: 1
+    node_mem_default_cost: 1
+    link_default_cost: 1
+  vnf_instances:
+    initial_status: "active"
+    status_to_count_resource_usage:
+      - "active"

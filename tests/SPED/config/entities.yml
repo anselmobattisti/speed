@@ -1,0 +1,410 @@
+user_equipments:
+  ue_1:
+    type: "phone"
+vnfs:
+  vnf_1:
+    cpu: 100
+    mem: 150
+    extra_parameters:
+      type: "cpu_intensive"
+  vnf_2:
+    cpu: 150
+    mem: 100
+  vnf_3:
+    cpu: 150
+    mem: 100
+sfcs:
+  sfc_1:
+    max_delay: 20
+    required_bw: 10
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+  sfc_2:
+    max_delay: 30
+    required_bw: 10
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+      - "vnf_3"
+nodes:
+  n_1:
+    cpu: 15000
+    mem: 10000
+    vnfs:
+      - "vnf_1"
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_2:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_3:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_4:
+    cpu: 15000
+    mem: 10000
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_5:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_6:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_7:
+    cpu: 15000
+    mem: 10000
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_8:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_9:
+    cpu: 15000
+    mem: 10000
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_10:
+    cpu: 15000
+    mem: 10000
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_11:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_12:
+    cpu: 15000
+    mem: 10000
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_13:
+    cpu: 15000
+    mem: 10000
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+      - "vnf_3"
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_14:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_15:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_16:
+    cpu: 15000
+    mem: 10000
+    vnfs:
+      - "vnf_1"
+      - "vnf_2"
+      - "vnf_3"
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+  n_17:
+    cpu: 15000
+    mem: 10000
+    type: "gateway"
+    vnfs:
+    extra_parameters:
+      mem_cost: 1
+      cpu_cost: 1
+domains:
+  dom_1:
+    nodes:
+      - "n_1"
+      - "n_2"
+      - "n_11"
+    placement:
+      module_name: "SimPlacement.mano.placement.basic"
+      class_name: "BasicPlacement"
+  dom_2:
+    nodes:
+      - "n_3"
+      - "n_4"
+      - "n_5"
+      - "n_12"
+      - "n_13"
+    placement:
+      module_name: "SimPlacement.mano.placement.basic"
+      class_name: "BasicPlacement"
+  dom_3:
+    nodes:
+      - "n_6"
+      - "n_7"
+      - "n_14"
+    placement:
+      module_name: "SimPlacement.mano.placement.basic"
+      class_name: "BasicPlacement"
+  dom_4:
+    nodes:
+      - "n_8"
+      - "n_9"
+      - "n_10"
+    placement:
+      module_name: "SimPlacement.mano.placement.basic"
+      class_name: "BasicPlacement"
+  dom_5:
+    nodes:
+      - "n_15"
+      - "n_16"
+      - "n_17"
+    placement:
+      module_name: "SimPlacement.mano.placement.basic"
+      class_name: "BasicPlacement"
+sfc_requests:
+  sr_1:
+    ue: "ue_1"
+    sfc: "sfc_1"
+    arrival: 100
+    src: "n_1"
+    dst: "n_1"
+  sr_2:
+    ue: "ue_1"
+    sfc: "sfc_2"
+    arrival: 100
+    src: "n_4"
+    dst: "n_7"
+  sr_3:
+    ue: "ue_1"
+    sfc: "sfc_1"
+    arrival: 100
+    src: "n_1"
+    dst: "n_4"
+  sr_4:
+    ue: "ue_1"
+    sfc: "sfc_1"
+    arrival: 100
+    src: "n_3"
+    dst: "n_5"
+  sr_5:
+    ue: "ue_1"
+    sfc: "sfc_1"
+    arrival: 100
+    src: "n_12"
+    dst: "n_4"
+links:
+  l_1:
+    src: "n_1"
+    dst: "n_2"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_2:
+    src: "n_2"
+    dst: "n_3"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_3:
+    src: "n_3"
+    dst: "n_4"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_4:
+    src: "n_4"
+    dst: "n_5"
+    bw: 1000
+    delay: 2
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_5:
+    src: "n_5"
+    dst: "n_6"
+    bw: 1000
+    delay: 2
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_6:
+    src: "n_6"
+    dst: "n_7"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_7:
+    src: "n_6"
+    dst: "n_11"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_8:
+    src: "n_8"
+    dst: "n_9"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_9:
+    src: "n_9"
+    dst: "n_10"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_10:
+    src: "n_8"
+    dst: "n_11"
+    bw: 1000
+    delay: 3
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_11:
+    src: "n_1"
+    dst: "n_11"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_12:
+    src: "n_4"
+    dst: "n_12"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_13:
+    src: "n_12"
+    dst: "n_13"
+    bw: 1000
+    delay: 4
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_14:
+    src: "n_13"
+    dst: "n_5"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_15:
+    src: "n_7"
+    dst: "n_14"
+    bw: 1000
+    delay: 8
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_16:
+    src: "n_14"
+    dst: "n_15"
+    bw: 1000
+    delay: 4
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_17:
+    src: "n_15"
+    dst: "n_16"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_18:
+    src: "n_14"
+    dst: "n_17"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_19:
+    src: "n_16"
+    dst: "n_17"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+  l_20:
+    src: "n_8"
+    dst: "n_14"
+    bw: 1000
+    delay: 1
+    extra_parameters:
+      bidirectional: true
+      cost: 1
