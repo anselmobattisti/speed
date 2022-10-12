@@ -8,7 +8,7 @@ from SimPlacement.logs.log import Log
 from SimPlacement.entities.vnf import VNF
 
 
-class SegmentLog(Log):
+class VNFSegmentLog(Log):
     """
     This class manages the Segments logs.
     """
