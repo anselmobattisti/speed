@@ -55,7 +55,7 @@ class Zone(Entity):
         """
         The zone type.
         """
-        return self._parent_zone_name
+        return self._zone_type
 
     @zone_type.setter
     def zone_type(self, value: str):
@@ -120,3 +120,9 @@ class Zone(Entity):
             raise TypeError("The parent_zone_name must be a string")
 
         self._parent_zone_name = value
+
+    def add_child_zone_name(self, value: str):
+        """
+        Add a child zone name to the zone
+        """
+        self.child_zone_names.append(value)

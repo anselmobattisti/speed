@@ -8,7 +8,7 @@ class SPED(Entity):
     This class represent the SPED component.
     """
 
-    def __init__(self, name: str, domain: Domain, node: Node, zone_name: str, extra_parameters: dict = None):
+    def __init__(self, name: str, node: Node, zone_name: str, domain: Domain = None, extra_parameters: dict = None):
         """
         Create the SPED component.
 
@@ -35,7 +35,7 @@ class SPED(Entity):
         """
         Set the domain name.
         """
-        if not type(value) == Domain:
+        if value and not type(value) == Domain:
             raise TypeError("The domain must be a Domain")
 
         self._domain = value
@@ -52,7 +52,7 @@ class SPED(Entity):
         """
         Set the node.
         """
-        if not type(value) == Node:
+        if value and not type(value) == Node:
             raise TypeError("The node must be a Node")
 
         self._node = value
