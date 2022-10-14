@@ -1,45 +1,84 @@
-# import yaml
-#
-# from SimPlacement.helper import Helper
-# from beautifultable import BeautifulTable
-#
-#
-# class SPEDHelper(Helper):
-#
-#     @staticmethod
-#     def build_zone_topology(domains):
-#         """
-#         Build the zone topology based on the domains configured.
-#
-#         :param domains: the loaded domains.
-#         :return: Dict with all the UEs.
-#         """
-#         attrs = Helper.get_attributes(vars(UE))
-#         data = UEHelper.load_yml_file(data_file)
-#
-#         try:
-#             ue_data = data["user_equipments"]
-#         except KeyError:
-#             raise TypeError("Config file does not have the field 'user_equipments'.")
-#
-#         ues = {}
-#
-#         for name, ue in ue_data.items():
-#
-#             # Verify if the attributes of the imported UE have all the required attributes.
-#             if not Helper.validate_attributes(attrs, ue):
-#                 raise TypeError("There are differences between the attributes in the UE Class and the imported file")
-#
-#             extra = None
-#             if "extra_parameters" in ue:
-#                 extra = ue["extra_parameters"]
-#
-#             aux = UE(
-#                 name=name,
-#                 ue_type=ue["type"],
-#                 extra_parameters=extra
-#             )
-#
-#             ues[name] = aux
-#
-#         return ues
+import yaml
+
+from SimPlacement.helper import Helper
+from beautifultable import BeautifulTable
+from SPED.types import InfrastructureData
+from SPED.types import AggregatedData
+
+
+class SPEDHelper(Helper):
+
+    @staticmethod
+    def show_infrastructure_data(infrastructure_data: InfrastructureData):  # pragma: no cover
+        """
+        Print the infrastructure data.
+
+        :param infrastructure_data: The Infrastructure Data object.
+        :return:
+        """
+        if not type(infrastructure_data) == dict:
+            raise TypeError("The data must be a InfrastructureData object.")
+
+        table = BeautifulTable()
+
+        zone: str
+        vnf: str
+        gw: str
+        delay: int
+        node: str
+        cost: float
+        cpu_available: int
+        mem_available: int
+
+        table.rows.append([infrastructure_data['zone']])
+        table.rows.append([infrastructure_data['node']])
+        table.rows.append([infrastructure_data['vnf']])
+        table.rows.append([infrastructure_data['gw']])
+        table.rows.append([infrastructure_data['delay']])
+        table.rows.append([infrastructure_data['cost']])
+        table.rows.append([infrastructure_data['cpu_available']])
+        table.rows.append([infrastructure_data['mem_available']])
+
+        table.rows.header = [
+            "Zone",
+            "Node",
+            "VNF",
+            "GW",
+            "Delay",
+            "Cost",
+            "CPU Available",
+            "MEM Available"
+        ]
+
+        print("\n")
+        print(table)
+
+    @staticmethod
+    def show_aggregated_data(aggregated_data: AggregatedData):  # pragma: no cover
+        """
+        Print the aggregated zone.
+
+        :param aggregated_data: The Aggregated data object.
+        :return:
+        """
+        if not type(aggregated_data) == dict:
+            raise TypeError("The data must be a AggregatedData object.")
+
+        table = BeautifulTable()
+
+        table.rows.append([aggregated_data['zone']])
+        table.rows.append([aggregated_data['vnf']])
+        table.rows.append([aggregated_data['gw']])
+        table.rows.append([aggregated_data['delay']])
+        table.rows.append([aggregated_data['cost']])
+
+        table.rows.header = [
+            "Zone",
+            "VNF",
+            "GW",
+            "Delay",
+            "Cost"
+        ]
+
+        print("\n")
+        print(table)

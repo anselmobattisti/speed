@@ -78,7 +78,7 @@ class ZoneTest(unittest.TestCase):
         self.assertEqual("z_3", zones['z_8'].parent_zone_name)
         self.assertEqual("dom_4", zones['z_7'].sped.domain.name)
 
-        img_file = "{}/logs/zone_topology.png".format(os.path.dirname(os.path.abspath(__file__)))
+        img_file = "{}/img/zone_topology.png".format(os.path.dirname(os.path.abspath(__file__)))
         ZoneHelper.save_image(
             zones=zones,
             title="Generated Zones",
@@ -86,6 +86,14 @@ class ZoneTest(unittest.TestCase):
             img_width=15,
             img_height=15
         )
+
+        # topology = environment['topology']
+        # img_t_file = "{}/img/zone_hierarch.png".format(os.path.dirname(os.path.abspath(__file__)))
+        # topology.save_image(
+        #     topology.get_graph(),
+        #     "Full Topology",
+        #     img_t_file
+        # )
 
     # # @unittest.skip
     # def test_show(self):

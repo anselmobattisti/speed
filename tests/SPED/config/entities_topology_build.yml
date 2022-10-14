@@ -59,8 +59,8 @@ nodes:
       - "vnf_1"
       - "vnf_2"
     extra_parameters:
-      mem_cost: 1
-      cpu_cost: 1
+      mem_cost: 1.5
+      cpu_cost: 1.5
   n_5:
     cpu: 15000
     mem: 10000
