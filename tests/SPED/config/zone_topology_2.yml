@@ -1,0 +1,29 @@
+zones:
+  z_1:
+    zone_type: "aggregation"
+  z_2:
+    zone_type: "aggregation"
+    parent_zone: "z_1"
+  z_3:
+    zone_type: "aggregation"
+    parent_zone: "z_1"
+  z_4:
+    zone_type: "compute"
+    parent_zone: "z_1"
+    domain: "dom_1"
+  z_5:
+    zone_type: "compute"
+    parent_zone: "z_2"
+    domain: "dom_2"
+  z_6:
+    zone_type: "compute"
+    parent_zone: "z_2"
+    domain: "dom_3"
+  z_7:
+    zone_type: "compute"
+    parent_zone: "z_3"
+    domain: "dom_4"
+  z_8:
+    zone_type: "compute"
+    parent_zone: "z_1"
+    domain: "dom_5"

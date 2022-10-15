@@ -61,6 +61,89 @@ class SPEDTest(unittest.TestCase):
         self.assertEqual("z_1", z_sr2)
         self.assertEqual("z_2", z_sr3)
 
+    def test_select_zone_manager_4_level(self):
+        """
+        Verify if the zone manager zone selection is working
+        :return:
+        """
+        env = simpy.Environment()
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEDSimulation(
+            env=env,
+            config=config["simulation"],
+            environment=environment
+        )
+
+        simulation.setup()
+
+        sr_6 = environment['sfc_requests']['sr_6']
+        z_sr6 = simulation.select_zone_manager(sr_6)
+        self.assertEqual("z_0", z_sr6)
+
+    def test_update_aggregated_data(self):
+        """
+        Update all the aggregated data from all the zones
+        :return:
+        """
+        env = simpy.Environment()
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEDSimulation(
+            env=env,
+            config=config["simulation"],
+            environment=environment
+        )
+
+        simulation.setup()
+
+        simulation.update_aggregated_data()
+
+        img_file = "{}/img/zone_topology_4.png".format(os.path.dirname(os.path.abspath(__file__)))
+        ZoneHelper.save_image(
+            zones=environment['zones'],
+            title="Zones Topology 4",
+            file_name=img_file,
+            img_width=15,
+            img_height=15
+        )
+
+        z_0: Zone = environment['zones']['z_0']
+        data = z_0.sped.aggregate_date()
+        self.assertEqual(375.0, data['n_3_vnf_1']['cost'])
+
+    ###############################
+
     def test_setup(self):
         """
         Test the setup simulation
@@ -97,7 +180,8 @@ class SPEDTest(unittest.TestCase):
             sfc_request=sr_1
         )
 
-        self.assertTrue(True)
+        self.assertEqual(5, len(simulation.domain_zone))
+
         # z_2 = zones['z_2']
         #
         # z_4 = zones['z_4']

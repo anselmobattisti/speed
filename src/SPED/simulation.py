@@ -167,6 +167,11 @@ class SPEDSimulation:
         Dictionary with the zone associated with the domain
         """
 
+        self.graph_zones = ZoneHelper.build_zone_tree(self.zones)
+        """
+        Topology of the zones in a networkx Graph
+        """
+
         self.setup()
         """
         Setup the initial configurations to execute the Auction Simulation.
@@ -288,11 +293,49 @@ class SPEDSimulation:
         :param sfc_request: The service requested
         :return:
         """
-        self.select_zone_manager(
+        zone_manager_name = self.select_zone_manager(
             sfc_request=sfc_request
         )
 
+        zone_manager = self.zones[zone_manager_name]
+
         return False
+
+    def update_aggregated_data(self):
+        """
+        Update the aggregated data in all the zones.
+
+        :return:
+        """
+        zones_to_update = nx.dfs_tree(self.graph_zones)
+        list_zones = list(zones_to_update.nodes())
+
+        # execute the update from the bottom to top
+        list_zones.reverse()
+
+        for zone_name in list_zones:
+            zone = self.zones[zone_name]
+            self.update_zone_aggregated_data(
+                zone=zone
+            )
+
+    def update_zone_aggregated_data(self, zone: Zone):
+        """
+        Update the aggregated data for a zone.
+
+        :return:
+        """
+
+        aggregated_data = zone.sped.aggregate_date()
+
+        # parent zone
+        if zone.parent_zone_name:
+            p_z: Zone = self.zones[zone.parent_zone_name]
+
+            p_z.sped.update_child_zone_aggregated_data(
+                zone_name=zone.name,
+                child_zone_aggregated_data=aggregated_data
+            )
 
     def select_zone_manager(self, sfc_request: SFCRequest) -> str:
         """

@@ -62,15 +62,11 @@ class ZoneTest(unittest.TestCase):
         zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
         environment = Setup.load_entities(entities_file)
-        domains = environment['domains']
 
         zones: Dict[str, Zone] = ZoneHelper.load(
             data_file=zone_file,
-            domains=domains
+            environment=environment
         )
-
-        # for zone_name, zone in zones.items():
-        #     ZoneHelper.show(zone)
 
         self.assertEqual("aggregation", zones['z_1'].zone_type)
         self.assertEqual("z_1", zones['z_1'].name)
@@ -78,7 +74,32 @@ class ZoneTest(unittest.TestCase):
         self.assertEqual("z_3", zones['z_8'].parent_zone_name)
         self.assertEqual("dom_4", zones['z_7'].sped.domain.name)
 
-        img_file = "{}/img/zone_topology.png".format(os.path.dirname(os.path.abspath(__file__)))
+        # img_file = "{}/img/zone_topology.png".format(os.path.dirname(os.path.abspath(__file__)))
+        # ZoneHelper.save_image(
+        #     zones=zones,
+        #     title="Generated Zones",
+        #     file_name=img_file,
+        #     img_width=15,
+        #     img_height=15
+        # )
+
+    def test_build_zones_from_file_4_levels(self):
+        """
+        Build the zone topology with 4 levels
+        """
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(entities_file)
+
+        zones: Dict[str, Zone] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        self.assertEqual("aggregation", zones['z_1'].zone_type)
+
+        img_file = "{}/img/zone_topology_3.png".format(os.path.dirname(os.path.abspath(__file__)))
         ZoneHelper.save_image(
             zones=zones,
             title="Generated Zones",
@@ -87,31 +108,51 @@ class ZoneTest(unittest.TestCase):
             img_height=15
         )
 
-        # topology = environment['topology']
-        # img_t_file = "{}/img/zone_hierarch.png".format(os.path.dirname(os.path.abspath(__file__)))
-        # topology.save_image(
-        #     topology.get_graph(),
-        #     "Full Topology",
-        #     img_t_file
-        # )
+    def test_build_save_image(self):
+        """
+        Build the zone topology from the data loaded from the config file
+        """
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_2.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
-    # # @unittest.skip
-    # def test_show(self):
-    #     ZoneHelper.show(self.zone_1)
-    #     ZoneHelper.show(self.zone_2)
+        environment = Setup.load_entities(entities_file)
 
-    # def test_max_delay_error_0(self):
-    #     try:
-    #         self.seg_1.max_delay = 0
-    #     except TypeError:
-    #         pass
-    #     else:
-    #         self.fail("The max_delay must be greater than 0, was not detected")
-    #
-    # def test_max_delay_error_minus_one(self):
-    #     try:
-    #         self.seg_1.max_delay = -1
-    #     except TypeError:
-    #         pass
-    #     else:
-    #         self.fail("The max_delay must be greater than 0, was not detected")
+        zones: Dict[str, Zone] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        img_file = "{}/img/zone_topology_2.png".format(os.path.dirname(os.path.abspath(__file__)))
+        ZoneHelper.save_image(
+            zones=zones,
+            title="Zones Topology 2",
+            file_name=img_file,
+            img_width=15,
+            img_height=15
+        )
+
+    def test_zone_names(self):
+        """
+        Get all the name based on a type
+        """
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(entities_file)
+
+        zones: Dict[str, Zone] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        compute_zone_names = ZoneHelper.get_zone_names(
+            zones=zones
+        )
+
+        aggregation_zone_names = ZoneHelper.get_zone_names(
+            zones=zones,
+            zone_type=Zone.TYPE_AGGREGATION
+        )
+
+        self.assertEqual(['z_4', 'z_5', 'z_6', 'z_7', 'z_8'], compute_zone_names)
+        self.assertEqual(['z_1', 'z_2', 'z_3'], aggregation_zone_names)

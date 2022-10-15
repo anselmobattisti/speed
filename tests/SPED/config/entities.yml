@@ -216,6 +216,37 @@ domains:
     placement:
       module_name: "SimPlacement.mano.placement.basic"
       class_name: "BasicPlacement"
+sfc_requests:
+  sr_1:
+    ue: "ue_1"
+    sfc: "sfc_1"
+    arrival: 100
+    src: "n_1"
+    dst: "n_1"
+  sr_2:
+    ue: "ue_1"
+    sfc: "sfc_2"
+    arrival: 100
+    src: "n_4"
+    dst: "n_7"
+  sr_3:
+    ue: "ue_1"
+    sfc: "sfc_1"
+    arrival: 100
+    src: "n_1"
+    dst: "n_4"
+  sr_4:
+    ue: "ue_1"
+    sfc: "sfc_1"
+    arrival: 100
+    src: "n_3"
+    dst: "n_5"
+  sr_5:
+    ue: "ue_1"
+    sfc: "sfc_1"
+    arrival: 100
+    src: "n_12"
+    dst: "n_4"
 links:
   l_1:
     src: "n_1"
@@ -377,34 +408,3 @@ links:
     extra_parameters:
       bidirectional: true
       cost: 1
-sfc_requests:
-  sr_1:
-    ue: "ue_1"
-    sfc: "sfc_1"
-    arrival: 100
-    src: "n_1"
-    dst: "n_1"
-  sr_2:
-    ue: "ue_1"
-    sfc: "sfc_2"
-    arrival: 100
-    src: "n_4"
-    dst: "n_7"
-  sr_3:
-    ue: "ue_1"
-    sfc: "sfc_1"
-    arrival: 100
-    src: "n_1"
-    dst: "n_4"
-  sr_4:
-    ue: "ue_1"
-    sfc: "sfc_1"
-    arrival: 100
-    src: "n_3"
-    dst: "n_5"
-  sr_5:
-    ue: "ue_1"
-    sfc: "sfc_1"
-    arrival: 100
-    src: "n_12"
-    dst: "n_4"

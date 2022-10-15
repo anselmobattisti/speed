@@ -1,5 +1,5 @@
 import random
-from typing import Dict
+from typing import Dict, List
 
 from beautifultable import BeautifulTable
 
@@ -76,6 +76,9 @@ class ZoneHelper(Helper):
             if 'parent_zone' in zone.keys():
                 aux_parent_zone_name = zone['parent_zone']
 
+                if aux_parent_zone_name not in zones.keys():
+                    raise TypeError("The parent zone {} does not exist.".format(aux_parent_zone_name))
+
             aux = Zone(
                 name=zone_name,
                 zone_type=zone['zone_type'],
@@ -141,7 +144,20 @@ class ZoneHelper(Helper):
         graph: nx.Graph = nx.DiGraph()
         for zone_name, zone in zones.items():
 
-            graph.add_node(zone_name)
+            node_color = ZoneHelper.ZONE_ACCESS_COLOR
+
+            if zone.zone_type == Zone.TYPE_COMPUTE:
+                node_color = ZoneHelper.ZONE_COMPUTE_COLOR
+
+            if zone.zone_type == Zone.TYPE_AGGREGATION:
+                node_color = ZoneHelper.ZONE_AGGREGATION_COLOR
+
+            graph.add_node(
+                zone_name,
+                zone_name=zone_name,
+                zone_type=zone.zone_type,
+                node_color=node_color
+            )
 
             for child_zone_name in zone.child_zone_names:
                 graph.add_edge(zone_name, child_zone_name)
@@ -165,13 +181,9 @@ class ZoneHelper(Helper):
 
         node_color = []
 
-        for zone_name, zone in zones.items():
-            if zone.zone_type == Zone.TYPE_ACCESS:
-                node_color.append(ZoneHelper.ZONE_ACCESS_COLOR)
-            if zone.zone_type == Zone.TYPE_COMPUTE:
-                node_color.append(ZoneHelper.ZONE_COMPUTE_COLOR)
-            if zone.zone_type == Zone.TYPE_AGGREGATION:
-                node_color.append(ZoneHelper.ZONE_AGGREGATION_COLOR)
+        for node_name in graph.nodes:
+            node = graph.nodes[node_name]
+            node_color.append(node['node_color'])
 
         legend_elements = list()
 
@@ -235,3 +247,21 @@ class ZoneHelper(Helper):
         plt.tight_layout()
         plt.savefig(file_name, format="PNG")
         plt.close()
+
+    @staticmethod
+    def get_zone_names(zones: Dict[str, Zone], zone_type: str = Zone.TYPE_COMPUTE) -> List[str]:
+        """
+        Return the name of all zones of a type.
+
+        :param zones: All the zones
+        :param zone_type: The requested type
+
+        :return:
+        """
+        names: List[str] = []
+
+        for zone_name, zone in zones.items():
+            if zone.zone_type == zone_type:
+                names.append(zone_name)
+
+        return names

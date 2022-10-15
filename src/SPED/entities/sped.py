@@ -33,8 +33,8 @@ class SPED(Entity):
         self.zone_name = zone_name
         self.environment = environment
         aux_data = None
-        if self.domain:
-            aux_data = self.compute_zone_data_collect()
+        # if self.domain:
+        #     aux_data = self.compute_zone_data_collect()
 
         # local domain
         self.infrastructure_data: List[InfrastructureData] = aux_data
@@ -174,8 +174,18 @@ class SPED(Entity):
         :param child_zone_aggregated_data: The aggregated data in the child zone.
         :return:
         """
+        # create a copy of each aggreagted data and change the zone name to the child zone that send the data
+        new_aggregated_data: Dict[str, AggregatedData] = dict()
+        for aux_key, aux_data in child_zone_aggregated_data.items():
+            new_aggregated_data[aux_key] = AggregatedData(
+                zone=zone_name,
+                vnf=aux_data['vnf'],
+                gw=aux_data['gw'],
+                delay=aux_data['delay'],
+                cost=aux_data['cost']
+            )
 
-        self.child_zones_aggregated_data[zone_name] = child_zone_aggregated_data
+        self.child_zones_aggregated_data[zone_name] = new_aggregated_data
 
     def aggregate_date(self):
         """
@@ -192,6 +202,8 @@ class SPED(Entity):
             for key_name, aux_data in aux_aggregated_data.items():
                 if key_name not in aggregated_data.keys() or aggregated_data[key_name]['delay'] > aux_data['delay']:
                     aggregated_data[key_name] = aux_data
+
+        self.aggregated_data = aggregated_data
 
         return aggregated_data
 
