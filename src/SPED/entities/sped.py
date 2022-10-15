@@ -1,4 +1,5 @@
 from typing import List, Dict
+import networkx as nx
 
 from SimPlacement.entity import Entity
 from SimPlacement.entities.domain import Domain
@@ -13,21 +14,24 @@ class SPED(Entity):
     This class represent the SPED component.
     """
 
-    def __init__(self, name: str, node: Node, zone_name: str, domain: Domain = None, extra_parameters: dict = None):
+    def __init__(self, name: str, node: Node, zone_name: str, domain: Domain = None,
+                 environment: dict = None, extra_parameters: dict = None):
         """
         Create the SPED component.
 
         :param name: The name of the SPED component.
-        :param domain: The domain where the SPED is executed.
         :param node: The node where the SPED is executed.
         :param zone_name: The name of the zone where the SPED is connected.
+        :param domain: The domain where the SPED is executed.
+        :param environment: The environment, its an auxiliar info about the environment where the zone is executed.
         :param extra_parameters: Dict with extra parameters.
         """
+
         super().__init__(name, extra_parameters)
         self.domain = domain
         self.node = node
         self.zone_name = zone_name
-
+        self.environment = environment
         aux_data = None
         if self.domain:
             aux_data = self.compute_zone_data_collect()
@@ -36,7 +40,10 @@ class SPED(Entity):
         self.infrastructure_data: List[InfrastructureData] = aux_data
         self.aggregated_infrastructure_data: Dict[str, AggregatedData] = dict()
 
-        # local + child domain aggregated data
+        # The data aggregated of the child zones
+        self.child_zones_aggregated_data: Dict[str, Dict[str, AggregatedData]] = dict()
+
+        # local + child zones aggregated data
         self.aggregated_data: Dict[str, AggregatedData] = dict()
 
     @property
@@ -104,7 +111,7 @@ class SPED(Entity):
 
         infrastructure_data = []
         for node_name, node in self.domain.nodes.items():
-            delay_to_all_gws = self.domain.delay_to_all_gws(node)
+            delay_to_all_gws = self.delay_to_all_gws(node)
             for vnf_name, vnf in node.vnfs.items():
                 if node.has_resources_to_execute_vnf(vnf):
 
@@ -146,7 +153,7 @@ class SPED(Entity):
 
         for aux_data in infrastructure_data:
             key_name = "{}_{}".format(aux_data['gw'], aux_data['vnf'])
-            if key_name not in aggregated_data.keys() or aggregated_data[key_name]['cost'] > aux_data['cost']:
+            if key_name not in aggregated_data.keys() or aggregated_data[key_name]['delay'] > aux_data['delay']:
                 aggregated_data[key_name] = AggregatedData(
                     zone=aux_data['zone'],
                     vnf=aux_data['vnf'],
@@ -159,10 +166,48 @@ class SPED(Entity):
 
         return aggregated_data
 
-    def update_aggregate_date(self, aggregated_infrastructure_data: Dict[str, AggregatedData]):
+    def update_child_zone_aggregated_data(self, zone_name: str, child_zone_aggregated_data: Dict[str, AggregatedData]):
         """
-        Update the aggregate_data with the data about all the child zones.
+        Add the aggregated data about a child zone in the parent zone.
 
-        :param aggregated_infrastructure_data:
+        :param zone_name: The name of the child zone that send the data.
+        :param child_zone_aggregated_data: The aggregated data in the child zone.
         :return:
         """
+
+        self.child_zones_aggregated_data[zone_name] = child_zone_aggregated_data
+
+    def aggregate_date(self):
+        """
+        Process the local aggregated data and the child received aggregated data and return to the parent zone.
+
+        :return:
+        """
+        aggregated_data: Dict[str, AggregatedData] = dict()
+
+        if self.domain:
+            aggregated_data = self.aggregate_infrastructure_data()
+
+        for aux_aggregated_data in self.child_zones_aggregated_data.values():
+            for key_name, aux_data in aux_aggregated_data.items():
+                if key_name not in aggregated_data.keys() or aggregated_data[key_name]['delay'] > aux_data['delay']:
+                    aggregated_data[key_name] = aux_data
+
+        return aggregated_data
+
+    def delay_to_all_gws(self, node: Node) -> Dict[str, int]:
+        """
+        Return the delay from a node to all the GWs of the environment.
+
+        :param node: The node.
+        :return: Dict with the name of the GW as key, and the delay as value.
+        """
+        g = self.environment['topology'].get_graph()
+        aux: Dict[str, int] = dict()
+        nodes: Dict[str, Node] = self.environment['nodes']
+        for node_name, aux_node in nodes.items():
+            if aux_node.is_gateway():
+                delay = nx.shortest_path_length(g, node.name, node_name, weight="delay")
+                aux[node_name] = delay
+
+        return aux

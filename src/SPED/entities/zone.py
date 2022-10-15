@@ -45,10 +45,7 @@ class Zone(Entity):
         self.zone_type = zone_type
         self.sped: SPED = sped
         self.child_zone_names = child_zone_names
-        self.parent_zone_name = None
-
-        if parent_zone_name:
-            self.parent_zone_name = parent_zone_name
+        self.parent_zone_name = parent_zone_name
 
     @property
     def zone_type(self):

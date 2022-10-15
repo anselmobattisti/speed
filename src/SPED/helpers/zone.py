@@ -20,17 +20,22 @@ from networkx.drawing.nx_pydot import graphviz_layout
 
 class ZoneHelper(Helper):
 
+    ZONE_ACCESS_COLOR = "#D5E8D4"
+    ZONE_COMPUTE_COLOR = "#FFF2CC"
+    ZONE_AGGREGATION_COLOR = "#DAE8FC"
+
     @staticmethod
-    def load(data_file: str, domains: Dict[str, Domain]) -> Dict[str, Zone]:
+    def load(data_file: str, environment: dict) -> Dict[str, Zone]:
         """
         Load all the zones defined in the configuration file.
 
         :param data_file: path to the config file.
-        :param domains: The domains available in the system.
+        :param environment: The environment.
         :return: Dict with all the Zones.
         """
 
         data = Helper.load_yml_file(data_file)
+        domains: Dict[str, Domain] = environment['domains']
 
         try:
             zone_data = data["zones"]
@@ -63,7 +68,8 @@ class ZoneHelper(Helper):
                 name='s_{}'.format(zone_name),
                 domain=domain,
                 node=node,
-                zone_name=zone_name
+                zone_name=zone_name,
+                environment=environment
             )
 
             aux_parent_zone_name = None
@@ -124,6 +130,25 @@ class ZoneHelper(Helper):
         print(table)
 
     @staticmethod
+    def build_zone_tree(zones: Dict[str, Zone]):
+        """
+        Build the zone tree.
+
+        :param zones: The zone topology.
+        :return:
+        """
+
+        graph: nx.Graph = nx.DiGraph()
+        for zone_name, zone in zones.items():
+
+            graph.add_node(zone_name)
+
+            for child_zone_name in zone.child_zone_names:
+                graph.add_edge(zone_name, child_zone_name)
+
+        return graph
+
+    @staticmethod
     def save_image(zones: Dict[str, Zone], title: str, file_name: str, img_width: int = 20, img_height: int = 20):  # pragma: no cover
         """
         Save an image of the topology.
@@ -135,37 +160,26 @@ class ZoneHelper(Helper):
         :param img_height: The image height.
         :return:
         """
-        # default sample colors
-        # sample_colors = ["#FF8167", "#FFB667", "#5AB2D3", "#5ADE8B", "#d55ade", "#ca67ff"]
-        zone_access_color = "#D5E8D4"
-        zone_compute_color = "#FFF2CC"
-        zone_aggregation_color = "#DAE8FC"
+
+        graph = ZoneHelper.build_zone_tree(zones)
 
         node_color = []
-        graph: nx.Graph = nx.Graph()
+
         for zone_name, zone in zones.items():
-
             if zone.zone_type == Zone.TYPE_ACCESS:
-                node_color.append(zone_access_color)
-
+                node_color.append(ZoneHelper.ZONE_ACCESS_COLOR)
             if zone.zone_type == Zone.TYPE_COMPUTE:
-                node_color.append(zone_compute_color)
-
+                node_color.append(ZoneHelper.ZONE_COMPUTE_COLOR)
             if zone.zone_type == Zone.TYPE_AGGREGATION:
-                node_color.append(zone_aggregation_color)
-
-            graph.add_node(zone_name)
-
-            for child_zone_name in zone.child_zone_names:
-                graph.add_edge(zone_name, child_zone_name)
+                node_color.append(ZoneHelper.ZONE_AGGREGATION_COLOR)
 
         legend_elements = list()
 
         legend_elements.append(
             Line2D([], [],
                    marker='o',
-                   color=zone_access_color,
-                   markeredgecolor=zone_access_color,
+                   color=ZoneHelper.ZONE_ACCESS_COLOR,
+                   markeredgecolor=ZoneHelper.ZONE_ACCESS_COLOR,
                    label="Access Zone",
                    markeredgewidth=1,
                    markersize=10)
@@ -174,8 +188,8 @@ class ZoneHelper(Helper):
         legend_elements.append(
             Line2D([], [],
                    marker='o',
-                   color=zone_compute_color,
-                   markeredgecolor=zone_compute_color,
+                   color=ZoneHelper.ZONE_COMPUTE_COLOR,
+                   markeredgecolor=ZoneHelper.ZONE_COMPUTE_COLOR,
                    label="Compute Zone",
                    markeredgewidth=1,
                    markersize=10)
@@ -184,8 +198,8 @@ class ZoneHelper(Helper):
         legend_elements.append(
             Line2D([], [],
                    marker='o',
-                   color=zone_aggregation_color,
-                   markeredgecolor=zone_aggregation_color,
+                   color=ZoneHelper.ZONE_AGGREGATION_COLOR,
+                   markeredgecolor=ZoneHelper.ZONE_AGGREGATION_COLOR,
                    label="Aggregation Zone",
                    markeredgewidth=1,
                    markersize=10)
