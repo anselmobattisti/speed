@@ -1,12 +1,51 @@
+from typing import List
+
 import yaml
+from SimPlacement.entities.vnf import VNF
 
 from SimPlacement.helper import Helper
 from beautifultable import BeautifulTable
+from komby.komby import Komby
+
+from SPED.entities.vnf_segment import VNFSegment
 from SPED.types import InfrastructureData
 from SPED.types import AggregatedData
 
 
 class SPEDHelper(Helper):
+
+    @staticmethod
+    def vnf_segmentation(vnfs: List[VNF]) -> dict:
+        """
+        Create the VNF Segmentations plan
+
+        :param vnfs: List de VNFs
+        :return: :dict
+        """
+        vnf_names = []
+        for vnf in vnfs:
+            vnf_names.append(vnf.name)
+
+        segmentation_plans = Komby.partitions(vnf_names)
+
+        plans = dict()
+        count_plan = 0
+        for plan in segmentation_plans:
+            plan_name = "plan_{}".format(count_plan)
+            plans[plan_name] = dict()
+            segments = dict()
+            count_segments = 0
+            for segment in plan:
+                segment_name = "seg_{}".format(count_segments)
+                segments[segment_name] = dict()
+                segments[segment_name]["vnfs"] = segment
+                segments[segment_name]["zones"] = []
+                count_segments += 1
+            count_plan += 1
+
+            plans[plan_name]['segments'] = segments
+
+        return plans
 
     @staticmethod
     def show_infrastructure_data(infrastructure_data: InfrastructureData):  # pragma: no cover

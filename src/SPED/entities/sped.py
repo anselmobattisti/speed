@@ -36,7 +36,7 @@ class SPED(Entity):
         self.node = node
         self.zone_name = zone_name
         self.environment = environment
-        aux_data = None
+        aux_data = []
         # if self.domain:
         #     aux_data = self.compute_zone_data_collect()
 
@@ -211,6 +211,46 @@ class SPED(Entity):
 
         return aggregated_data
 
+    def valid_segmentation_plans(self, plans: Dict) -> Dict:
+        """
+        Check the valid segmentation plan based on the zone data
+
+        :param plans: The valid VNF Segmentations
+        :return:
+        """
+        aux_plans = dict()
+        vnf_in_zone: Dict[str, List[str]] = dict()
+
+        for plan in plans.values():
+            plan['valid_plan'] = False
+
+        for data in self.aggregated_data.values():
+            if data['zone'] not in vnf_in_zone.keys():
+                vnf_in_zone[data['zone']] = []
+
+            if data['vnf'] not in  vnf_in_zone[data['zone']]:
+                vnf_in_zone[data['zone']].append(data['vnf'])
+
+        for plan_name, aux_plan in plans.items():
+            for zone_name, vnfs in vnf_in_zone.items():
+                for segment_name, aux_segment in aux_plan['segments'].items():
+                    valid = True
+                    for vnf in aux_segment['vnfs']:
+                        if vnf not in vnfs:
+                            valid = False
+                    if valid:
+                        aux_segment['zones'].append(zone_name)
+
+        for plan_name, aux_plan in plans.items():
+            valid_plan = True
+            for segment_name, aux_segment in aux_plan['segments'].items():
+                if len(aux_segment['zones']) == 0:
+                    valid_plan = False
+            if valid_plan:
+                aux_plans[plan_name] = aux_plan
+
+        return aux_plans
+
     def delay_to_all_gws(self, node: Node) -> Dict[str, int]:
         """
         Return the delay from a node to all the GWs of the environment.
@@ -227,21 +267,3 @@ class SPED(Entity):
                 aux[node_name] = delay
 
         return aux
-
-    def vnf_segmentation(self, vnfs: List[VNF], max_delay: int) -> List[VNFSegment]:
-        """
-        Create the VNF Segmentation
-
-        :param vnfs: List de VNFs
-        :param max_delay: The max delay
-        :return: :List[VNFSegment]
-        """
-        vnf_segments: List[VNFSegment] = []
-
-        vnf_names = []
-        for vnf in vnfs:
-            vnf_names.append(vnf.name)
-
-        valid_vnf_segments = Komby.partitions(vnf_names)
-
-        return vnf_segments

@@ -135,7 +135,6 @@ nodes:
     vnfs:
       - "vnf_1"
       - "vnf_2"
-      - "vnf_3"
     extra_parameters:
       mem_cost: 1
       cpu_cost: 1
@@ -160,7 +159,6 @@ nodes:
     mem: 10000
     vnfs:
       - "vnf_1"
-      - "vnf_2"
       - "vnf_3"
     extra_parameters:
       mem_cost: 1
@@ -410,7 +408,7 @@ sfc_requests:
     dst: "n_4"
   sr_6:
     ue: "ue_1"
-    sfc: "sfc_1"
+    sfc: "sfc_2"
     arrival: 100
     src: "n_1"
     dst: "n_15"

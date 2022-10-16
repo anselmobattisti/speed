@@ -22,54 +22,6 @@ class SPEDTest(unittest.TestCase):
     log_path = "{}/logs".format(os.path.dirname(os.path.abspath(__file__)))
     environment = None
 
-    def test_vnf_segmentation(self):
-        """
-        Create the valid VNF Segments
-        """
-        env = simpy.Environment()
-        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
-        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
-        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
-
-        environment = Setup.load_entities(
-            entities_file=entities_file
-        )
-
-        environment['zones'] = ZoneHelper.load(
-            data_file=zone_file,
-            environment=environment
-        )
-
-        config = Helper.load_yml_file(
-            data_file=simulation_file
-        )
-
-        simulation = SPEDSimulation(
-            env=env,
-            config=config["simulation"],
-            environment=environment
-        )
-
-        simulation.setup()
-
-        simulation.update_aggregated_data()
-
-        sr: SFCRequest = environment['sfc_requests']['sr_6']
-
-        zone_manager_name = simulation.select_zone_manager(
-            sfc_request=sr
-        )
-
-        zone_manager: Zone = environment['zones'][zone_manager_name]
-
-        vnf_segments = zone_manager.sped.vnf_segmentation(
-            vnfs=sr.sfc.vnfs,
-            max_delay=sr.sfc.max_delay
-        )
-
-        self.assertEqual(['vnf_1'], vnf_segments)
-
-
     def test_compute_zone_data_collect(self):
         """
         Build the zone topology from the data loaded from the config file
@@ -78,14 +30,15 @@ class SPEDTest(unittest.TestCase):
         zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
         environment = Setup.load_entities(entities_file)
-        domains = environment['domains']
 
         zones: Dict[str, Zone] = ZoneHelper.load(
             data_file=zone_file,
-            domains=domains
+            environment=environment
         )
 
         z = zones['z_5']
+
+        z.sped.aggregate_date()
 
         data_collected = z.sped.infrastructure_data
 
@@ -105,7 +58,7 @@ class SPEDTest(unittest.TestCase):
 
         zones: Dict[str, Zone] = ZoneHelper.load(
             data_file=zone_file,
-            domains=domains
+            environment=environment
         )
 
         # Create a VNF Instance in the node n_4
@@ -140,7 +93,7 @@ class SPEDTest(unittest.TestCase):
 
         zones: Dict[str, Zone] = ZoneHelper.load(
             data_file=zone_file,
-            domains=domains
+            environment=environment
         )
 
         # Create a VNF Instance in the node n_4
@@ -198,27 +151,106 @@ class SPEDTest(unittest.TestCase):
 
         aggregate_date = z_1.sped.aggregate_date()
 
-        # for data in aggregate_date.values():
-        #     SPEDHelper.show_aggregated_data(data)
+        self.assertEqual(250, aggregate_date['n_17_vnf_3']['cost'])
 
-        # dc_0: Agg = data_collected[0]
-        # self.assertEqual('z_5', dc_0['zone'])
-        # self.assertEqual(375, dc_0['cost'])
+    def test_vnf_segmentation(self):
+        """
+        Create the valid VNF Segments
+        """
+        env = simpy.Environment()
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
-    # def test_show_infrastructure_data(self):
-    #     entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
-    #     zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
-    #
-    #     environment = Setup.load_entities(entities_file)
-    #     domains = environment['domains']
-    #
-    #     zones: Dict[str, Zone] = ZoneHelper.load(
-    #         data_file=zone_file,
-    #         domains=domains
-    #     )
-    #
-    #     z = zones['z_5']
-    #     data_collected = z.sped.compute_zone_data_collect()
-    #
-    #     dc_0: InfrastructureData = data_collected[0]
-    #     SPEDHelper.show_infrastructure_data(dc_0)
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEDSimulation(
+            env=env,
+            config=config["simulation"],
+            environment=environment
+        )
+
+        simulation.setup()
+
+        simulation.update_aggregated_data()
+
+        # SFC ['vnf_1', 'vnf_2']
+        sr: SFCRequest = environment['sfc_requests']['sr_6']
+
+        # SFC ['vnf_1', 'vnf_2', 'vnf_3']
+        sr_2: SFCRequest = environment['sfc_requests']['sr_2']
+
+        zone_manager_name = simulation.select_zone_manager(
+            sfc_request=sr
+        )
+
+        segmentation_plans = SPEDHelper.vnf_segmentation(
+            vnfs=sr.sfc.vnfs
+        )
+
+        segmentation_plans_2 = SPEDHelper.vnf_segmentation(
+            vnfs=sr_2.sfc.vnfs
+        )
+
+        self.assertEqual(['vnf_1', 'vnf_2', 'vnf_3'], segmentation_plans['plan_0']['seg_0'])
+        self.assertEqual(4, len(segmentation_plans_2))
+
+    def test_select_vnf_segmentation(self):
+        """
+        Select the Segmentation plan that will be used.
+        """
+        env = simpy.Environment()
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEDSimulation(
+            env=env,
+            config=config["simulation"],
+            environment=environment
+        )
+
+        simulation.setup()
+
+        simulation.update_aggregated_data()
+
+        # SFC ['vnf_1', 'vnf_2', 'vnf_3']
+        sr: SFCRequest = environment['sfc_requests']['sr_6']
+
+        zone_manager_name = simulation.select_zone_manager(
+            sfc_request=sr
+        )
+
+        zone_manager: Zone = environment['zones'][zone_manager_name]
+
+        segmentation_plans = SPEDHelper.vnf_segmentation(
+            vnfs=sr.sfc.vnfs
+        )
+
+        valid_plans = zone_manager.sped.valid_segmentation_plans(segmentation_plans)
+
+        self.assertEqual(['plan_1', 'plan_3'], list(valid_plans.keys()))
