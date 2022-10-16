@@ -4,9 +4,13 @@ import networkx as nx
 from SimPlacement.entity import Entity
 from SimPlacement.entities.domain import Domain
 from SimPlacement.entities.node import Node
+from SimPlacement.entities.vnf import VNF
+from komby.komby import Komby
+
 from SPED.types import InfrastructureData
 from SPED.types import AggregatedData
 from SPED.helpers.sped import SPEDHelper
+from SPED.entities.vnf_segment import VNFSegment
 
 
 class SPED(Entity):
@@ -223,3 +227,21 @@ class SPED(Entity):
                 aux[node_name] = delay
 
         return aux
+
+    def vnf_segmentation(self, vnfs: List[VNF], max_delay: int) -> List[VNFSegment]:
+        """
+        Create the VNF Segmentation
+
+        :param vnfs: List de VNFs
+        :param max_delay: The max delay
+        :return: :List[VNFSegment]
+        """
+        vnf_segments: List[VNFSegment] = []
+
+        vnf_names = []
+        for vnf in vnfs:
+            vnf_names.append(vnf.name)
+
+        valid_vnf_segments = Komby.partitions(vnf_names)
+
+        return vnf_segments

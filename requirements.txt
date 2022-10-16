@@ -9,3 +9,4 @@ progressbar
 pandas==1.5.0
 pydot==1.4.2
 graphviz==0.20.1
+komby==1.2

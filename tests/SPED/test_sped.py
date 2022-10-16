@@ -2,12 +2,16 @@ import os
 import unittest
 from typing import Dict
 
+import simpy
 from SimPlacement.entities.domain import Domain
 from SimPlacement.entities.node import Node
 from SimPlacement.entities.vnf_instance import VNFInstance
+from SimPlacement.entities.sfc_request import SFCRequest
+from SimPlacement.helper import Helper
 from SimPlacement.setup import Setup
 from SPED.entities.zone import Zone
 from SPED.helpers.zone import ZoneHelper
+from SPED.simulation import SPEDSimulation
 from SPED.types import InfrastructureData
 from SPED.helpers.sped import SPEDHelper
 
@@ -17,6 +21,54 @@ class SPEDTest(unittest.TestCase):
     entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
     log_path = "{}/logs".format(os.path.dirname(os.path.abspath(__file__)))
     environment = None
+
+    def test_vnf_segmentation(self):
+        """
+        Create the valid VNF Segments
+        """
+        env = simpy.Environment()
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEDSimulation(
+            env=env,
+            config=config["simulation"],
+            environment=environment
+        )
+
+        simulation.setup()
+
+        simulation.update_aggregated_data()
+
+        sr: SFCRequest = environment['sfc_requests']['sr_6']
+
+        zone_manager_name = simulation.select_zone_manager(
+            sfc_request=sr
+        )
+
+        zone_manager: Zone = environment['zones'][zone_manager_name]
+
+        vnf_segments = zone_manager.sped.vnf_segmentation(
+            vnfs=sr.sfc.vnfs,
+            max_delay=sr.sfc.max_delay
+        )
+
+        self.assertEqual(['vnf_1'], vnf_segments)
+
 
     def test_compute_zone_data_collect(self):
         """
@@ -107,8 +159,6 @@ class SPEDTest(unittest.TestCase):
 
         data_aggregate = z.sped.aggregate_infrastructure_data()
 
-        aggregate_date
-
         for data in data_aggregate.values():
             SPEDHelper.show_aggregated_data(data)
 
@@ -130,17 +180,6 @@ class SPEDTest(unittest.TestCase):
             environment=environment
         )
 
-        # z_2 = zones['z_2']
-        #
-        # z_4 = zones['z_4']
-        # aggregate_date_z4 = z_4.sped.aggregate_date()
-        # z_2.sped.update_child_zone_aggregated_data("z_4", aggregate_date_z4)
-        #
-        # z_5 = zones['z_5']
-        # aggregate_date_z5 = z_5.sped.aggregate_date()
-        # z_2.sped.update_child_zone_aggregated_data("z_5", aggregate_date_z5)
-        #
-        # aggregate_date_z2 = z_2.sped.aggregate_date()
         z_1 = zones['z_1']
         for zone_name in ['z_2', 'z_3']:
             z: Zone = zones[zone_name]
@@ -158,7 +197,6 @@ class SPEDTest(unittest.TestCase):
             )
 
         aggregate_date = z_1.sped.aggregate_date()
-        print(" a ")
 
         # for data in aggregate_date.values():
         #     SPEDHelper.show_aggregated_data(data)
