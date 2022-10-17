@@ -412,3 +412,9 @@ sfc_requests:
     arrival: 100
     src: "n_1"
     dst: "n_15"
+  sr_7:
+    ue: "ue_1"
+    sfc: "sfc_2"
+    arrival: 100
+    src: "n_1"
+    dst: "n_1"

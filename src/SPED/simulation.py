@@ -27,6 +27,7 @@ from SimPlacement.entities.sfc_instance import SFCInstance
 from SPED.entities.distributed_service import DistributedService
 from SPED.entities.zone import Zone
 from SPED.helpers.zone import ZoneHelper
+from SPED.helpers.sped import SPEDHelper
 
 
 class SPEDSimulation:
@@ -347,13 +348,37 @@ class SPEDSimulation:
         src_domain_name = self.domain_zone[sfc_request.src.domain_name]
         dst_domain_name = self.domain_zone[sfc_request.dst.domain_name]
 
-        graph = ZoneHelper.build_zone_tree(
-            zones=self.zones
+        graph = self.graph_zones
+
+        segmentation_plans = SPEDHelper.vnf_segmentation(
+            vnfs=sfc_request.sfc.vnfs
         )
 
         zone_manager_name = nx.lowest_common_ancestor(graph, src_domain_name, dst_domain_name)
 
-        return zone_manager_name
+        zone_manager: Zone = self.zones[zone_manager_name]
+
+        valid_zone_manager = False
+
+        while True:
+            valid_plans = zone_manager.sped.valid_segmentation_plans(segmentation_plans)
+
+            if valid_plans:
+                valid_zone_manager = True
+                break
+
+            if not valid_plans and not zone_manager.parent_zone_name:
+                valid_zone_manager = False
+                break
+
+            if not valid_plans and zone_manager.parent_zone_name:
+                zone_manager: Zone = self.zones[zone_manager.parent_zone_name]
+                zone_manager_name = zone_manager.name
+
+        if not valid_zone_manager:
+            raise TypeError("The infrastructure can not execute the Service Requested {}.".format(sfc_request.name))
+
+        return zone_manager.name
 
     def execute_placement_plan(self, domain: Domain, plan: SFCPlacementPlan):
         """
