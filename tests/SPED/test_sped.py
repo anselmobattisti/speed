@@ -238,19 +238,29 @@ class SPEDTest(unittest.TestCase):
 
         simulation.update_aggregated_data()
 
-        # SFC ['vnf_1', 'vnf_2', 'vnf_3']
-        sr: SFCRequest = environment['sfc_requests']['sr_6']
+        # # SFC ['vnf_1', 'vnf_2', 'vnf_3']
+        # sr: SFCRequest = environment['sfc_requests']['sr_6']
+        # zone_manager_name = simulation.select_zone_manager(
+        #     sfc_request=sr
+        # )
+        # zone_manager: Zone = environment['zones'][zone_manager_name]
+        # segmentation_plans = SPEDHelper.vnf_segmentation(
+        #     vnfs=sr.sfc.vnfs
+        # )
+        # valid_plans = zone_manager.sped.valid_segmentation_plans(segmentation_plans)
+        # self.assertEqual(['plan_1', 'plan_3'], list(valid_plans.keys()))
 
+        # SFC ['vnf_1', 'vnf_2']
+        sr_1: SFCRequest = environment['sfc_requests']['sr_1']
         zone_manager_name = simulation.select_zone_manager(
-            sfc_request=sr
+            sfc_request=sr_1
         )
-
         zone_manager: Zone = environment['zones'][zone_manager_name]
-
         segmentation_plans = SPEDHelper.vnf_segmentation(
-            vnfs=sr.sfc.vnfs
+            vnfs=sr_1.sfc.vnfs
         )
 
-        valid_plans = zone_manager.sped.valid_segmentation_plans(segmentation_plans)
+        valid_plans_2 = zone_manager.sped.valid_segmentation_plans(segmentation_plans)
 
-        self.assertEqual(['plan_1', 'plan_3'], list(valid_plans.keys()))
+
+        self.assertEqual(['plan_1', 'plan_3'], list(valid_plans_2.keys()))
