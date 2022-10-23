@@ -294,11 +294,9 @@ class SPEDSimulation:
         :param sfc_request: The service requested
         :return:
         """
-        zone_manager_name = self.select_zone_manager(
+        zone_manager = self.select_zone_manager(
             sfc_request=sfc_request
         )
-
-        zone_manager = self.zones[zone_manager_name]
 
         return False
 
@@ -338,7 +336,7 @@ class SPEDSimulation:
                 child_zone_aggregated_data=aggregated_data
             )
 
-    def select_zone_manager(self, sfc_request: SFCRequest) -> str:
+    def select_zone_manager(self, sfc_request: SFCRequest) -> dict:
         """
         Select the zone that encompass the src and dst domain
 
@@ -350,8 +348,12 @@ class SPEDSimulation:
 
         graph = self.graph_zones
 
+        vnf_names: List[str] = list()
+        for vnf in sfc_request.sfc.vnfs:
+            vnf_names.append(vnf.name)
+
         segmentation_plans = SPEDHelper.vnf_segmentation(
-            vnfs=sfc_request.sfc.vnfs
+            vnf_names=vnf_names
         )
 
         zone_manager_name = nx.lowest_common_ancestor(graph, src_domain_name, dst_domain_name)
@@ -378,7 +380,10 @@ class SPEDSimulation:
         if not valid_zone_manager:
             raise TypeError("The infrastructure can not execute the Service Requested {}.".format(sfc_request.name))
 
-        return zone_manager.name
+        return {
+            'zone_manager': zone_manager,
+            'plans': valid_plans
+        }
 
     def execute_placement_plan(self, domain: Domain, plan: SFCPlacementPlan):
         """

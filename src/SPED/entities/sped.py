@@ -1,5 +1,7 @@
+import random
 from typing import List, Dict
 import networkx as nx
+import sys
 
 from SimPlacement.entity import Entity
 from SimPlacement.entities.domain import Domain
@@ -221,14 +223,11 @@ class SPED(Entity):
         aux_plans = dict()
         vnf_in_zone: Dict[str, List[str]] = dict()
 
-        for plan in plans.values():
-            plan['valid_plan'] = False
-
         for data in self.aggregated_data.values():
             if data['zone'] not in vnf_in_zone.keys():
                 vnf_in_zone[data['zone']] = []
 
-            if data['vnf'] not in  vnf_in_zone[data['zone']]:
+            if data['vnf'] not in vnf_in_zone[data['zone']]:
                 vnf_in_zone[data['zone']].append(data['vnf'])
 
         for plan_name, aux_plan in plans.items():
@@ -239,7 +238,8 @@ class SPED(Entity):
                         if vnf not in vnfs:
                             valid = False
                     if valid:
-                        aux_segment['zones'].append(zone_name)
+                        if zone_name not in aux_segment['zones']:
+                            aux_segment['zones'].append(zone_name)
 
         for plan_name, aux_plan in plans.items():
             valid_plan = True
@@ -267,3 +267,57 @@ class SPED(Entity):
                 aux[node_name] = delay
 
         return aux
+
+    def select_segmentation_plan(self, segmentation_plan: dict) -> dict:
+        """
+        Select the best segmentation plan to be processed.
+
+        :param segmentation_plan:
+        :return:
+        """
+        plans = list(segmentation_plan.keys())
+
+        if not segmentation_plan:
+            raise TypeError("The is no segmentation plan.")
+
+        if len(plans) == 1:
+            return segmentation_plan[plans[0]]
+
+        min_size = sys.maxsize
+        min_plans: List[dict] = []
+        for plan in segmentation_plan.values():
+            if min_size == len(plan['segments']):
+                min_plans.append(plan)
+
+            if min_size > len(plan['segments']):
+                min_plans.clear()
+                min_plans.append(plan)
+                min_size = len(plan['segments'])
+
+        selected_plan = random.choice(min_plans)
+
+        return selected_plan
+
+    def compute_child_zone_vnf_segment_execution_cost(self, vnf_segment: dict, zone_name: str) -> float:
+        """
+        Compute the cost for execute the segment in a child zone. The cost is computed based on the aggregated data
+        stored in the parent zone.
+
+        :param vnf_segment: VNFs in the segment
+        :param zone_name: Name of the child zone
+        :return:
+        """
+        cost = 0.0
+        min_cost = dict()
+        for vnf in vnf_segment['vnfs']:
+            min_cost[vnf] = sys.maxsize
+            for aggregated_data in self.aggregated_data.values():
+                if aggregated_data['vnf'] == vnf and aggregated_data['zone'] == zone_name:
+                    if min_cost[vnf] > aggregated_data['cost']:
+                        min_cost[vnf] = aggregated_data['cost']
+
+        for value in min_cost.values():
+            cost = cost + float(value)
+
+        return cost
+

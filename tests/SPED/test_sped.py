@@ -1,9 +1,8 @@
 import os
 import unittest
-from typing import Dict
+from typing import Dict, List
 
 import simpy
-from SimPlacement.entities.domain import Domain
 from SimPlacement.entities.node import Node
 from SimPlacement.entities.vnf_instance import VNFInstance
 from SimPlacement.entities.sfc_request import SFCRequest
@@ -112,12 +111,14 @@ class SPEDTest(unittest.TestCase):
 
         data_aggregate = z.sped.aggregate_infrastructure_data()
 
-        for data in data_aggregate.values():
-            SPEDHelper.show_aggregated_data(data)
+        self.assertEqual(18, len(data_aggregate.keys()))
+
+        # for data in data_aggregate.values():
+        #     SPEDHelper.show_aggregated_data(data)
 
         # dc_0: Agg = data_collected[0]
         # self.assertEqual('z_5', dc_0['zone'])
-        # self.assertEqual(375, dc_0['cost'])
+
 
     def test_zone_aggregate_date(self):
         """
@@ -185,25 +186,15 @@ class SPEDTest(unittest.TestCase):
 
         simulation.update_aggregated_data()
 
-        # SFC ['vnf_1', 'vnf_2']
-        sr: SFCRequest = environment['sfc_requests']['sr_6']
-
-        # SFC ['vnf_1', 'vnf_2', 'vnf_3']
-        sr_2: SFCRequest = environment['sfc_requests']['sr_2']
-
-        zone_manager_name = simulation.select_zone_manager(
-            sfc_request=sr
-        )
-
         segmentation_plans = SPEDHelper.vnf_segmentation(
-            vnfs=sr.sfc.vnfs
+            vnf_names=['vnf_1', 'vnf_2']
         )
 
         segmentation_plans_2 = SPEDHelper.vnf_segmentation(
-            vnfs=sr_2.sfc.vnfs
+            vnf_names=['vnf_1', 'vnf_2', 'vnf_3']
         )
 
-        self.assertEqual(['vnf_1', 'vnf_2', 'vnf_3'], segmentation_plans['plan_0']['seg_0'])
+        self.assertEqual(['vnf_1', 'vnf_2'], segmentation_plans['plan_0']['segments']['seg_0']['vnfs'])
         self.assertEqual(4, len(segmentation_plans_2))
 
     def test_select_vnf_segmentation(self):
@@ -240,12 +231,18 @@ class SPEDTest(unittest.TestCase):
 
         # SFC ['vnf_1', 'vnf_2', 'vnf_3']
         sr_1: SFCRequest = environment['sfc_requests']['sr_1']
-        zone_manager_name = simulation.select_zone_manager(
+        zone_selected = simulation.select_zone_manager(
             sfc_request=sr_1
         )
-        zone_manager: Zone = environment['zones'][zone_manager_name]
+
+        vnf_names: List[str] = list()
+
+        for vnf in sr_1.sfc.vnfs:
+            vnf_names.append(vnf.name)
+
+        zone_manager: Zone = zone_selected['zone_manager']
         segmentation_plans = SPEDHelper.vnf_segmentation(
-            vnfs=sr_1.sfc.vnfs
+            vnf_names=vnf_names
         )
 
         valid_plans_2 = zone_manager.sped.valid_segmentation_plans(segmentation_plans)

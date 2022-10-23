@@ -15,17 +15,13 @@ from SPED.types import AggregatedData
 class SPEDHelper(Helper):
 
     @staticmethod
-    def vnf_segmentation(vnfs: List[VNF]) -> dict:
+    def vnf_segmentation(vnf_names: List[str]) -> dict:
         """
         Create the VNF Segmentations plan
 
-        :param vnfs: List de VNFs
+        :param vnf_names: List of the vnf names
         :return: :dict
         """
-        vnf_names = []
-        for vnf in vnfs:
-            vnf_names.append(vnf.name)
-
         segmentation_plans = Komby.partitions(vnf_names)
 
         plans = dict()
