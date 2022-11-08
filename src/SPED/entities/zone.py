@@ -1,7 +1,6 @@
 from typing import List, Dict
 
 from SimPlacement.entity import Entity
-from SPED.entities.sped import SPED
 
 
 class Zone(Entity):
@@ -29,23 +28,23 @@ class Zone(Entity):
     Constant used to define zone valid types.
     """
 
-    def __init__(self, name: str, zone_type: str, sped: SPED, child_zone_names=List[str],
-                 parent_zone_name: str = None, extra_parameters: dict = None):
+    def __init__(self, name: str, zone_type: str, child_zone_names=List[str], parent_zone_name: str = None,
+                 domain_name: str = None, extra_parameters: dict = None):
         """
         Create a Zone.
 
         :param name: The name of the Zone.
         :param zone_type: The zone_type.
-        :param sped: The SPED component.
+        :param domain_name: The name of the domain.
         :param child_zone_names: The list of child zones name.
         :param parent_zone_name: The name of the parent zone.
         :param extra_parameters: Dict with extra parameters.
         """
         super().__init__(name, extra_parameters)
         self.zone_type = zone_type
-        self.sped: SPED = sped
         self.child_zone_names = child_zone_names
         self.parent_zone_name = parent_zone_name
+        self.domain_name = domain_name
 
     @property
     def zone_type(self):
@@ -66,23 +65,6 @@ class Zone(Entity):
             raise TypeError("The zone_type is invalid")
 
         self._zone_type = value
-
-    @property
-    def sped(self) -> SPED:
-        """
-        The SPED component.
-        """
-        return self._sped
-
-    @sped.setter
-    def sped(self, value: SPED):
-        """
-        Set the SPED component.
-        """
-        if not type(value) == SPED:
-            raise TypeError("The sped must be a SPED")
-
-        self._sped = value
 
     @property
     def child_zone_names(self):
@@ -118,34 +100,25 @@ class Zone(Entity):
 
         self._parent_zone_name = value
 
+    @property
+    def domain_name(self):
+        """
+        The domain name.
+        """
+        return self._domain_name
+
+    @domain_name.setter
+    def domain_name(self, value: str):
+        """
+        Set the domain name.
+        """
+        if value and not type(value) == str:
+            raise TypeError("The parent_zone_name must be a string")
+
+        self._domain_name = value
+
     def add_child_zone_name(self, value: str):
         """
         Add a child zone name to the zone
         """
         self.child_zone_names.append(value)
-
-    def select_zones_to_vnf_segments(self, segmentation_plan):
-        """
-        Select for each VNF Segment the zone that will execute the VNF Segment.
-
-        :param segmentation_plan: The segmentation plan that will be processed in the zone
-        :return:
-        """
-        vnf_segments = segmentation_plan['segments']
-        selected_zone: Dict[str, str] = dict()
-        for vnf_segment_name, vnf_segment in vnf_segments.items():
-            zone_cost: Dict[str, float] = dict()
-            for child_zone in self.child_zone_names:
-                zone_cost[child_zone] = self.sped.compute_child_zone_vnf_segment_execution_cost(
-                    vnf_segment=vnf_segment,
-                    zone_name=child_zone
-                )
-            if zone_cost:
-                selected_zone[vnf_segment_name] = min(zone_cost, key=zone_cost.get)
-
-        aux = dict()
-        for vnf_segment, zone in selected_zone.items():
-            aux[zone] = dict()
-            aux[zone]['vnfs'] = vnf_segments[vnf_segment]['vnfs']
-
-        return aux

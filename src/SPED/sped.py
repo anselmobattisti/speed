@@ -6,13 +6,8 @@ import sys
 from SimPlacement.entity import Entity
 from SimPlacement.entities.domain import Domain
 from SimPlacement.entities.node import Node
-from SimPlacement.entities.vnf import VNF
-from komby.komby import Komby
-
 from SPED.types import InfrastructureData
 from SPED.types import AggregatedData
-from SPED.helpers.sped import SPEDHelper
-from SPED.entities.vnf_segment import VNFSegment
 
 
 class SPED(Entity):
@@ -20,13 +15,12 @@ class SPED(Entity):
     This class represent the SPED component.
     """
 
-    def __init__(self, name: str, node: Node, zone_name: str, domain: Domain = None,
+    def __init__(self, name: str, zone_name: str, domain: Domain = None,
                  environment: dict = None, extra_parameters: dict = None):
         """
         Create the SPED component.
 
         :param name: The name of the SPED component.
-        :param node: The node where the SPED is executed.
         :param zone_name: The name of the zone where the SPED is connected.
         :param domain: The domain where the SPED is executed.
         :param environment: The environment, its an auxiliar info about the environment where the zone is executed.
@@ -35,7 +29,6 @@ class SPED(Entity):
 
         super().__init__(name, extra_parameters)
         self.domain = domain
-        self.node = node
         self.zone_name = zone_name
         self.environment = environment
         aux_data = []
@@ -70,23 +63,6 @@ class SPED(Entity):
         self._domain = value
 
     @property
-    def node(self):
-        """
-        The node where the SPED is executed.
-        """
-        return self._node
-
-    @node.setter
-    def node(self, value: str):
-        """
-        Set the node.
-        """
-        if value and not type(value) == Node:
-            raise TypeError("The node must be a Node")
-
-        self._node = value
-
-    @property
     def zone_name(self):
         """
         The zone name.
@@ -107,8 +83,8 @@ class SPED(Entity):
         """
         Collect network and compute data about all the nodes in the zone domain:
 
-            * Delay from each node to all the GWs.
-            * The VNFs that can be executed in each node.
+        * Delay from each node to all the GWs.
+        * The VNFs that can be executed in each node.
 
         :return: List with the data of the infrastructure
         """
@@ -180,7 +156,7 @@ class SPED(Entity):
         :param child_zone_aggregated_data: The aggregated data in the child zone.
         :return:
         """
-        # create a copy of each aggreagted data and change the zone name to the child zone that send the data
+        # create a copy of each aggregated data and change the zone name to the child zone that send the data
         new_aggregated_data: Dict[str, AggregatedData] = dict()
         for aux_key, aux_data in child_zone_aggregated_data.items():
             new_aggregated_data[aux_key] = AggregatedData(
@@ -195,7 +171,7 @@ class SPED(Entity):
 
     def aggregate_date(self):
         """
-        Process the local aggregated data and the child received aggregated data and return to the parent zone.
+        Process the local aggregated data, and the child received aggregated data and return to the parent zone.
 
         :return:
         """
@@ -272,8 +248,10 @@ class SPED(Entity):
         """
         Select the best segmentation plan to be processed.
 
+        We select the plan with few VNF Segments.
+
         :param segmentation_plan:
-        :return:
+        :return: dict
         """
         plans = list(segmentation_plan.keys())
 

@@ -41,7 +41,7 @@ class VNFSegment(Entity):
         """
         Define the list of VNFs that compose the VNF Segment.
         """
-        if not type(value) == list:
+        if value and not type(value) == list:
             raise TypeError("The vnfs must be a list of VNFs.")
 
         self._vnfs = value
@@ -75,7 +75,7 @@ class VNFSegment(Entity):
         """
         Set the domain name.
         """
-        if not type(value) == Domain:
+        if value and not type(value) == Domain:
             raise TypeError("The domain must be a Domain")
 
         self._domain = value

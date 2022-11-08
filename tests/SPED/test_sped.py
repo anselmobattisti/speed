@@ -11,8 +11,10 @@ from SimPlacement.setup import Setup
 from SPED.entities.zone import Zone
 from SPED.helpers.zone import ZoneHelper
 from SPED.simulation import SPEDSimulation
+from SPED.sped import SPED
 from SPED.types import InfrastructureData
 from SPED.helpers.sped import SPEDHelper
+from SPED.distributed_service_manager import DistributedServiceManager
 
 
 class SPEDTest(unittest.TestCase):
@@ -23,7 +25,7 @@ class SPEDTest(unittest.TestCase):
 
     def test_compute_zone_data_collect(self):
         """
-        Build the zone topology from the data loaded from the config file
+        Build the zone topology from the data loaded from the config file.
         """
         entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
         zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
@@ -35,25 +37,30 @@ class SPEDTest(unittest.TestCase):
             environment=environment
         )
 
-        z = zones['z_5']
+        dsm = DistributedServiceManager(
+            zone=zones['z_5'],
+            environment=environment
+        )
 
-        z.sped.aggregate_date()
+        sped = dsm.sped
 
-        data_collected = z.sped.infrastructure_data
+        sped.aggregate_date()
+
+        data_collected = sped.infrastructure_data
 
         dc_0: InfrastructureData = data_collected[0]
+
         self.assertEqual('z_5', dc_0['zone'])
         self.assertEqual('z_5', dc_0['zone'])
 
     def test_compute_zone_data_collect_creating_vnf_instance(self):
         """
-        After build the topology create a new VNF Instance and verify if the cpu available changes
+        After build the topology create a new VNF Instance and verify if the cpu available changes.
         """
         entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
         zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
         environment = Setup.load_entities(entities_file)
-        domains = environment['domains']
 
         zones: Dict[str, Zone] = ZoneHelper.load(
             data_file=zone_file,
@@ -72,9 +79,14 @@ class SPEDTest(unittest.TestCase):
             status_to_count_resource_usage=["active"]
         )
 
-        z = zones['z_5']
+        dsm = DistributedServiceManager(
+            zone=zones['z_5'],
+            environment=environment
+        )
 
-        data_collected = z.sped.compute_zone_data_collect()
+        sped = dsm.sped
+
+        data_collected = sped.compute_zone_data_collect()
 
         dc_0: InfrastructureData = data_collected[0]
         self.assertEqual('z_5', dc_0['zone'])
@@ -88,7 +100,6 @@ class SPEDTest(unittest.TestCase):
         zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
         environment = Setup.load_entities(entities_file)
-        domains = environment['domains']
 
         zones: Dict[str, Zone] = ZoneHelper.load(
             data_file=zone_file,
@@ -107,52 +118,16 @@ class SPEDTest(unittest.TestCase):
             status_to_count_resource_usage=["active"]
         )
 
-        z = zones['z_5']
-
-        data_aggregate = z.sped.aggregate_infrastructure_data()
-
-        self.assertEqual(18, len(data_aggregate.keys()))
-
-        # for data in data_aggregate.values():
-        #     SPEDHelper.show_aggregated_data(data)
-
-        # dc_0: Agg = data_collected[0]
-        # self.assertEqual('z_5', dc_0['zone'])
-
-
-    def test_zone_aggregate_date(self):
-        """
-        Test the zone aggregated data
-        """
-        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
-        zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
-
-        environment = Setup.load_entities(entities_file)
-
-        zones: Dict[str, Zone] = ZoneHelper.load(
-            data_file=zone_file,
+        dsm = DistributedServiceManager(
+            zone=zones['z_5'],
             environment=environment
         )
 
-        z_1 = zones['z_1']
-        for zone_name in ['z_2', 'z_3']:
-            z: Zone = zones[zone_name]
+        sped = dsm.sped
 
-            for child_zone_name in z.child_zone_names:
-                c_z: Zone = zones[child_zone_name]
+        data_aggregate = sped.aggregate_infrastructure_data()
 
-                z.sped.update_child_zone_aggregated_data(
-                    zone_name=child_zone_name,
-                    child_zone_aggregated_data=c_z.sped.aggregate_date()
-                )
-            z_1.sped.update_child_zone_aggregated_data(
-                zone_name=zone_name,
-                child_zone_aggregated_data=z.sped.aggregate_date()
-            )
-
-        aggregate_date = z_1.sped.aggregate_date()
-
-        self.assertEqual(250, aggregate_date['n_17_vnf_3']['cost'])
+        self.assertEqual(18, len(data_aggregate.keys()))
 
     def test_vnf_segmentation(self):
         """
@@ -241,10 +216,11 @@ class SPEDTest(unittest.TestCase):
             vnf_names.append(vnf.name)
 
         zone_manager: Zone = zone_selected['zone_manager']
+
         segmentation_plans = SPEDHelper.vnf_segmentation(
             vnf_names=vnf_names
         )
 
-        valid_plans_2 = zone_manager.sped.valid_segmentation_plans(segmentation_plans)
+        valid_plans_2 = simulation.zdsm[zone_manager.name].sped.valid_segmentation_plans(segmentation_plans)
 
         self.assertEqual(['plan_0', 'plan_1'], list(valid_plans_2.keys()))

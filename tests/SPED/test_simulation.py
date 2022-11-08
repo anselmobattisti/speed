@@ -1,27 +1,22 @@
 import os
 import unittest
-from typing import Dict
 import simpy
-import networkx as nx
 
-from SimPlacement.entities.domain import Domain
-from SimPlacement.entities.node import Node
-from SimPlacement.entities.vnf_instance import VNFInstance
 from SimPlacement.setup import Setup
 from SPED.entities.zone import Zone
 from SPED.helpers.zone import ZoneHelper
-from SPED.types import InfrastructureData
 from SPED.helpers.sped import SPEDHelper
 from SPED.simulation import SPEDSimulation
 from SimPlacement.helper import Helper
+
+from SPED.distributed_service_manager import DistributedServiceManager
 
 
 class SPEDTest(unittest.TestCase):
 
     def test_select_zone_manager(self):
         """
-        Verify if the zone manager zone selection is working
-        :return:
+        Verify if the zone manager zone selection is working.
         """
         env = simpy.Environment()
         entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
@@ -65,7 +60,7 @@ class SPEDTest(unittest.TestCase):
 
     def test_select_zone_manager_4_level(self):
         """
-        Verify if the zone manager zone selection is working
+        Verify if the zone manager zone selection in a 4 level zones is working.
         :return:
         """
         env = simpy.Environment()
@@ -102,8 +97,7 @@ class SPEDTest(unittest.TestCase):
 
     def test_update_aggregated_data(self):
         """
-        Update all the aggregated data from all the zones
-        :return:
+        Update all the aggregated data from all the zones.
         """
         env = simpy.Environment()
         entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
@@ -133,13 +127,13 @@ class SPEDTest(unittest.TestCase):
 
         simulation.update_aggregated_data()
 
-        z_0: Zone = environment['zones']['z_0']
-        data = z_0.sped.aggregate_date()
+        data = simulation.zdsm['z_0'].sped.aggregate_date()
+
         self.assertEqual(375.0, data['n_3_vnf_1']['cost'])
 
     def test_setup(self):
         """
-        Test the setup simulation
+        Test the setup simulation.
         """
         env = simpy.Environment()
         entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
@@ -171,7 +165,7 @@ class SPEDTest(unittest.TestCase):
 
         sr_1 = environment['sfc_requests']['sr_1']
 
-        simulation.distributed_placement_process(
+        simulation.distributed_sfc_placement_process(
             sfc_request=sr_1
         )
 
@@ -179,8 +173,7 @@ class SPEDTest(unittest.TestCase):
 
     def test_select_zone_manager_parent(self):
         """
-        Select the zone manager until the parent zone
-        :return:
+        Select the zone manager until the parent zone.
         """
         env = simpy.Environment()
         entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
@@ -219,18 +212,9 @@ class SPEDTest(unittest.TestCase):
         self.assertEqual("z_1", z_sr1['zone_manager'].name)
         self.assertEqual("z_0", z_sr7['zone_manager'].name)
 
-        # img_file = "{}/img/zone_topology.png".format(os.path.dirname(os.path.abspath(__file__)))
-        # ZoneHelper.save_image(
-        #     zones=environment['zones'],
-        #     title="Zones Topology 4",
-        #     file_name=img_file,
-        #     img_width=15,
-        #     img_height=15
-        # )
-
     def test_select_segmentation_plan(self):
         """
-        Select the segmentation plan based on the zone manager and the valid placement plans
+        Select the segmentation plan based on the zone manager selected, and the valid placement plans.
         """
         entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
         zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
@@ -262,7 +246,8 @@ class SPEDTest(unittest.TestCase):
         sr_1 = environment['sfc_requests']['sr_1']
         z_sr1 = simulation.select_zone_manager(sr_1)
         zone_manager: Zone = z_sr1['zone_manager']
-        selected_segmentation_plan = zone_manager.sped.select_segmentation_plan(z_sr1['plans'])
+        dsm: DistributedServiceManager = simulation.zdsm[zone_manager.name]
+        selected_segmentation_plan = dsm.sped.select_segmentation_plan(z_sr1['plans'])
 
         self.assertEqual(1, len(selected_segmentation_plan['segments']))
 
@@ -309,17 +294,20 @@ class SPEDTest(unittest.TestCase):
         sr_1 = environment['sfc_requests']['sr_1']
         z_sr1 = simulation.select_zone_manager(sr_1)
         zone_manager: Zone = z_sr1['zone_manager']
-        selected_segmentation_plan = zone_manager.sped.select_segmentation_plan(z_sr1['plans'])
 
-        selected_child_zones = zone_manager.select_zones_to_vnf_segments(selected_segmentation_plan)
+        dsm: DistributedServiceManager = simulation.zdsm[zone_manager.name]
+
+        selected_segmentation_plan = dsm.sped.select_segmentation_plan(z_sr1['plans'])
+
+        selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
 
         self.assertEqual(['vnf_1', 'vnf_2'], selected_child_zones['z_2']['vnfs'])
 
-    def test_select_zones_for_the_segmentation_plan_second_level(self):
+    def test_select_zones_for_the_segmentation_plan_parallel(self):
         """
-        Select the child zones of the manager zone for each segment VNF Segment in the plan.
+        Running the process to select the vnf segments in parallel.
         """
-        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        entities_file = "{}/config/entities_1_sfc_request.yml".format(os.path.dirname(os.path.abspath(__file__)))
         zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
         simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
@@ -342,43 +330,29 @@ class SPEDTest(unittest.TestCase):
             environment=environment
         )
 
-        simulation.setup()
+        simulation.run()
 
-        simulation.update_aggregated_data()
+        self.assertTrue(False)
 
-        img_file = "{}/img/zone_topology_sim.png".format(os.path.dirname(os.path.abspath(__file__)))
-        ZoneHelper.save_image(
-            zones=environment['zones'],
-            title="Zones Topology 4",
-            file_name=img_file,
-            img_width=15,
-            img_height=15
-        )
-
-        sr_1 = environment['sfc_requests']['sr_1']
-        z_sr1 = simulation.select_zone_manager(sr_1)
-
-        zone_manager: Zone = z_sr1['zone_manager']
-        selected_segmentation_plan = zone_manager.sped.select_segmentation_plan(z_sr1['plans'])
-        selected_child_zones = zone_manager.select_zones_to_vnf_segments(selected_segmentation_plan)
-
-        for child_zone_name, vnfs in selected_child_zones.items():
-            zone: Zone = environment['zones'][child_zone_name]
-            segmentation_plans = SPEDHelper.vnf_segmentation(
-                vnf_names=vnfs['vnfs']
-            )
-
-            selected_segmentation_plan = zone.sped.select_segmentation_plan(segmentation_plans)
-
-            selected_child_zones = zone.select_zones_to_vnf_segments(selected_segmentation_plan)
-
-            for segment in segmentation_plans:
-                selected_child_zones = zone_manager.select_zones_to_vnf_segments(selected_segmentation_plan)
-
-
-            # selected_child_zones = zone_2.sped.select_zones_to_vnf_segments(selected_segmentation_plan)
-            # selected_segmentation_plan = zone_manager.sped.select_segmentation_plan(z_sr1['plans'])
-            # selected_child_zones = zone_2.sped.select_zones_to_vnf_segments(selected_segmentation_plan)
-
-        self.assertEqual('z_2', selected_child_zones['seg_0'])
-
+        # simulation.update_aggregated_data()
+        #
+        # sr_1 = environment['sfc_requests']['sr_1']
+        # z_sr1 = simulation.select_zone_manager(sr_1)
+        #
+        # zone_manager: Zone = z_sr1['zone_manager']
+        # dsm: DistributedServiceManager = simulation.zdsm[zone_manager.name]
+        #
+        # selected_segmentation_plan = dsm.sped.select_segmentation_plan(z_sr1['plans'])
+        #
+        # # This is the game implementation
+        # selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
+        #
+        # for child_zone_name, vnfs in selected_child_zones.items():
+        #     zone: Zone = environment['zones'][child_zone_name]
+        #     segmentation_plans = SPEDHelper.vnf_segmentation(
+        #         vnf_names=vnfs['vnfs']
+        #     )
+        #
+        #     selected_segmentation_plan = zone.sped.select_segmentation_plan(segmentation_plans)
+        #
+        #     selected_child_zones = zone.select_zones_to_vnf_segments(selected_segmentation_plan)

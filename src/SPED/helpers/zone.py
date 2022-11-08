@@ -1,21 +1,13 @@
-import random
+from networkx.drawing.nx_pydot import graphviz_layout
 from typing import Dict, List
-
 from beautifultable import BeautifulTable
 
 from SimPlacement.helper import Helper
 from SimPlacement.entities.domain import Domain
-
-from SPED.entities.sped import SPED
 from SPED.entities.zone import Zone
-
-from distinctipy import distinctipy
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import networkx as nx
-
-import pydot
-from networkx.drawing.nx_pydot import graphviz_layout
 
 
 class ZoneHelper(Helper):
@@ -50,27 +42,9 @@ class ZoneHelper(Helper):
             if zone['zone_type'] not in Zone.VALID_TYPES:
                 raise TypeError("The zone_type {} does not exist.".format(zone['zone_type']))
 
-            domain = None
-            node = None
-            # Verify if the domain exists
-            if 'domain' in zone.keys():
-                if zone['domain'] not in domains.keys():
-                    raise TypeError("The domain {} does not exist.".format(zone['domain']))
-
-                domain = domains[zone['domain']]
-                node = random.choice(list(domain.nodes.values()))
-
             extra = None
             if "extra_parameters" in zone:
                 extra = zone["extra_parameters"]
-
-            aux_sped = SPED(
-                name='s_{}'.format(zone_name),
-                domain=domain,
-                node=node,
-                zone_name=zone_name,
-                environment=environment
-            )
 
             aux_parent_zone_name = None
             if 'parent_zone' in zone.keys():
@@ -79,12 +53,16 @@ class ZoneHelper(Helper):
                 if aux_parent_zone_name not in zones.keys():
                     raise TypeError("The parent zone {} does not exist.".format(aux_parent_zone_name))
 
+            domain_name = ""
+            if 'domain' in zone.keys():
+                domain_name = zone['domain']
+
             aux = Zone(
                 name=zone_name,
                 zone_type=zone['zone_type'],
-                sped=aux_sped,
                 child_zone_names=[],
                 parent_zone_name=aux_parent_zone_name,
+                domain_name=domain_name,
                 extra_parameters=extra
             )
 
@@ -111,13 +89,9 @@ class ZoneHelper(Helper):
 
         table = BeautifulTable()
 
-        domain_name = ""
-        if zone.sped.domain:
-            domain_name = zone.sped.domain.name
-
         table.rows.append([zone.name])
         table.rows.append([zone.zone_type])
-        table.rows.append([domain_name])
+        table.rows.append([zone.domain_name])
         table.rows.append([zone.parent_zone_name])
         table.rows.append([", ".join(zone.child_zone_names)])
 

@@ -16,7 +16,6 @@ from SimPlacement.log import SimLog
 from SimPlacement.logs.sfc_instance import SFCInstanceLog
 from SimPlacement.logs.virtual_link import VirtualLinkLog
 from SimPlacement.sdn_controller import SDNController
-from SimPlacement.topology import Topology
 from SimPlacement.types import SFCPlacementPlan
 from SimPlacement.logs.placement import PlacementLog
 from SimPlacement.logs.packet import PacketLog
@@ -25,9 +24,12 @@ from SimPlacement.entities.domain import Domain
 from SimPlacement.entities.sfc_instance import SFCInstance
 
 from SPED.entities.distributed_service import DistributedService
+from SPED.distributed_service_manager import DistributedServiceManager
 from SPED.entities.zone import Zone
 from SPED.helpers.zone import ZoneHelper
 from SPED.helpers.sped import SPEDHelper
+from SPED.helpers.distributed_service import DistributedServiceHelper
+from SPED.logs.vnf_segment import VNFSegmentLog
 
 
 class SPEDSimulation:
@@ -101,6 +103,12 @@ class SPEDSimulation:
         """
         The log object store all the entities logs.
         """
+        self.vnf_segment_log: VNFSegmentLog = VNFSegmentLog()
+
+        self.log.register_log(
+            name=VNFSegmentLog.NAME,
+            log_obj=self.vnf_segment_log
+        )
 
         self.packet_log: PacketLog = self.log.get_log(SimLog.LOG_NAME_PACKET)
         """
@@ -168,6 +176,11 @@ class SPEDSimulation:
         Dictionary with the zone associated with the domain
         """
 
+        self.zdsm: Dict[str, DistributedServiceManager] = dict()
+        """
+        Dictionary with the zone associated with each distributed service
+        """
+
         self.graph_zones = ZoneHelper.build_zone_tree(self.zones)
         """
         Topology of the zones in a networkx Graph
@@ -183,8 +196,14 @@ class SPEDSimulation:
         Configure the components to execute the distributed simulation.
         """
         for zone_name, zone in self.zones.items():
-            if zone.sped.domain:
-                self.domain_zone[zone.sped.domain.name] = zone_name
+            if zone.domain_name:
+                self.domain_zone[zone.domain_name] = zone_name
+
+            # create one distributed service manager component for each zone.
+            self.zdsm[zone_name] = DistributedServiceManager(
+                zone=zone,
+                environment=self.environment
+            )
 
         for domain_name, domain in self.domains.items():
             self.packet_in_execution[domain_name] = list()
@@ -263,14 +282,32 @@ class SPEDSimulation:
 
                 # Add all the SFC Requests to its domains
                 for sfc_request in sfc_requests:
-                    node_domain = self.environment['nodes_domain'][sfc_request.src.name]
+                    # node_domain = self.environment['nodes_domain'][sfc_request.src.name]
+
                     # Execute the SPC Placement in a distributed fashion
                     try:
+                        self.update_aggregated_data()
+
+                        # Select the zone manager
+                        aux = self.select_zone_manager(
+                            sfc_request=sfc_request
+                        )
+
+                        zone_manager: Zone = aux['zone_manager']
+
+                        vnf_names = DistributedServiceHelper.get_vnf_names_from_sfc_request(
+                            sfc_request=sfc_request
+                        )
+
+                        # Zone manager executing the game
                         self.env.process(
-                            self.distributed_placement_process(
-                                sfc_request=sfc_request
+                            self.distributed_sfc_placement_process(
+                                sfc_request=sfc_request,
+                                zone=zone_manager,
+                                vnf_names=vnf_names
                             )
                         )
+
                     except TypeError:
                         print("Simulation error")
 
@@ -288,17 +325,66 @@ class SPEDSimulation:
             # Do the simulation tick of 1ms
             yield self.env.timeout(1)
 
-    def distributed_placement_process(self, sfc_request: SFCRequest):
+    def distributed_sfc_placement_process(self, sfc_request: SFCRequest, zone: Zone, vnf_names: List):
         """
+        Execute the game in each zone.
 
         :param sfc_request: The service requested
+        :param zone: The zone where the game is executed
+        :param vnf_names: The name of the VNFs.
+
         :return:
         """
-        zone_manager = self.select_zone_manager(
-            sfc_request=sfc_request
+        print(" aaaaaaaaaaaaaaaaaaaaaaaaaaa ")
+        dsm: DistributedServiceManager = self.zdsm[zone.name]
+
+        plans = self.find_valid_vnf_segment_plan(
+            zone=zone,
+            vnf_names=vnf_names
         )
 
-        return False
+        selected_segmentation_plan = dsm.sped.select_segmentation_plan(plans)
+
+        # This is the game implementation
+        selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
+
+        for child_zone_name, vnfs in selected_child_zones.items():
+            cz = self.zones[child_zone_name]
+
+            if cz.zone_type == Zone.TYPE_COMPUTE:
+                # Run the placement inside the zone
+                self.vnf_segment_log.add_event(
+                    event=VNFSegmentLog.COMPUTE_ZONE_SELECTED,
+                    time=self.env.now,
+                    sfc_request_name=sfc_request.name,
+                    zone_name=cz.name,
+                    vnf_names=vnf_names
+                )
+
+            if cz.zone_type == Zone.TYPE_AGGREGATION:
+                self.env.process(
+                    self.distributed_sfc_placement_process(
+                        sfc_request=sfc_request,
+                        zone=zone,
+                        vnf_names=vnfs['vnfs']
+                    )
+                )
+
+        yield self.env.timeout(1)
+
+        print(self.env.now)
+
+        return
+
+    def process_vnf_segment(self, zone, vnf_segment):
+        """
+        Define each zone child from the VNF Segment selected
+
+        :param zone: The zone that will define where the segment will be placed
+        :param vnf_segment: The VNF segment (list with VNFs)
+
+        :return:
+        """
 
     def update_aggregated_data(self):
         """
@@ -324,14 +410,12 @@ class SPEDSimulation:
 
         :return:
         """
-
-        aggregated_data = zone.sped.aggregate_date()
+        dsm = self.zdsm[zone.name]
+        aggregated_data = dsm.sped.aggregate_date()
 
         # parent zone
         if zone.parent_zone_name:
-            p_z: Zone = self.zones[zone.parent_zone_name]
-
-            p_z.sped.update_child_zone_aggregated_data(
+            self.zdsm[zone.parent_zone_name].sped.update_child_zone_aggregated_data(
                 zone_name=zone.name,
                 child_zone_aggregated_data=aggregated_data
             )
@@ -343,27 +427,29 @@ class SPEDSimulation:
         :param sfc_request: The SFC Request
         :return:
         """
+        # Update the aggregated data for all the zones.
+        self.update_aggregated_data()
+
         src_domain_name = self.domain_zone[sfc_request.src.domain_name]
         dst_domain_name = self.domain_zone[sfc_request.dst.domain_name]
 
         graph = self.graph_zones
 
-        vnf_names: List[str] = list()
-        for vnf in sfc_request.sfc.vnfs:
-            vnf_names.append(vnf.name)
-
-        segmentation_plans = SPEDHelper.vnf_segmentation(
-            vnf_names=vnf_names
-        )
-
         zone_manager_name = nx.lowest_common_ancestor(graph, src_domain_name, dst_domain_name)
 
         zone_manager: Zone = self.zones[zone_manager_name]
 
+        vnf_names: List[str] = list()
+        for vnf in sfc_request.sfc.vnfs:
+            vnf_names.append(vnf.name)
+
         valid_zone_manager = False
 
         while True:
-            valid_plans = zone_manager.sped.valid_segmentation_plans(segmentation_plans)
+            valid_plans = self.find_valid_vnf_segment_plan(
+                zone=zone_manager,
+                vnf_names=vnf_names
+            )
 
             if valid_plans:
                 valid_zone_manager = True
@@ -384,6 +470,25 @@ class SPEDSimulation:
             'zone_manager': zone_manager,
             'plans': valid_plans
         }
+
+    def find_valid_vnf_segment_plan(self, zone: Zone, vnf_names: List) -> dict:
+        """
+        Select the valid VNF Segments based on the zone where the game will be playerd.
+
+        :param zone: The zone that will play the game.
+        :param vnf_names: The list with the name of VNFs.
+        :return:
+        """
+        # Update the aggregated data for all the zones.
+        self.update_aggregated_data()
+
+        segmentation_plans = SPEDHelper.vnf_segmentation(
+            vnf_names=vnf_names
+        )
+
+        valid_plans = self.zdsm[zone.name].sped.valid_segmentation_plans(segmentation_plans)
+
+        return valid_plans
 
     def execute_placement_plan(self, domain: Domain, plan: SFCPlacementPlan):
         """

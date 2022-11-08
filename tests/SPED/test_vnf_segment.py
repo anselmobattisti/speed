@@ -1,5 +1,3 @@
-import pandas as pd
-
 import os
 import unittest
 
@@ -29,7 +27,7 @@ class VNFSegmentTest(unittest.TestCase):
         vnfs = self.environment['vnfs']
         self.assertEqual("seg_1", self.seg_1.name)
         self.assertEqual(10, self.seg_1.max_delay)
-        self.assertEqual([vnfs['vnf_2'], vnfs['vnf_1']], seg_1.vnfs)
+        self.assertEqual([vnfs['vnf_2'], vnfs['vnf_1']], self.seg_1.vnfs)
 
     def test_max_delay_error_0(self):
         try:

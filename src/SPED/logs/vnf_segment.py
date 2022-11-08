@@ -14,7 +14,7 @@ class VNFSegmentLog(Log):
     """
     NAME = "segment"
 
-    COLUMNS = ["Event", "Time", "Segment", "VNFs"]
+    COLUMNS = ["Event", "Time", "SFC_Request_Name", "Zone", "VNFs"]
     """
     The column title of the CSV file.
     """
@@ -24,7 +24,12 @@ class VNFSegmentLog(Log):
     Name of the CSV file.
     """
 
-    CREATED = "SEGMENT_CREATED"
+    CREATED = "CREATED"
+    """
+    Caused when the segment is created.
+    """
+
+    COMPUTE_ZONE_SELECTED = "COMPUTE_ZONE_SELECTED"
     """
     Caused when the segment is created.
     """
@@ -35,27 +40,25 @@ class VNFSegmentLog(Log):
         """
         self.events = list()
 
-    def add_event(self, event: str, time: int, segment_name: str, vnfs: List[VNF]):
+    def add_event(self, event: str, time: int, sfc_request_name: str, zone_name: str, vnf_names: List):
         """
         Add a new event.
 
-
         :param event: The name of the event.
         :param time: Time of the event.
-        :param vnfs: The list with the VNFs.
-        :param segment_name: The name of the segment.
+        :param sfc_request_name: The name of the SFC Requested.
+        :param zone_name: The name of the Zone.
+        :param vnf_names: The list with the VNFs.
 
         :return:
         """
-        vnfs_name = []
-        for aux_vnf in vnfs:
-            vnfs_name.append(aux_vnf.name)
 
         log = [
             event,
             "{:.2f}".format(time),
-            segment_name,
-            ", ".join(vnfs_name)
+            sfc_request_name,
+            zone_name,
+            ", ".join(vnf_names)
         ]
         self.events.insert(0, log)
 
