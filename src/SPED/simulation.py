@@ -360,7 +360,6 @@ class SPEDSimulation:
 
         :return:
         """
-        print(" aaaaaaaaaaaaaaaaaaaaaaaaaaa ")
 
         # Run the local zone placement
         if zone.zone_type == Zone.TYPE_COMPUTE:
