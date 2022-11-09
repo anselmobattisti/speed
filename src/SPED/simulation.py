@@ -29,6 +29,7 @@ from SPED.entities.zone import Zone
 from SPED.helpers.zone import ZoneHelper
 from SPED.helpers.sped import SPEDHelper
 from SPED.helpers.distributed_service import DistributedServiceHelper
+from SPED.logs.distributed_service import DistributedServiceLog
 from SPED.logs.vnf_segment import VNFSegmentLog
 
 
@@ -103,12 +104,18 @@ class SPEDSimulation:
         """
         The log object store all the entities logs.
         """
-        self.vnf_segment_log: VNFSegmentLog = VNFSegmentLog()
 
-        self.log.register_log(
-            name=VNFSegmentLog.NAME,
-            log_obj=self.vnf_segment_log
-        )
+        self.vnf_segment_log: VNFSegmentLog = VNFSegmentLog()
+        self.log.register_log(name=VNFSegmentLog.NAME, log_obj=self.vnf_segment_log)
+        """
+        The object for logging the VNF Segments events.
+        """
+
+        self.distributed_service_log: DistributedServiceLog = DistributedServiceLog()
+        self.log.register_log(name=DistributedServiceLog.NAME, log_obj=self.distributed_service_log)
+        """
+        The object for logging the Distributed Service Log events.
+        """
 
         self.packet_log: PacketLog = self.log.get_log(SimLog.LOG_NAME_PACKET)
         """
@@ -282,9 +289,8 @@ class SPEDSimulation:
 
                 # Add all the SFC Requests to its domains
                 for sfc_request in sfc_requests:
-                    # node_domain = self.environment['nodes_domain'][sfc_request.src.name]
 
-                    # Execute the SPC Placement in a distributed fashion
+                    # Execute the SPC Placement in a distributed fashion for each SFC Requested
                     try:
                         self.update_aggregated_data()
 
@@ -299,7 +305,26 @@ class SPEDSimulation:
                             sfc_request=sfc_request
                         )
 
-                        # Zone manager executing the game
+                        # The requested service cannot be placed, there is no zone to manage this request.
+                        self.distributed_service_log.add_event(
+                            event=DistributedServiceLog.ZONE_MANAGER_SELECTED,
+                            time=self.env.now,
+                            sfc_request_name=sfc_request.name,
+                            zone_manager_name=zone_manager.name
+                        )
+
+                    except TypeError:
+                        # The requested service cannot be placed, there is no zone to manage this request.
+                        self.distributed_service_log.add_event(
+                            event=DistributedServiceLog.FAIL,
+                            time=self.env.now,
+                            sfc_request_name=sfc_request.name,
+                            zone_manager_name="Not Found"
+                        )
+                        continue
+
+                    # Zone manager executing the game
+                    try:
                         self.env.process(
                             self.distributed_sfc_placement_process(
                                 sfc_request=sfc_request,
@@ -336,6 +361,19 @@ class SPEDSimulation:
         :return:
         """
         print(" aaaaaaaaaaaaaaaaaaaaaaaaaaa ")
+
+        # Run the local zone placement
+        if zone.zone_type == Zone.TYPE_COMPUTE:
+            self.vnf_segment_log.add_event(
+                event=VNFSegmentLog.COMPUTE_ZONE_SELECTED,
+                time=self.env.now,
+                sfc_request_name=sfc_request.name,
+                zone_name=zone.name,
+                vnf_names=vnf_names
+            )
+            return
+
+        # Run the distributed placement to the other zones
         dsm: DistributedServiceManager = self.zdsm[zone.name]
 
         plans = self.find_valid_vnf_segment_plan(
@@ -351,29 +389,15 @@ class SPEDSimulation:
         for child_zone_name, vnfs in selected_child_zones.items():
             cz = self.zones[child_zone_name]
 
-            if cz.zone_type == Zone.TYPE_COMPUTE:
-                # Run the placement inside the zone
-                self.vnf_segment_log.add_event(
-                    event=VNFSegmentLog.COMPUTE_ZONE_SELECTED,
-                    time=self.env.now,
-                    sfc_request_name=sfc_request.name,
-                    zone_name=cz.name,
-                    vnf_names=vnf_names
+            self.env.process(
+                self.distributed_sfc_placement_process(
+                    sfc_request=sfc_request,
+                    zone=cz,
+                    vnf_names=vnfs['vnfs']
                 )
-
-            if cz.zone_type == Zone.TYPE_AGGREGATION:
-                self.env.process(
-                    self.distributed_sfc_placement_process(
-                        sfc_request=sfc_request,
-                        zone=zone,
-                        vnf_names=vnfs['vnfs']
-                    )
-                )
+            )
 
         yield self.env.timeout(1)
-
-        print(self.env.now)
-
         return
 
     def process_vnf_segment(self, zone, vnf_segment):

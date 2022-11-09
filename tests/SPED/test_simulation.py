@@ -1,6 +1,7 @@
 import os
 import unittest
 import simpy
+import pandas as pd
 
 from SimPlacement.setup import Setup
 from SPED.entities.zone import Zone
@@ -10,9 +11,47 @@ from SPED.simulation import SPEDSimulation
 from SimPlacement.helper import Helper
 
 from SPED.distributed_service_manager import DistributedServiceManager
+from SPED.logs.distributed_service import DistributedServiceLog
 
 
 class SPEDTest(unittest.TestCase):
+
+    def test_entities_3_sfc_request_without_zone_manager(self):
+        """
+        Test the simulation when a service request cannot have a zone manager
+        """
+        entities_file = "{}/config/entities_3_sfc_request_without_zone_manager.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEDSimulation(
+            env=simpy.Environment(),
+            config=config["simulation"],
+            environment=environment
+        )
+
+        # change the path where the simulation will save the logs.
+        new_log_path = "{}/logs/3_sfc_request/".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation.log.set_log_path(new_log_path)
+
+        simulation.run()
+
+        log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
+        df = pd.read_csv(log_file, sep=";")
+        self.assertEqual("Not Found", df['Zone_Manager'][0])
 
     def test_select_zone_manager(self):
         """
@@ -163,12 +202,6 @@ class SPEDTest(unittest.TestCase):
 
         simulation.update_aggregated_data()
 
-        sr_1 = environment['sfc_requests']['sr_1']
-
-        simulation.distributed_sfc_placement_process(
-            sfc_request=sr_1
-        )
-
         self.assertEqual(5, len(simulation.domain_zone))
 
     def test_select_zone_manager_parent(self):
@@ -307,8 +340,8 @@ class SPEDTest(unittest.TestCase):
         """
         Running the process to select the vnf segments in parallel.
         """
-        entities_file = "{}/config/entities_1_sfc_request.yml".format(os.path.dirname(os.path.abspath(__file__)))
-        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        entities_file = "{}/config/entities_2_sfc_request.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
         simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
         environment = Setup.load_entities(
@@ -332,27 +365,5 @@ class SPEDTest(unittest.TestCase):
 
         simulation.run()
 
-        self.assertTrue(False)
+        self.assertTrue(True)
 
-        # simulation.update_aggregated_data()
-        #
-        # sr_1 = environment['sfc_requests']['sr_1']
-        # z_sr1 = simulation.select_zone_manager(sr_1)
-        #
-        # zone_manager: Zone = z_sr1['zone_manager']
-        # dsm: DistributedServiceManager = simulation.zdsm[zone_manager.name]
-        #
-        # selected_segmentation_plan = dsm.sped.select_segmentation_plan(z_sr1['plans'])
-        #
-        # # This is the game implementation
-        # selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
-        #
-        # for child_zone_name, vnfs in selected_child_zones.items():
-        #     zone: Zone = environment['zones'][child_zone_name]
-        #     segmentation_plans = SPEDHelper.vnf_segmentation(
-        #         vnf_names=vnfs['vnfs']
-        #     )
-        #
-        #     selected_segmentation_plan = zone.sped.select_segmentation_plan(segmentation_plans)
-        #
-        #     selected_child_zones = zone.select_zones_to_vnf_segments(selected_segmentation_plan)

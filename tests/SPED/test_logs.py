@@ -21,15 +21,17 @@ class SPEDLogTest(unittest.TestCase):
         segment_log.add_event(
             event=VNFSegmentLog.CREATED,
             time=0,
-            segment_name="seg_1",
-            vnfs=[vnfs['vnf_1'], vnfs['vnf_3']]
+            sfc_request_name="sr_1",
+            zone_name="zn_1",
+            vnf_names=['vnf_1', 'vnf_3']
         )
 
         segment_log.add_event(
             event=VNFSegmentLog.CREATED,
             time=0,
-            segment_name="seg_2",
-            vnfs=[vnfs['vnf_2'], vnfs['vnf_3']]
+            sfc_request_name="sr_2",
+            zone_name="zn_1",
+            vnf_names=['vnf_2', 'vnf_3']
         )
 
         segment_log.save(file_path=self.log_path)
