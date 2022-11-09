@@ -305,7 +305,7 @@ class SPEDSimulation:
                             sfc_request=sfc_request
                         )
 
-                        # The requested service cannot be placed, there is no zone to manage this request.
+                        # Define which zone will manage the SFC Request
                         self.distributed_service_log.add_event(
                             event=DistributedServiceLog.ZONE_MANAGER_SELECTED,
                             time=self.env.now,
@@ -371,6 +371,16 @@ class SPEDSimulation:
                 vnf_names=vnf_names
             )
             return
+
+        if zone.zone_type == Zone.TYPE_AGGREGATION:
+            # Log that the aggregation zone is selected to execute a set of VNFs
+            self.vnf_segment_log.add_event(
+                event=VNFSegmentLog.AGGREGATION_ZONE_SELECTED,
+                time=self.env.now,
+                sfc_request_name=sfc_request.name,
+                zone_name=zone.name,
+                vnf_names=vnf_names
+            )
 
         # Run the distributed placement to the other zones
         dsm: DistributedServiceManager = self.zdsm[zone.name]

@@ -1,3 +1,6 @@
+import random
+
+from SimPlacement.entities.node import Node
 from networkx.drawing.nx_pydot import graphviz_layout
 from typing import Dict, List
 from beautifultable import BeautifulTable
@@ -239,3 +242,47 @@ class ZoneHelper(Helper):
                 names.append(zone_name)
 
         return names
+
+    @staticmethod
+    def get_random_node_from_zone(zone: Zone, environment) -> Node:
+        """
+        Return one node from the zone.
+
+        If the zone is a compute zone it is a direct action.
+
+        If the zone was a aggregation zone it is a recursive process.
+
+        :param zone: The mother zone
+        :param environment: The environment
+
+        :return:
+        """
+
+        if zone.zone_type == Zone.TYPE_COMPUTE:
+            nodes = environment['domains'][zone.domain_name].nodes
+            possible_nodes = list(nodes.keys())
+
+            if not possible_nodes:
+                raise TypeError("The zone {} does not have nodes.".format(zone.name))
+
+            node_name = random.choice(possible_nodes)
+            node = environment['nodes'][node_name]
+            return node
+
+        possible_zones = []
+        for zone_name in zone.child_zone_names:
+            if environment['zones'][zone_name].zone_type == Zone.TYPE_ACCESS:
+                continue
+            possible_zones.append(zone_name)
+
+        if not possible_zones:
+            raise TypeError("The zone {} does not child zones.".format(zone.name))
+
+        selected_child_zone = random.choice(possible_zones)
+
+        cz = environment['zones'][selected_child_zone]
+
+        return ZoneHelper.get_random_node_from_zone(
+            zone=cz,
+            environment=environment
+        )

@@ -31,7 +31,12 @@ class VNFSegmentLog(Log):
 
     COMPUTE_ZONE_SELECTED = "COMPUTE_ZONE_SELECTED"
     """
-    Caused when the segment is created.
+    Caused when the compute zone is selected.
+    """
+
+    AGGREGATION_ZONE_SELECTED = "AGGREGATION_ZONE_SELECTED"
+    """
+    Caused when the aggregation zone is selected.
     """
 
     def __init__(self):

@@ -1,5 +1,7 @@
+import random
 from typing import Dict
 
+from SPED.helpers.zone import ZoneHelper
 from SPED.sped import SPED
 from SPED.entities.zone import Zone
 from SimPlacement.entities.sfc_request import SFCRequest
@@ -40,6 +42,9 @@ class DistributedServiceManager:
         if zone.domain_name:
             domain = environment['domains'][zone.domain_name]
 
+        """
+        The SPED component.
+        """
         self.sped: SPED = SPED(
                 name='s_{}'.format(zone.name),
                 domain=domain,
@@ -47,14 +52,20 @@ class DistributedServiceManager:
                 environment=environment
             )
 
+        self.node = ZoneHelper.get_random_node_from_zone(
+            zone=zone,
+            environment=environment
+        )
         """
-        The SPED component.
+        Select one node from an above zone to be the node where the distributed service manager is executed
+        Will be used during the simulation to find the delay until de child zones components.
         """
 
         self.sfc_requests: Dict[str, SFCRequest] = dict()
         """
         All the SFC Request which the zone is the manager.
         """
+
 
     def add_sfc_request(self, sfc_request: SFCRequest) -> SFCRequest:
         """

@@ -403,20 +403,23 @@ class SPEDTest(unittest.TestCase):
 
         log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
         df = pd.read_csv(log_file, sep=";")
-        print(df)
 
-        img_file = "{}/img/zone_topology_4.png".format(os.path.dirname(os.path.abspath(__file__)))
-        ZoneHelper.save_image(
-            zones=environment['zones'],
-            title="Zones Topology 4",
-            file_name=img_file,
-            img_width=10,
-            img_height=10
-        )
+        # Print logs test (don't remove)
+        # print(df)
+        #
+        # img_file = "{}/img/zone_topology_4.png".format(os.path.dirname(os.path.abspath(__file__)))
+        # ZoneHelper.save_image(
+        #     zones=environment['zones'],
+        #     title="Zones Topology 4",
+        #     file_name=img_file,
+        #     img_width=10,
+        #     img_height=10
+        # )
+        #
+        # SimulationHelper.print_environment_topology(
+        #     environment=environment
+        # )
 
-        SimulationHelper.print_environment_topology(
-            environment=environment
-        )
-
-        self.assertEqual("Not Found", df['Zone_Manager'][0])
+        self.assertEqual("z_0", df['Zone_Manager'][0])
+        self.assertEqual("z_1", df['Zone_Manager'][1])
 

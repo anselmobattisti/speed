@@ -31,7 +31,7 @@ class SimulationHelper(Helper):
 
             table.rows.append([
                 zone.name,
-                zone.zone_type,
+                zone.zone_type[0:5],
                 zone.parent_zone_name,
                 ", ".join(aux_children),
                 zone.domain_name,
