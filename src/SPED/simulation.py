@@ -16,6 +16,7 @@ from SimPlacement.log import SimLog
 from SimPlacement.logs.sfc_instance import SFCInstanceLog
 from SimPlacement.logs.virtual_link import VirtualLinkLog
 from SimPlacement.sdn_controller import SDNController
+from SimPlacement.topology import Topology
 from SimPlacement.types import SFCPlacementPlan
 from SimPlacement.logs.placement import PlacementLog
 from SimPlacement.logs.packet import PacketLog
@@ -350,16 +351,20 @@ class SPEDSimulation:
             # Do the simulation tick of 1ms
             yield self.env.timeout(1)
 
-    def distributed_sfc_placement_process(self, sfc_request: SFCRequest, zone: Zone, vnf_names: List):
+    def distributed_sfc_placement_process(self, sfc_request: SFCRequest, zone: Zone, vnf_names: List, timeout: int = 0):
         """
         Execute the game in each zone.
 
         :param sfc_request: The service requested
         :param zone: The zone where the game is executed
         :param vnf_names: The name of the VNFs.
+        :param timeout: The delay between the distributed service component in the parent until the child
+        zone component.
 
         :return:
         """
+
+        yield self.env.timeout(timeout)
 
         # Run the local zone placement
         if zone.zone_type == Zone.TYPE_COMPUTE:
@@ -398,16 +403,40 @@ class SPEDSimulation:
         for child_zone_name, vnfs in selected_child_zones.items():
             cz = self.zones[child_zone_name]
 
+            timeout_to_child_zone = self.delay_between_distributed_service_components(
+                zone_1=zone,
+                zone_2=cz
+            )
+
             self.env.process(
                 self.distributed_sfc_placement_process(
                     sfc_request=sfc_request,
                     zone=cz,
-                    vnf_names=vnfs['vnfs']
+                    vnf_names=vnfs['vnfs'],
+                    timeout=timeout_to_child_zone
                 )
             )
 
-        yield self.env.timeout(1)
         return
+
+    def delay_between_distributed_service_components(self, zone_1: Zone, zone_2: Zone) -> int:
+        """
+        Return the delay between the distributed service components in two zones.
+
+        :param zone_1: The first zone.
+        :param zone_2: The second zone.
+        :return:
+        """
+        topo: Topology = self.environment['topology']
+
+        sp = topo.shortest_simple_edge_path(
+            src_name=self.zdsm[zone_1.name].node.name,
+            dst_name=self.zdsm[zone_2.name].node.name,
+        )
+
+        timeout = topo.path_delay(path=sp)
+
+        return timeout
 
     def process_vnf_segment(self, zone, vnf_segment):
         """
