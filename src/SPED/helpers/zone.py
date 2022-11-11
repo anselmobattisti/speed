@@ -199,7 +199,7 @@ class ZoneHelper(Helper):
 
         ax.legend(
             handles=legend_elements,
-            loc='lower left',
+            loc='upper left',
             fontsize=18
         )
 

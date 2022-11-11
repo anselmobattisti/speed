@@ -199,6 +199,11 @@ class SPEDSimulation:
         Topology of the zones in a networkx Graph
         """
 
+        self.default_placement_timeout = 100
+        """
+        The default value for the distributed service wait until set the placement as a fail.
+        """
+
         self.setup()
         """
         Setup the initial configurations to execute the Auction Simulation.
@@ -208,7 +213,14 @@ class SPEDSimulation:
         """
         Configure the components to execute the distributed simulation.
         """
+
+        if 'placement_timeout' in self.config.keys():
+            self.default_placement_timeout = self.config['placement_timeout']
+
         for zone_name, zone in self.zones.items():
+            if zone.zone_type == Zone.TYPE_ACCESS:
+                continue
+
             if zone.domain_name:
                 self.domain_zone[zone.domain_name] = zone_name
 
@@ -293,12 +305,13 @@ class SPEDSimulation:
             if self.env.now in self.environment['sfc_requests_arrival']:
                 sfc_requests = self.environment['sfc_requests_arrival'][self.env.now]
 
-                # Add all the SFC Requests to its domains
+                # Execute the SPC Placement in a distributed fashion for each SFC Request.
                 for sfc_request in sfc_requests:
 
-                    # Execute the SPC Placement in a distributed fashion for each SFC Requested
+                    # Update all the aggregated data in the simulation
+                    self.update_aggregated_data()
+
                     try:
-                        self.update_aggregated_data()
 
                         # Select the zone manager
                         aux = self.select_zone_manager(
@@ -314,11 +327,17 @@ class SPEDSimulation:
                         # The zone that will manage this request
                         self.sfc_request_zone_manager[sfc_request.name] = zone_manager
 
+                        placement_timeout = self.default_placement_timeout
+
+                        if sfc_request.extra_parameter_is_defined('placement_timeout'):
+                            placement_timeout = sfc_request.get_extra_parameter('placement_timeout')
+
                         self.zdsm[zone_manager.name].add_sfc_request(
-                            sfc_request=sfc_request
+                            sfc_request=sfc_request,
+                            placement_timeout=placement_timeout
                         )
 
-                        # Define which zone will manage the SFC Request
+                        # Lot the selection zone will manage the SFC Request
                         self.distributed_service_log.add_event(
                             event=DistributedServiceLog.ZONE_MANAGER_SELECTED,
                             time=self.env.now,
@@ -345,7 +364,6 @@ class SPEDSimulation:
                                 vnf_names=vnf_names
                             )
                         )
-
                     except TypeError:
                         print("Simulation error")
 
@@ -360,8 +378,8 @@ class SPEDSimulation:
                 Increment the delay of the packet in execution.
                 """
 
-            # Iterate over the SFC Requests and log when it were placed
-            self.sfc_requests_are_placed()
+            # Iterate over the SFC Requests and log when the plan for placement arrives to the manager zone.
+            self.sfc_requests_vnfs_are_assigned_to_compute_zone()
 
             # Do the simulation tick of 1ms
             yield self.env.timeout(1)
@@ -381,7 +399,7 @@ class SPEDSimulation:
 
         yield self.env.timeout(timeout)
 
-        # Run the local zone placement
+        # If the selected zone is a compute one, sent to the manager zone that the vnfs will be placed in that zone.
         if zone.zone_type == Zone.TYPE_COMPUTE:
             self.vnf_segment_log.add_event(
                 event=VNFSegmentLog.COMPUTE_ZONE_SELECTED,
@@ -392,14 +410,24 @@ class SPEDSimulation:
             )
 
             zone_manager = self.sfc_request_zone_manager[sfc_request.name]
-            self.zdsm[zone_manager.name].add_segment_to_compute_zone(
+            ret = self.zdsm[zone_manager.name].add_segment_to_compute_zone(
                 sfc_request=sfc_request,
                 vnf_names=vnf_names,
                 zone=zone
             )
 
+            # The computed zone were selected after the timeout
+            if not ret:
+                self.vnf_segment_log.add_event(
+                    event=VNFSegmentLog.TIMEOUT,
+                    time=self.env.now,
+                    sfc_request_name=sfc_request.name,
+                    zone_name=zone.name,
+                    vnf_names=vnf_names
+                )
             return
 
+        # If the selected zone is an aggregation zone it means that we need to execute the game again.
         if zone.zone_type == Zone.TYPE_AGGREGATION:
             # Log that the aggregation zone is selected to execute a set of VNFs
             self.vnf_segment_log.add_event(
@@ -431,6 +459,7 @@ class SPEDSimulation:
                 zone_2=cz
             )
 
+            # Send in parallel the request to place each VNF Segment.
             self.env.process(
                 self.distributed_sfc_placement_process(
                     sfc_request=sfc_request,
@@ -461,19 +490,10 @@ class SPEDSimulation:
 
         return timeout
 
-    def process_vnf_segment(self, zone, vnf_segment):
-        """
-        Define each zone child from the VNF Segment selected
-
-        :param zone: The zone that will define where the segment will be placed
-        :param vnf_segment: The VNF segment (list with VNFs)
-
-        :return:
-        """
-
     def update_aggregated_data(self):
         """
-        Update the aggregated data in all the zones.
+        Update the aggregated data in all the zones. First the child zones will send the data to
+        parent zone recursively.
 
         :return:
         """
@@ -495,10 +515,15 @@ class SPEDSimulation:
 
         :return:
         """
+        if zone.zone_type == Zone.TYPE_ACCESS:
+            return
+
         dsm = self.zdsm[zone.name]
+
+        # Aggregate the data from its own child zone
         aggregated_data = dsm.sped.aggregate_date()
 
-        # parent zone
+        # Send data to the parent zone.
         if zone.parent_zone_name:
             self.zdsm[zone.parent_zone_name].sped.update_child_zone_aggregated_data(
                 zone_name=zone.name,
@@ -507,7 +532,9 @@ class SPEDSimulation:
 
     def select_zone_manager(self, sfc_request: SFCRequest) -> dict:
         """
-        Select the zone that encompass the src and dst domain
+        Select the zone that manage the distributed placement process.
+
+        The src and dst must be in one of the underlying zones.
 
         :param sfc_request: The SFC Request
         :return:
@@ -1006,7 +1033,7 @@ class SPEDSimulation:
                 vnf_instance=vnf_instance
             )
 
-    def sfc_requests_are_placed(self):
+    def sfc_requests_vnfs_are_assigned_to_compute_zone(self):
         """
         Iterate over the SFC Requested and verify if is was placed or not.
 
@@ -1014,16 +1041,29 @@ class SPEDSimulation:
         """
         for sfc_request_name, zone in self.sfc_request_zone_manager.items():
             zdm = self.zdsm[zone.name]
+
+            # if sfc_request_name not in zdm.distributed_services.keys():
+            #     continue
+
             ds = zdm.distributed_services[sfc_request_name]
-            if not ds.placed:
-                if ds.check_if_placed():
-                    # Define which zone will manage the SFC Request
+            if not ds.assigned_to_zone:
+                if ds.check_vnfs_assigned_to_compute_zone():
+                    # SFC Request placed
                     self.distributed_service_log.add_event(
-                        event=DistributedServiceLog.PLACED,
+                        event=DistributedServiceLog.VNFs_ASSIGNED_TO_COMPUTE_ZONE,
                         time=self.env.now,
                         sfc_request_name=sfc_request_name,
                         zone_manager_name=zone.name
                     )
+                else:
+                    if ds.dec_placement_timeout() == 0:
+                        # SFC Request timeout
+                        self.distributed_service_log.add_event(
+                            event=DistributedServiceLog.TIMEOUT,
+                            time=self.env.now,
+                            sfc_request_name=sfc_request_name,
+                            zone_manager_name=zone.name
+                        )
 
     def shutdown(self):
         """

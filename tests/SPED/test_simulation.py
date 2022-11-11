@@ -5,7 +5,9 @@ import pandas as pd
 
 from SimPlacement.setup import Setup
 from SPED.entities.zone import Zone
+from SPED.helpers.simulation import SimulationHelper
 from SPED.helpers.zone import ZoneHelper
+from SPED.logs.vnf_segment import VNFSegmentLog
 from SPED.simulation import SPEDSimulation
 from SimPlacement.helper import Helper
 
@@ -404,20 +406,58 @@ class SPEDTest(unittest.TestCase):
 
         # Print logs test (don't remove)
         # print(df)
-        #
-        # img_file = "{}/img/zone_topology_4.png".format(os.path.dirname(os.path.abspath(__file__)))
-        # ZoneHelper.save_image(
-        #     zones=environment['zones'],
-        #     title="Zones Topology 4",
-        #     file_name=img_file,
-        #     img_width=10,
-        #     img_height=10
-        # )
-        #
-        # SimulationHelper.print_environment_topology(
-        #     environment=environment
-        # )
+
+        img_file = "{}/img/zone_topology_4.png".format(os.path.dirname(os.path.abspath(__file__)))
+        ZoneHelper.save_image(
+            zones=environment['zones'],
+            title="Zones Topology Example",
+            file_name=img_file,
+            img_width=10,
+            img_height=10
+        )
+
+        SimulationHelper.print_environment_topology(
+            environment=environment
+        )
 
         # self.assertEqual("z_0", df['Zone_Manager'][0])
         # self.assertEqual("z_1", df['Zone_Manager'][1])
+
+    def test_entities_1_sfc_request_placement_timeout(self):
+        """
+        Verify if the service if select multiple zones to place the vnfs
+        """
+        entities_file = "{}/config/entities_1_sfc_request_timeout.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEDSimulation(
+            env=simpy.Environment(),
+            config=config["simulation"],
+            environment=environment
+        )
+
+        # change the path where the simulation will save the logs.
+        new_log_path = "{}/logs/1_sfc_request_timeout/".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation.log.set_log_path(new_log_path)
+
+        simulation.run()
+
+        log_file = "{}/{}".format(new_log_path, VNFSegmentLog.FILE_NAME)
+        df = pd.read_csv(log_file, sep=";")
+
+        self.assertEqual("TIMEOUT", df['Event'][0])
 

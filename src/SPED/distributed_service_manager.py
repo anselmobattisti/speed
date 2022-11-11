@@ -72,11 +72,12 @@ class DistributedServiceManager:
         All the SFC Request which the zone is the manager.
         """
 
-    def add_sfc_request(self, sfc_request: SFCRequest) -> SFCRequest:
+    def add_sfc_request(self, sfc_request: SFCRequest, placement_timeout: int) -> SFCRequest:
         """
         Add a new SFC Request that the zone will manager the distributed SFC Placement process.
 
-        :param sfc_request: The SFC Request Object
+        :param sfc_request: The SFC Request Object.
+        :param placement_timeout: The max delay for the placement timeout.
         :return: SFCRequest
         """
         if sfc_request.name in self.sfc_requests.keys():
@@ -84,7 +85,8 @@ class DistributedServiceManager:
 
         self.distributed_services[sfc_request.name] = DistributedService(
             sfc_request=sfc_request,
-            manager_zone=self.zone
+            manager_zone=self.zone,
+            placement_timeout=placement_timeout
         )
 
         self.sfc_requests[sfc_request.name] = sfc_request
@@ -101,6 +103,10 @@ class DistributedServiceManager:
 
         :return:
         """
+        # The SFC Request already enter in timeout
+        if self.distributed_services[sfc_request.name].placement_timeout == 0:
+            return False
+
         if sfc_request.name not in self.distributed_services.keys():
             raise TypeError("The Distributed Service {} not exist in the zone {}.".format(sfc_request.name,
                                                                                           self.zone.name))
@@ -111,6 +117,8 @@ class DistributedServiceManager:
                 vnf_name=vnf_name,
                 zone_name=zone.name
             )
+
+        return True
 
     def select_zones_to_vnf_segments(self, segmentation_plan):
         """

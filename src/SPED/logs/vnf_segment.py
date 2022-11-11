@@ -29,6 +29,11 @@ class VNFSegmentLog(Log):
     Caused when the segment is created.
     """
 
+    TIMEOUT = "TIMEOUT"
+    """
+    Caused when the zone manager already enter in timeout for the SFC Request.
+    """
+
     COMPUTE_ZONE_SELECTED = "COMPUTE_ZONE_SELECTED"
     """
     Caused when the compute zone is selected.

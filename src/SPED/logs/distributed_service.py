@@ -36,6 +36,16 @@ class DistributedServiceLog(Log):
     Caused when all the VNFs were placed.
     """
 
+    VNFs_ASSIGNED_TO_COMPUTE_ZONE = "VNFs_ASSIGNED_TO_COMPUTE_ZONE"
+    """
+    Caused when all the VNFs were assigned to a compute zone.
+    """
+
+    TIMEOUT = "TIMEOUT"
+    """
+    Caused when all the distributed placements takes too long.
+    """
+
     ZONE_MANAGER_SELECTED = "ZONE_MANAGER_SELECTED"
     """
     Caused when the ZONE MANAGER TO A requested services is selected.

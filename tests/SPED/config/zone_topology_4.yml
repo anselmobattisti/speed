@@ -30,3 +30,6 @@ zones:
     zone_type: "compute"
     parent_zone: "z_0"
     domain: "dom_5"
+  z_9:
+    zone_type: "access"
+    parent_zone: "z_2"
