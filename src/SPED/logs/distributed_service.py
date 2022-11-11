@@ -31,9 +31,9 @@ class DistributedServiceLog(Log):
     Caused when the distributed service fails during the distributed placement process.
     """
 
-    SUCCESS = "SUCCESS"
+    PLACED = "PLACED"
     """
-    Caused when the requested services is placed.
+    Caused when all the VNFs were placed.
     """
 
     ZONE_MANAGER_SELECTED = "ZONE_MANAGER_SELECTED"

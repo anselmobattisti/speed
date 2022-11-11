@@ -189,6 +189,11 @@ class SPEDSimulation:
         Dictionary with the zone associated with each distributed service
         """
 
+        self.sfc_request_zone_manager: Dict[str, Zone] = dict()
+        """
+        Dictionary with the zone associated with each sfc requested
+        """
+
         self.graph_zones = ZoneHelper.build_zone_tree(self.zones)
         """
         Topology of the zones in a networkx Graph
@@ -306,6 +311,13 @@ class SPEDSimulation:
                             sfc_request=sfc_request
                         )
 
+                        # The zone that will manage this request
+                        self.sfc_request_zone_manager[sfc_request.name] = zone_manager
+
+                        self.zdsm[zone_manager.name].add_sfc_request(
+                            sfc_request=sfc_request
+                        )
+
                         # Define which zone will manage the SFC Request
                         self.distributed_service_log.add_event(
                             event=DistributedServiceLog.ZONE_MANAGER_SELECTED,
@@ -348,6 +360,9 @@ class SPEDSimulation:
                 Increment the delay of the packet in execution.
                 """
 
+            # Iterate over the SFC Requests and log when it were placed
+            self.sfc_requests_are_placed()
+
             # Do the simulation tick of 1ms
             yield self.env.timeout(1)
 
@@ -375,6 +390,14 @@ class SPEDSimulation:
                 zone_name=zone.name,
                 vnf_names=vnf_names
             )
+
+            zone_manager = self.sfc_request_zone_manager[sfc_request.name]
+            self.zdsm[zone_manager.name].add_segment_to_compute_zone(
+                sfc_request=sfc_request,
+                vnf_names=vnf_names,
+                zone=zone
+            )
+
             return
 
         if zone.zone_type == Zone.TYPE_AGGREGATION:
@@ -982,6 +1005,25 @@ class SPEDSimulation:
                 domain_name=vnf_node.domain_name,
                 vnf_instance=vnf_instance
             )
+
+    def sfc_requests_are_placed(self):
+        """
+        Iterate over the SFC Requested and verify if is was placed or not.
+
+        :return:
+        """
+        for sfc_request_name, zone in self.sfc_request_zone_manager.items():
+            zdm = self.zdsm[zone.name]
+            ds = zdm.distributed_services[sfc_request_name]
+            if not ds.placed:
+                if ds.check_if_placed():
+                    # Define which zone will manage the SFC Request
+                    self.distributed_service_log.add_event(
+                        event=DistributedServiceLog.PLACED,
+                        time=self.env.now,
+                        sfc_request_name=sfc_request_name,
+                        zone_manager_name=zone.name
+                    )
 
     def shutdown(self):
         """

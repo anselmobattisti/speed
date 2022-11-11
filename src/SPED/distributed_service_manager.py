@@ -1,6 +1,7 @@
 import random
-from typing import Dict
+from typing import Dict, List
 
+from SPED.entities.distributed_service import DistributedService
 from SPED.helpers.zone import ZoneHelper
 from SPED.sped import SPED
 from SPED.entities.zone import Zone
@@ -66,6 +67,10 @@ class DistributedServiceManager:
         All the SFC Request which the zone is the manager.
         """
 
+        self.distributed_services: Dict[str, DistributedService] = dict()
+        """
+        All the SFC Request which the zone is the manager.
+        """
 
     def add_sfc_request(self, sfc_request: SFCRequest) -> SFCRequest:
         """
@@ -77,7 +82,35 @@ class DistributedServiceManager:
         if sfc_request.name in self.sfc_requests.keys():
             raise TypeError("The SFC Request {} was already added.".format(sfc_request.name))
 
+        self.distributed_services[sfc_request.name] = DistributedService(
+            sfc_request=sfc_request,
+            manager_zone=self.zone
+        )
+
+        self.sfc_requests[sfc_request.name] = sfc_request
+
         return self.sfc_requests[sfc_request.name]
+
+    def add_segment_to_compute_zone(self, sfc_request: SFCRequest, vnf_names: List, zone: Zone):
+        """
+        The zone that will execute some VNF send this info to the zone manager of the requested service.
+
+        :param sfc_request: The SFC Request.
+        :param vnf_names: The list of the VNFs that will be execute in the zone.
+        :param zone: The compute zone.
+
+        :return:
+        """
+        if sfc_request.name not in self.distributed_services.keys():
+            raise TypeError("The Distributed Service {} not exist in the zone {}.".format(sfc_request.name,
+                                                                                          self.zone.name))
+        ds = self.distributed_services[sfc_request.name]
+
+        for vnf_name in vnf_names:
+            ds.add_vnf_to_zone(
+                vnf_name=vnf_name,
+                zone_name=zone.name
+            )
 
     def select_zones_to_vnf_segments(self, segmentation_plan):
         """
