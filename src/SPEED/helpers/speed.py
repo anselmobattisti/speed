@@ -1,13 +1,9 @@
 from typing import List
 
-import yaml
-from SimPlacement.entities.vnf import VNF
-
 from SimPlacement.helper import Helper
 from beautifultable import BeautifulTable
 from komby.komby import Komby
 
-from SPEED.entities.vnf_segment import VNFSegment
 from SPEED.types import InfrastructureData
 from SPEED.types import AggregatedData
 
