@@ -5,8 +5,8 @@ import unittest
 from typing import Dict
 
 from SimPlacement.setup import Setup
-from SPED.entities.zone import Zone
-from SPED.helpers.zone import ZoneHelper
+from SPEED.entities.zone import Zone
+from SPEED.helpers.zone import ZoneHelper
 
 
 class ZoneTest(unittest.TestCase):

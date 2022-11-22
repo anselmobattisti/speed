@@ -2,7 +2,7 @@ import os
 import unittest
 
 from SimPlacement.setup import Setup
-from SPED.entities.vnf_segment import VNFSegment
+from SPEED.entities.vnf_segment import VNFSegment
 
 
 class VNFSegmentTest(unittest.TestCase):

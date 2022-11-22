@@ -4,7 +4,7 @@ import simpy
 
 
 from SimPlacement.setup import Setup
-from SPED.helpers.distributed_service import DistributedServiceHelper
+from SPEED.helpers.distributed_service import DistributedServiceHelper
 
 
 class DistributedServiceTest(unittest.TestCase):

@@ -2,20 +2,9 @@ import os
 import unittest
 import simpy
 
-from typing import Dict
-import networkx as nx
-
-from SimPlacement.entities.domain import Domain
-from SimPlacement.entities.node import Node
-from SimPlacement.entities.vnf_instance import VNFInstance
-from SPED.entities.zone import Zone
-from SPED.helpers.simulation import SimulationHelper
-from SPED.types import InfrastructureData
-from SPED.helpers.sped import SPEDHelper
-
 from SimPlacement.setup import Setup
-from SPED.helpers.zone import ZoneHelper
-from SPED.simulation import SPEDSimulation
+from SPEED.helpers.zone import ZoneHelper
+from SPEED.simulation import SPEEDSimulation
 from SimPlacement.helper import Helper
 
 
@@ -43,7 +32,7 @@ class DistributedServiceManagerTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=env,
             config=config["simulation"],
             environment=environment
@@ -78,7 +67,7 @@ class DistributedServiceManagerTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=env,
             config=config["simulation"],
             environment=environment

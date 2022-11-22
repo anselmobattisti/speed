@@ -4,10 +4,10 @@ import os
 import unittest
 
 from SimPlacement.setup import Setup
-from SPED.logs.vnf_segment import VNFSegmentLog
+from SPEED.logs.vnf_segment import VNFSegmentLog
 
 
-class SPEDLogTest(unittest.TestCase):
+class SPEEDLogTest(unittest.TestCase):
 
     entities_file = "{}/config/entities.yml".format(os.path.dirname(os.path.abspath(__file__)))
     log_path = "{}/logs".format(os.path.dirname(os.path.abspath(__file__)))

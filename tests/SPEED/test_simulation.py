@@ -4,18 +4,18 @@ import simpy
 import pandas as pd
 
 from SimPlacement.setup import Setup
-from SPED.entities.zone import Zone
-from SPED.helpers.simulation import SimulationHelper
-from SPED.helpers.zone import ZoneHelper
-from SPED.logs.vnf_segment import VNFSegmentLog
-from SPED.simulation import SPEDSimulation
+from SPEED.entities.zone import Zone
+from SPEED.helpers.simulation import SimulationHelper
+from SPEED.helpers.zone import ZoneHelper
+from SPEED.logs.vnf_segment import VNFSegmentLog
+from SPEED.simulation import SPEEDSimulation
 from SimPlacement.helper import Helper
 
-from SPED.distributed_service_manager import DistributedServiceManager
-from SPED.logs.distributed_service import DistributedServiceLog
+from SPEED.distributed_service_manager import DistributedServiceManager
+from SPEED.logs.distributed_service import DistributedServiceLog
 
 
-class SPEDTest(unittest.TestCase):
+class SPEEDTest(unittest.TestCase):
 
     def test_entities_3_sfc_request_without_zone_manager(self):
         """
@@ -38,7 +38,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=simpy.Environment(),
             config=config["simulation"],
             environment=environment
@@ -76,7 +76,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=env,
             config=config["simulation"],
             environment=environment
@@ -121,7 +121,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=env,
             config=config["simulation"],
             environment=environment
@@ -157,7 +157,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=env,
             config=config["simulation"],
             environment=environment
@@ -167,7 +167,7 @@ class SPEDTest(unittest.TestCase):
 
         simulation.update_aggregated_data()
 
-        data = simulation.zdsm['z_0'].sped.aggregate_date()
+        data = simulation.zdsm['z_0'].speed.aggregate_date()
 
         self.assertEqual(375.0, data['n_3_vnf_1']['cost'])
 
@@ -193,7 +193,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=env,
             config=config["simulation"],
             environment=environment
@@ -227,7 +227,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=env,
             config=config["simulation"],
             environment=environment
@@ -267,7 +267,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=simpy.Environment(),
             config=config["simulation"],
             environment=environment
@@ -281,7 +281,7 @@ class SPEDTest(unittest.TestCase):
         z_sr1 = simulation.select_zone_manager(sr_1)
         zone_manager: Zone = z_sr1['zone_manager']
         dsm: DistributedServiceManager = simulation.zdsm[zone_manager.name]
-        selected_segmentation_plan = dsm.sped.select_segmentation_plan(z_sr1['plans'])
+        selected_segmentation_plan = dsm.speed.select_segmentation_plan(z_sr1['plans'])
 
         self.assertEqual(1, len(selected_segmentation_plan['segments']))
 
@@ -306,7 +306,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=simpy.Environment(),
             config=config["simulation"],
             environment=environment
@@ -331,7 +331,7 @@ class SPEDTest(unittest.TestCase):
 
         dsm: DistributedServiceManager = simulation.zdsm[zone_manager.name]
 
-        selected_segmentation_plan = dsm.sped.select_segmentation_plan(z_sr1['plans'])
+        selected_segmentation_plan = dsm.speed.select_segmentation_plan(z_sr1['plans'])
 
         selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
 
@@ -358,7 +358,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=simpy.Environment(),
             config=config["simulation"],
             environment=environment
@@ -389,7 +389,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=simpy.Environment(),
             config=config["simulation"],
             environment=environment
@@ -444,7 +444,7 @@ class SPEDTest(unittest.TestCase):
             data_file=simulation_file
         )
 
-        simulation = SPEDSimulation(
+        simulation = SPEEDSimulation(
             env=simpy.Environment(),
             config=config["simulation"],
             environment=environment
@@ -460,4 +460,44 @@ class SPEDTest(unittest.TestCase):
         df = pd.read_csv(log_file, sep=";")
 
         self.assertEqual("TIMEOUT", df['Event'][0])
+
+    def test_entities_1_sfc_request_placement(self):
+        """
+        Verify if the service if select multiple zones to place the vnfs
+        """
+        entities_file = "{}/config/entities_1_sfc_request_placement.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEEDSimulation(
+            env=simpy.Environment(),
+            config=config["simulation"],
+            environment=environment
+        )
+
+        # change the path where the simulation will save the logs.
+        new_log_path = "{}/logs/entities_1_sfc_request_placement/".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation.log.set_log_path(new_log_path)
+
+        simulation.run()
+
+        SimulationHelper.print_environment_topology(
+            environment=environment
+        )
+
+        log_file = "{}/{}".format(new_log_path, VNFSegmentLog.FILE_NAME)
+        df = pd.read_csv(log_file, sep=";")
 
