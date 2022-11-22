@@ -1,13 +1,15 @@
 [![Sim-Placement.png](https://i.postimg.cc/QCbCNFgf/Sim-Placement.png)](https://postimg.cc/fSVDBTrd)
 
-**SimPlacement**, a framework to simulate SFC and VNF management in 5G Multi-Domain environments.
+**SPEED - SFC Placement in Edge-Cloud environment a Distributed approach.**
+
+It is an implementation of the proposed approach to place SFC in tro a mu
 
 It provides a set of common entities. Each entity have a set of default parameters. You can define custom parameters
 for each entities.   
 
 # Usage 
 
-The SimPlacement documentation can be found at the 
+The SPEED documentation can be found at 
 <a href="https://anselmobattisti.github.io/SimPlacement/SimPlacement.html">hosted copy of the documentation</a>.  
 
 # Installation
@@ -22,8 +24,11 @@ source venv/bin/activate
 # install the packets
 pip install -r requirements.txt
 
-# install de component
+# install the component
 pip3 install -e .
+
+# install the SimPlacement
+pip3 install -e ../SimPlacement
 
 # leave the virtual environment
 deactivate
