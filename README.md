@@ -1,18 +1,17 @@
-[![Sim-Placement.png](https://i.postimg.cc/QCbCNFgf/Sim-Placement.png)](https://postimg.cc/fSVDBTrd)
+[//]: # ([![Sim-Placement.png]&#40;https://i.postimg.cc/QCbCNFgf/Sim-Placement.png&#41;]&#40;https://postimg.cc/fSVDBTrd&#41;)
 
-**SPEED - SFC Placement in Edge-Cloud environment a Distributed approach.**
+# SPEED 
 
-It is an implementation of the proposed approach to place SFC in tro a mu
+**SPEED**, SFC Placement in Edge-Cloud environment a Distributed approach.
 
-It provides a set of common entities. Each entity have a set of default parameters. You can define custom parameters
-for each entities.   
+Our proposed framework finds a suitable placement plan, if it exists, for a requested service based on the SFC requirements and the resources available in a multi-domain environment.
 
-# Usage 
+## Usage 
 
 The SPEED documentation can be found at 
 <a href="https://anselmobattisti.github.io/SimPlacement/SimPlacement.html">hosted copy of the documentation</a>.  
 
-# Installation
+## Installation
 
 ```shell
 # create the venv environment
@@ -34,20 +33,20 @@ pip3 install -e ../SimPlacement
 deactivate
 ```
  
-# Todo
+## Todo
 
-* [ ] Start the project.
+* [ ] Create the link between the zones selected.
 
-# Repositories
+## Repositories
 
 The main repo url:
 
-https://github.com/anselmobattisti/sped/
+https://github.com/anselmobattisti/speed/
 
-# Acknowledgements
+## Acknowledgements
 
 * Brazilian National Research and Educational Network (RNP), funds this project under "RNP  - OPEN RAN BRASIL FASE1"
 
-# Icons Used
+## Icons Used
 
 * <a href="https://www.flaticon.com/free-icons/network" title="network icons">Network icons created by Dreamstale - Flaticon</a>
