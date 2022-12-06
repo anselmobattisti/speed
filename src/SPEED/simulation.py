@@ -32,6 +32,7 @@ from SPEED.helpers.speed import SPEEDHelper
 from SPEED.helpers.distributed_service import DistributedServiceHelper
 from SPEED.logs.distributed_service import DistributedServiceLog
 from SPEED.logs.vnf_segment import VNFSegmentLog
+from SPEED.speed import SPEED
 
 
 class SPEEDSimulation:
@@ -391,8 +392,8 @@ class SPEEDSimulation:
         :param sfc_request: The service requested
         :param zone: The zone where the game is executed
         :param vnf_names: The name of the VNFs.
-        :param timeout: The delay between the distributed service component in the parent until the child
-        zone component.
+        :param timeout: The delay between the distributed service component (DSC) in the parent until the
+        DSC of the child zone component.
 
         :return:
         """
@@ -438,6 +439,7 @@ class SPEEDSimulation:
                 vnf_names=vnf_names
             )
 
+        # THIS IS THE GAME IMPLEMENTATION
         # Run the distributed placement to the other zones
         dsm: DistributedServiceManager = self.zdsm[zone.name]
 
@@ -448,7 +450,6 @@ class SPEEDSimulation:
 
         selected_segmentation_plan = dsm.speed.select_segmentation_plan(plans)
 
-        # This is the game implementation
         selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
 
         for child_zone_name, vnfs in selected_child_zones.items():
@@ -1055,6 +1056,10 @@ class SPEEDSimulation:
                         sfc_request_name=sfc_request_name,
                         zone_manager_name=zone.name
                     )
+
+                    # allocate the resources in the compute zones
+                    self.execute_placement(ds)
+
                 else:
                     if ds.dec_placement_timeout() == 0:
                         # SFC Request timeout
@@ -1064,6 +1069,39 @@ class SPEEDSimulation:
                             sfc_request_name=sfc_request_name,
                             zone_manager_name=zone.name
                         )
+
+    def execute_placement(self, ds: DistributedService) -> bool:
+        """
+        Execute the placement of the VNFs Segments at the nodes inside the selected compute zone.
+
+        :return:
+        """
+        placed = False
+        vnfs_per_zone = dict()
+        for vnf_name, zone_name in ds.vnf_zones.items():
+            if zone_name not in vnfs_per_zone.keys():
+                vnfs_per_zone[zone_name] = list()
+            vnfs_per_zone[zone_name].append(vnf_name)
+
+        for zone_name, vnf_names in vnfs_per_zone.items():
+            zone = self.zones[zone_name]
+            domain = self.domains[zone.domain_name]
+
+            for vnf_name in vnf_names:
+                vnf = self.environment['vnfs'][vnf_name]
+                nodes = domain.get_nodes_available(
+                    vnf=vnf
+                )
+                node = random.choice(nodes)
+                speed: SPEED = self.zdsm[zone_name].speed
+                vnf_instance_name = "{}_{}_{}_{}".format(speed.name, vnf_name, ds.sfc_request.name, random.randint(1, 1000))
+
+                vnf_instance = node.create_vnf_instance(
+                    name=vnf_instance_name,
+                    vnf_name=vnf_name
+                )
+
+        return placed
 
     def shutdown(self):
         """

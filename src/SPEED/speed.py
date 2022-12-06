@@ -12,17 +12,17 @@ from SPEED.types import AggregatedData
 
 class SPEED(Entity):
     """
-    This class represent the SPED component.
+    This class represent the SPEED component.
     """
 
     def __init__(self, name: str, zone_name: str, domain: Domain = None,
                  environment: dict = None, extra_parameters: dict = None):
         """
-        Create the SPED component.
+        Create the SPEED component.
 
-        :param name: The name of the SPED component.
-        :param zone_name: The name of the zone where the SPED is connected.
-        :param domain: The domain where the SPED is executed.
+        :param name: The name of the SPEED component.
+        :param zone_name: The name of the zone where the SPEED is connected.
+        :param domain: The domain where the SPEED is executed.
         :param environment: The environment, its an auxiliar info about the environment where the zone is executed.
         :param extra_parameters: Dict with extra parameters.
         """

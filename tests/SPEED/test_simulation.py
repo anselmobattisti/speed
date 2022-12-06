@@ -19,7 +19,7 @@ class SPEEDTest(unittest.TestCase):
 
     def test_entities_3_sfc_request_without_zone_manager(self):
         """
-        Test the simulation when a service request cannot have a zone manager
+        Test the simulation when a service request cannot have a zone manager.
         """
         entities_file = "{}/config/entities_3_sfc_request_without_zone_manager.yml".format(os.path.dirname(os.path.abspath(__file__)))
         zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
@@ -464,6 +464,46 @@ class SPEEDTest(unittest.TestCase):
     def test_entities_1_sfc_request_placement(self):
         """
         Verify if the service if select multiple zones to place the vnfs
+        """
+        entities_file = "{}/config/entities_1_sfc_request_placement.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEEDSimulation(
+            env=simpy.Environment(),
+            config=config["simulation"],
+            environment=environment
+        )
+
+        # change the path where the simulation will save the logs.
+        new_log_path = "{}/logs/entities_1_sfc_request_placement/".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation.log.set_log_path(new_log_path)
+
+        simulation.run()
+
+        SimulationHelper.print_environment_topology(
+            environment=environment
+        )
+
+        log_file = "{}/{}".format(new_log_path, VNFSegmentLog.FILE_NAME)
+        df = pd.read_csv(log_file, sep=";")
+
+    def test_entities_1_sfc_request_placement_resource_allocation(self):
+        """
+        Allocate the resource in the compute zone after the zone selection to execute the VNFs.
         """
         entities_file = "{}/config/entities_1_sfc_request_placement.yml".format(os.path.dirname(os.path.abspath(__file__)))
         zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
