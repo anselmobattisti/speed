@@ -1,681 +1,164 @@
 domains:
   dom_0:
     nodes:
-      - n_16
-      - n_37
-      - n_3
-      - n_44
-      - n_14
+      - n_8
+      - n_0
+      - n_36
+      - n_49
+      - n_41
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_1:
     nodes:
-      - n_6
-      - n_34
-      - n_33
-      - n_40
-      - n_25
+      - n_20
+      - n_3
+      - n_32
+      - n_38
+      - n_37
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_2:
     nodes:
-      - n_0
-      - n_43
-      - n_45
-      - n_19
-      - n_35
+      - n_22
+      - n_18
+      - n_15
+      - n_40
+      - n_5
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_3:
     nodes:
-      - n_1
+      - n_45
       - n_13
-      - n_17
+      - n_48
+      - n_9
       - n_31
-      - n_32
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_4:
     nodes:
-      - n_47
-      - n_49
-      - n_4
-      - n_23
+      - n_33
+      - n_43
+      - n_27
       - n_46
+      - n_6
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_5:
     nodes:
-      - n_7
-      - n_38
-      - n_28
-      - n_42
       - n_30
+      - n_4
+      - n_35
+      - n_24
+      - n_26
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_6:
     nodes:
-      - n_24
-      - n_15
-      - n_26
-      - n_20
-      - n_8
+      - n_16
+      - n_11
+      - n_44
+      - n_25
+      - n_29
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_7:
     nodes:
+      - n_19
+      - n_1
       - n_2
-      - n_18
-      - n_9
-      - n_48
-      - n_36
+      - n_7
+      - n_42
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_8:
     nodes:
-      - n_21
-      - n_39
+      - n_34
+      - n_47
+      - n_23
       - n_10
-      - n_29
-      - n_12
+      - n_14
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
   dom_9:
     nodes:
-      - n_5
-      - n_27
-      - n_22
-      - n_41
-      - n_11
+      - n_39
+      - n_21
+      - n_28
+      - n_17
+      - n_12
     placement:
       class_name: BasicShortestDelayPlacement
       module_name: SimPlacement.mano.placement.basic_delay
 links:
   l_1:
     bw: 100000
-    delay: 3
-    dst: n_44
+    delay: 2
+    dst: n_41
     extra_parameters:
       bandwidth_cost: 0.1
       bidirectional: true
       buffer_capacity: 100
-      buffer_cost: 0.2
+      buffer_cost: 0.1
       loss: 0.08
-    src: n_16
+    src: n_8
   l_10:
-    bw: 100000
-    delay: 2
-    dst: n_35
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_0
-  l_11:
-    bw: 200000
-    delay: 1
-    dst: n_43
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_0
-  l_12:
-    bw: 200000
-    delay: 1
-    dst: n_19
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_0
-  l_13:
-    bw: 100000
-    delay: 3
-    dst: n_35
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_43
-  l_14:
-    bw: 200000
-    delay: 1
-    dst: n_19
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_45
-  l_15:
-    bw: 200000
-    delay: 3
-    dst: n_35
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_19
-  l_16:
-    bw: 200000
-    delay: 2
-    dst: n_31
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_1
-  l_17:
-    bw: 200000
-    delay: 3
-    dst: n_13
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_1
-  l_18:
-    bw: 200000
-    delay: 1
-    dst: n_32
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_13
-  l_19:
-    bw: 500000
-    delay: 1
-    dst: n_32
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_17
-  l_2:
-    bw: 200000
-    delay: 3
-    dst: n_44
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_37
-  l_20:
-    bw: 200000
-    delay: 2
-    dst: n_32
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_31
-  l_21:
-    bw: 200000
-    delay: 1
-    dst: n_23
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_47
-  l_22:
-    bw: 200000
-    delay: 1
-    dst: n_23
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_49
-  l_23:
-    bw: 500000
-    delay: 1
-    dst: n_4
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_49
-  l_24:
-    bw: 100000
-    delay: 3
-    dst: n_23
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_4
-  l_25:
-    bw: 100000
-    delay: 2
-    dst: n_46
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_23
-  l_26:
-    bw: 500000
-    delay: 1
-    dst: n_42
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_7
-  l_27:
-    bw: 500000
-    delay: 3
-    dst: n_38
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_7
-  l_28:
-    bw: 100000
-    delay: 1
-    dst: n_28
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_7
-  l_29:
     bw: 500000
     delay: 2
-    dst: n_42
+    dst: n_37
     extra_parameters:
       bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_38
-  l_3:
-    bw: 200000
-    delay: 1
-    dst: n_3
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_37
-  l_30:
-    bw: 100000
-    delay: 3
-    dst: n_30
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_28
-  l_31:
-    bw: 200000
-    delay: 3
-    dst: n_30
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_42
-  l_32:
-    bw: 500000
-    delay: 3
-    dst: n_20
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_24
-  l_33:
-    bw: 100000
-    delay: 2
-    dst: n_15
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_24
-  l_34:
-    bw: 500000
-    delay: 2
-    dst: n_20
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_15
-  l_35:
-    bw: 500000
-    delay: 3
-    dst: n_8
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_15
-  l_36:
-    bw: 100000
-    delay: 3
-    dst: n_20
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_26
-  l_37:
-    bw: 100000
-    delay: 1
-    dst: n_8
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_20
-  l_38:
-    bw: 500000
-    delay: 1
-    dst: n_18
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_2
-  l_39:
-    bw: 500000
-    delay: 2
-    dst: n_36
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_2
-  l_4:
-    bw: 200000
-    delay: 3
-    dst: n_14
-    extra_parameters:
-      bandwidth_cost: 0.2
       bidirectional: true
       buffer_capacity: 200
       buffer_cost: 0.2
       loss: 0.1
     src: n_3
-  l_40:
-    bw: 500000
-    delay: 1
-    dst: n_9
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_18
-  l_41:
-    bw: 500000
-    delay: 1
-    dst: n_48
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_18
-  l_42:
-    bw: 200000
-    delay: 2
-    dst: n_36
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_18
-  l_43:
+  l_11:
     bw: 200000
     delay: 3
-    dst: n_48
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_9
-  l_44:
-    bw: 500000
-    delay: 1
-    dst: n_36
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_48
-  l_45:
-    bw: 200000
-    delay: 1
-    dst: n_10
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_21
-  l_46:
-    bw: 100000
-    delay: 2
-    dst: n_39
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_21
-  l_47:
-    bw: 100000
-    delay: 2
-    dst: n_12
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_21
-  l_48:
-    bw: 200000
-    delay: 1
-    dst: n_10
+    dst: n_38
     extra_parameters:
       bandwidth_cost: 0.2
       bidirectional: true
       buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_39
-  l_49:
-    bw: 500000
-    delay: 2
-    dst: n_29
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_39
-  l_5:
-    bw: 100000
-    delay: 2
-    dst: n_14
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_44
-  l_50:
-    bw: 100000
-    delay: 2
-    dst: n_12
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_39
-  l_51:
-    bw: 500000
-    delay: 3
-    dst: n_12
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_10
-  l_52:
-    bw: 100000
-    delay: 2
-    dst: n_12
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
       buffer_cost: 0.2
-      loss: 0.08
-    src: n_29
-  l_53:
-    bw: 200000
-    delay: 2
-    dst: n_41
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_5
-  l_54:
-    bw: 500000
-    delay: 1
-    dst: n_27
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_5
-  l_55:
-    bw: 200000
-    delay: 3
-    dst: n_11
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
       loss: 0.1
-    src: n_27
-  l_56:
+    src: n_32
+  l_12:
     bw: 100000
     delay: 3
-    dst: n_41
+    dst: n_37
     extra_parameters:
-      bandwidth_cost: 0.1
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_38
+  l_13:
+    bw: 500000
+    delay: 2
+    dst: n_15
+    extra_parameters:
+      bandwidth_cost: 0.2
       bidirectional: true
       buffer_capacity: 100
       buffer_cost: 0.1
       loss: 0.1
-    src: n_27
-  l_57:
-    bw: 200000
-    delay: 2
-    dst: n_11
+    src: n_22
+  l_14:
+    bw: 100000
+    delay: 3
+    dst: n_40
     extra_parameters:
       bandwidth_cost: 0.1
       bidirectional: true
@@ -683,32 +166,604 @@ links:
       buffer_cost: 0.2
       loss: 0.08
     src: n_22
-  l_58:
-    bw: 500000
-    delay: 1
-    dst: n_11
+  l_15:
+    bw: 200000
+    delay: 2
+    dst: n_15
     extra_parameters:
       bandwidth_cost: 0.2
       bidirectional: true
       buffer_capacity: 200
       buffer_cost: 0.2
       loss: 0.08
-    src: n_41
-  l_59:
-    bw: 100000
+    src: n_18
+  l_16:
+    bw: 500000
     delay: 1
-    dst: n_45
+    dst: n_5
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_15
+  l_17:
+    bw: 100000
+    delay: 3
+    dst: n_40
     extra_parameters:
       bandwidth_cost: 0.1
       bidirectional: true
       buffer_capacity: 200
       buffer_cost: 0.1
       loss: 0.1
+    src: n_15
+  l_18:
+    bw: 500000
+    delay: 1
+    dst: n_5
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_40
+  l_19:
+    bw: 500000
+    delay: 3
+    dst: n_9
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_45
+  l_2:
+    bw: 500000
+    delay: 3
+    dst: n_49
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_0
+  l_20:
+    bw: 200000
+    delay: 2
+    dst: n_31
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_13
+  l_21:
+    bw: 500000
+    delay: 3
+    dst: n_9
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_48
+  l_22:
+    bw: 100000
+    delay: 3
+    dst: n_31
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_48
+  l_23:
+    bw: 200000
+    delay: 3
+    dst: n_31
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_9
+  l_24:
+    bw: 200000
+    delay: 2
+    dst: n_43
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_33
+  l_25:
+    bw: 500000
+    delay: 3
+    dst: n_46
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_33
+  l_26:
+    bw: 200000
+    delay: 1
+    dst: n_6
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_33
+  l_27:
+    bw: 100000
+    delay: 1
+    dst: n_6
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_43
+  l_28:
+    bw: 100000
+    delay: 3
+    dst: n_27
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_43
+  l_29:
+    bw: 500000
+    delay: 1
+    dst: n_46
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_27
+  l_3:
+    bw: 200000
+    delay: 1
+    dst: n_41
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_36
+  l_30:
+    bw: 100000
+    delay: 2
+    dst: n_6
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_46
+  l_31:
+    bw: 500000
+    delay: 1
+    dst: n_35
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_30
+  l_32:
+    bw: 200000
+    delay: 2
+    dst: n_26
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_30
+  l_33:
+    bw: 200000
+    delay: 3
+    dst: n_26
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_4
+  l_34:
+    bw: 500000
+    delay: 1
+    dst: n_35
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_4
+  l_35:
+    bw: 500000
+    delay: 1
+    dst: n_24
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_35
+  l_36:
+    bw: 500000
+    delay: 1
+    dst: n_26
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_35
+  l_37:
+    bw: 500000
+    delay: 2
+    dst: n_26
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_24
+  l_38:
+    bw: 200000
+    delay: 2
+    dst: n_29
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
     src: n_16
-  l_6:
+  l_39:
+    bw: 200000
+    delay: 1
+    dst: n_11
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_16
+  l_4:
+    bw: 200000
+    delay: 3
+    dst: n_49
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_36
+  l_40:
+    bw: 200000
+    delay: 2
+    dst: n_44
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_16
+  l_41:
     bw: 500000
     delay: 1
     dst: n_25
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_16
+  l_42:
+    bw: 500000
+    delay: 2
+    dst: n_44
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_11
+  l_43:
+    bw: 200000
+    delay: 1
+    dst: n_29
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_44
+  l_44:
+    bw: 100000
+    delay: 3
+    dst: n_29
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_25
+  l_45:
+    bw: 100000
+    delay: 2
+    dst: n_7
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_19
+  l_46:
+    bw: 100000
+    delay: 3
+    dst: n_7
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_1
+  l_47:
+    bw: 200000
+    delay: 2
+    dst: n_7
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_2
+  l_48:
+    bw: 500000
+    delay: 1
+    dst: n_42
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_2
+  l_49:
+    bw: 100000
+    delay: 2
+    dst: n_42
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_7
+  l_5:
+    bw: 200000
+    delay: 1
+    dst: n_41
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_49
+  l_50:
+    bw: 200000
+    delay: 1
+    dst: n_47
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_34
+  l_51:
+    bw: 200000
+    delay: 2
+    dst: n_23
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_47
+  l_52:
+    bw: 100000
+    delay: 2
+    dst: n_10
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_23
+  l_53:
+    bw: 500000
+    delay: 1
+    dst: n_14
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_10
+  l_54:
+    bw: 500000
+    delay: 2
+    dst: n_21
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_39
+  l_55:
+    bw: 500000
+    delay: 1
+    dst: n_12
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_39
+  l_56:
+    bw: 500000
+    delay: 2
+    dst: n_12
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_21
+  l_57:
+    bw: 100000
+    delay: 1
+    dst: n_17
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_21
+  l_58:
+    bw: 100000
+    delay: 2
+    dst: n_12
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_28
+  l_59:
+    bw: 200000
+    delay: 3
+    dst: n_12
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_17
+  l_6:
+    bw: 100000
+    delay: 2
+    dst: n_3
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_20
+  l_60:
+    bw: 200000
+    delay: 2
+    dst: n_22
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.1
+      loss: 0.08
+    src: n_41
+  l_61:
+    bw: 200000
+    delay: 2
+    dst: n_6
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_3
+  l_62:
+    bw: 500000
+    delay: 1
+    dst: n_30
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.1
+      loss: 0.1
+    src: n_22
+  l_63:
+    bw: 500000
+    delay: 3
+    dst: n_30
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_31
+  l_64:
+    bw: 200000
+    delay: 2
+    dst: n_1
     extra_parameters:
       bandwidth_cost: 0.1
       bidirectional: true
@@ -716,157 +771,124 @@ links:
       buffer_cost: 0.1
       loss: 0.1
     src: n_6
-  l_60:
-    bw: 200000
-    delay: 3
-    dst: n_5
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_34
-  l_61:
-    bw: 500000
-    delay: 3
-    dst: n_7
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_45
-  l_62:
-    bw: 500000
-    delay: 2
-    dst: n_26
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_1
-  l_63:
-    bw: 500000
-    delay: 2
-    dst: n_7
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.1
-    src: n_4
-  l_64:
-    bw: 200000
-    delay: 2
-    dst: n_26
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.1
-    src: n_7
   l_65:
-    bw: 500000
-    delay: 1
-    dst: n_5
+    bw: 100000
+    delay: 2
+    dst: n_30
     extra_parameters:
-      bandwidth_cost: 0.2
+      bandwidth_cost: 0.1
       bidirectional: true
-      buffer_capacity: 100
+      buffer_capacity: 200
       buffer_cost: 0.2
-      loss: 0.08
-    src: n_26
+      loss: 0.1
+    src: n_6
   l_66:
     bw: 200000
     delay: 2
-    dst: n_12
+    dst: n_17
     extra_parameters:
-      bandwidth_cost: 0.1
+      bandwidth_cost: 0.2
       bidirectional: true
-      buffer_capacity: 200
+      buffer_capacity: 100
       buffer_cost: 0.2
-      loss: 0.1
-    src: n_18
+      loss: 0.08
+    src: n_30
   l_67:
-    bw: 500000
-    delay: 1
-    dst: n_5
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_12
-  l_7:
-    bw: 200000
-    delay: 2
-    dst: n_33
-    extra_parameters:
-      bandwidth_cost: 0.2
-      bidirectional: true
-      buffer_capacity: 200
-      buffer_cost: 0.2
-      loss: 0.08
-    src: n_34
-  l_8:
-    bw: 200000
-    delay: 2
-    dst: n_25
-    extra_parameters:
-      bandwidth_cost: 0.1
-      bidirectional: true
-      buffer_capacity: 100
-      buffer_cost: 0.1
-      loss: 0.08
-    src: n_33
-  l_9:
     bw: 100000
     delay: 3
-    dst: n_25
+    dst: n_1
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_29
+  l_68:
+    bw: 500000
+    delay: 1
+    dst: n_23
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 100
+      buffer_cost: 0.2
+      loss: 0.08
+    src: n_1
+  l_69:
+    bw: 100000
+    delay: 2
+    dst: n_17
     extra_parameters:
       bandwidth_cost: 0.2
       bidirectional: true
       buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_23
+  l_7:
+    bw: 200000
+    delay: 3
+    dst: n_32
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_20
+  l_8:
+    bw: 100000
+    delay: 3
+    dst: n_38
+    extra_parameters:
+      bandwidth_cost: 0.2
+      bidirectional: true
+      buffer_capacity: 200
+      buffer_cost: 0.2
+      loss: 0.1
+    src: n_20
+  l_9:
+    bw: 200000
+    delay: 2
+    dst: n_37
+    extra_parameters:
+      bandwidth_cost: 0.1
+      bidirectional: true
+      buffer_capacity: 200
       buffer_cost: 0.1
       loss: 0.1
-    src: n_40
+    src: n_20
 nodes:
   n_0:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.2
-      disk_capacity: 1000
-      disk_cost: 1
-      mem_cost: 0.2
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_1
-      - v_0
-      - v_2
-  n_1:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.1
       disk_capacity: 1000
       disk_cost: 1
-      mem_cost: 0.3
+      mem_cost: 0.2
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_15
+      - v_6
+      - v_9
+  n_1:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.2
+      disk_capacity: 1000
+      disk_cost: 0.5
+      mem_cost: 0.2
     mem: 5000
     type: gateway
   n_10:
     cpu: 5000
     extra_parameters:
       cost: 300
-      cpu_cost: 0.2
+      cpu_cost: 0.1
       disk_capacity: 1000
       disk_cost: 0.5
       mem_cost: 0.2
@@ -874,12 +896,12 @@ nodes:
     type: compute
     vnfs:
       - v_2
-      - v_0
-      - v_1
+      - v_6
+      - v_14
   n_11:
     cpu: 5000
     extra_parameters:
-      cost: 300
+      cost: 200
       cpu_cost: 0.2
       disk_capacity: 1500
       disk_cost: 0.5
@@ -887,68 +909,66 @@ nodes:
     mem: 5000
     type: compute
     vnfs:
-      - v_1
-      - v_2
-      - v_0
+      - v_6
+      - v_3
+      - v_16
   n_12:
     cpu: 5000
     extra_parameters:
       cost: 200
-      cpu_cost: 0.1
-      disk_capacity: 1000
+      cpu_cost: 0.2
+      disk_capacity: 1500
       disk_cost: 1
       mem_cost: 0.3
     mem: 5000
-    type: gateway
+    type: compute
+    vnfs:
+      - v_17
+      - v_10
+      - v_15
   n_13:
     cpu: 5000
     extra_parameters:
       cost: 200
-      cpu_cost: 0.1
-      disk_capacity: 1500
-      disk_cost: 0.5
-      mem_cost: 0.2
+      cpu_cost: 0.2
+      disk_capacity: 1000
+      disk_cost: 1
+      mem_cost: 0.3
     mem: 5000
-    type: access
+    type: compute
+    vnfs:
+      - v_17
+      - v_10
+      - v_14
   n_14:
     cpu: 5000
     extra_parameters:
       cost: 200
-      cpu_cost: 0.1
-      disk_capacity: 1500
+      cpu_cost: 0.2
+      disk_capacity: 1000
       disk_cost: 0.5
-      mem_cost: 0.2
+      mem_cost: 0.3
     mem: 5000
     type: compute
     vnfs:
-      - v_0
-      - v_2
-      - v_1
+      - v_8
+      - v_11
+      - v_4
   n_15:
     cpu: 5000
     extra_parameters:
       cost: 200
       cpu_cost: 0.2
-      disk_capacity: 1000
-      disk_cost: 1
-      mem_cost: 0.3
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_2
-      - v_0
-      - v_1
-  n_16:
-    cpu: 5000
-    extra_parameters:
-      cost: 300
-      cpu_cost: 0.2
-      disk_capacity: 1000
+      disk_capacity: 1500
       disk_cost: 1
       mem_cost: 0.2
     mem: 5000
-    type: gateway
-  n_17:
+    type: compute
+    vnfs:
+      - v_15
+      - v_14
+      - v_17
+  n_16:
     cpu: 5000
     extra_parameters:
       cost: 300
@@ -959,47 +979,65 @@ nodes:
     mem: 5000
     type: compute
     vnfs:
-      - v_0
-      - v_2
-      - v_1
-  n_18:
+      - v_5
+      - v_7
+      - v_10
+  n_17:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.2
       disk_capacity: 1000
-      disk_cost: 0.5
-      mem_cost: 0.2
+      disk_cost: 1
+      mem_cost: 0.3
     mem: 5000
     type: gateway
+  n_18:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.2
+      disk_capacity: 1000
+      disk_cost: 1
+      mem_cost: 0.2
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_5
+      - v_13
+      - v_17
   n_19:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.2
-      disk_capacity: 1000
-      disk_cost: 0.5
-      mem_cost: 0.2
-    mem: 5000
-    type: access
-  n_2:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.1
       disk_capacity: 1500
-      disk_cost: 1
+      disk_cost: 0.5
       mem_cost: 0.3
     mem: 5000
     type: compute
     vnfs:
-      - v_2
-      - v_1
-      - v_0
-  n_20:
+      - v_9
+      - v_8
+      - v_19
+  n_2:
     cpu: 5000
     extra_parameters:
       cost: 300
+      cpu_cost: 0.2
+      disk_capacity: 1000
+      disk_cost: 0.5
+      mem_cost: 0.2
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_18
+      - v_4
+      - v_7
+  n_20:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
       cpu_cost: 0.2
       disk_capacity: 1000
       disk_cost: 1
@@ -1007,80 +1045,24 @@ nodes:
     mem: 5000
     type: compute
     vnfs:
-      - v_2
-      - v_1
-      - v_0
+      - v_7
+      - v_3
+      - v_17
   n_21:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.1
-      disk_capacity: 1000
+      disk_capacity: 1500
       disk_cost: 0.5
       mem_cost: 0.2
     mem: 5000
     type: compute
     vnfs:
       - v_0
-      - v_1
-      - v_2
+      - v_11
+      - v_8
   n_22:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.2
-      disk_capacity: 1500
-      disk_cost: 1
-      mem_cost: 0.2
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_2
-      - v_0
-      - v_1
-  n_23:
-    cpu: 5000
-    extra_parameters:
-      cost: 300
-      cpu_cost: 0.1
-      disk_capacity: 1500
-      disk_cost: 0.5
-      mem_cost: 0.3
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_1
-      - v_2
-      - v_0
-  n_24:
-    cpu: 5000
-    extra_parameters:
-      cost: 300
-      cpu_cost: 0.2
-      disk_capacity: 1000
-      disk_cost: 0.5
-      mem_cost: 0.3
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_1
-      - v_2
-      - v_0
-  n_25:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.2
-      disk_capacity: 1500
-      disk_cost: 0.5
-      mem_cost: 0.2
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_2
-      - v_1
-      - v_0
-  n_26:
     cpu: 5000
     extra_parameters:
       cost: 200
@@ -1090,145 +1072,213 @@ nodes:
       mem_cost: 0.3
     mem: 5000
     type: gateway
-  n_27:
+  n_23:
+    cpu: 5000
+    extra_parameters:
+      cost: 300
+      cpu_cost: 0.2
+      disk_capacity: 1000
+      disk_cost: 0.5
+      mem_cost: 0.3
+    mem: 5000
+    type: gateway
+  n_24:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.1
+      disk_capacity: 1500
+      disk_cost: 0.5
+      mem_cost: 0.3
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_3
+      - v_5
+      - v_11
+  n_25:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.2
       disk_capacity: 1500
-      disk_cost: 1
+      disk_cost: 0.5
       mem_cost: 0.2
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_6
+      - v_7
+      - v_4
+  n_26:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.2
+      disk_capacity: 1500
+      disk_cost: 1
+      mem_cost: 0.3
+    mem: 5000
+    type: access
+  n_27:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.1
+      disk_capacity: 1000
+      disk_cost: 1
+      mem_cost: 0.3
     mem: 5000
     type: access
   n_28:
     cpu: 5000
     extra_parameters:
       cost: 200
-      cpu_cost: 0.1
+      cpu_cost: 0.2
       disk_capacity: 1500
-      disk_cost: 1
+      disk_cost: 0.5
       mem_cost: 0.3
     mem: 5000
-    type: access
+    type: compute
+    vnfs:
+      - v_13
+      - v_9
+      - v_10
   n_29:
     cpu: 5000
     extra_parameters:
-      cost: 200
+      cost: 300
       cpu_cost: 0.1
       disk_capacity: 1000
       disk_cost: 0.5
-      mem_cost: 0.2
+      mem_cost: 0.3
     mem: 5000
-    type: access
+    type: gateway
   n_3:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.2
+      disk_capacity: 1000
+      disk_cost: 0.5
+      mem_cost: 0.2
+    mem: 5000
+    type: gateway
+  n_30:
+    cpu: 5000
+    extra_parameters:
+      cost: 300
+      cpu_cost: 0.1
+      disk_capacity: 1500
+      disk_cost: 0.5
+      mem_cost: 0.2
+    mem: 5000
+    type: gateway
+  n_31:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.2
       disk_capacity: 1500
       disk_cost: 1
       mem_cost: 0.3
     mem: 5000
-    type: compute
-    vnfs:
-      - v_0
-      - v_1
-      - v_2
-  n_30:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.1
-      disk_capacity: 1000
-      disk_cost: 0.5
-      mem_cost: 0.3
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_2
-      - v_1
-      - v_0
-  n_31:
+    type: gateway
+  n_32:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.2
-      disk_capacity: 1500
-      disk_cost: 0.5
-      mem_cost: 0.2
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_2
-      - v_1
-      - v_0
-  n_32:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.1
       disk_capacity: 1000
       disk_cost: 1
-      mem_cost: 0.2
+      mem_cost: 0.3
     mem: 5000
     type: compute
     vnfs:
-      - v_0
-      - v_2
-      - v_1
+      - v_17
+      - v_13
+      - v_5
   n_33:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.2
-      disk_capacity: 1000
+      disk_capacity: 1500
       disk_cost: 0.5
       mem_cost: 0.3
     mem: 5000
     type: compute
     vnfs:
-      - v_2
-      - v_0
-      - v_1
+      - v_8
+      - v_10
+      - v_13
   n_34:
     cpu: 5000
     extra_parameters:
       cost: 300
-      cpu_cost: 0.2
-      disk_capacity: 1000
-      disk_cost: 1
-      mem_cost: 0.2
-    mem: 5000
-    type: gateway
-  n_35:
-    cpu: 5000
-    extra_parameters:
-      cost: 300
       cpu_cost: 0.1
-      disk_capacity: 1000
+      disk_capacity: 1500
       disk_cost: 1
       mem_cost: 0.2
     mem: 5000
     type: compute
     vnfs:
-      - v_1
-      - v_0
-      - v_2
+      - v_15
+      - v_3
+      - v_13
+  n_35:
+    cpu: 5000
+    extra_parameters:
+      cost: 300
+      cpu_cost: 0.1
+      disk_capacity: 1500
+      disk_cost: 1
+      mem_cost: 0.2
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_12
+      - v_10
+      - v_11
   n_36:
     cpu: 5000
     extra_parameters:
       cost: 200
-      cpu_cost: 0.1
+      cpu_cost: 0.2
       disk_capacity: 1000
       disk_cost: 1
       mem_cost: 0.3
     mem: 5000
     type: compute
     vnfs:
-      - v_1
-      - v_2
-      - v_0
+      - v_3
+      - v_7
+      - v_13
   n_37:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.2
+      disk_capacity: 1500
+      disk_cost: 1
+      mem_cost: 0.3
+    mem: 5000
+    type: access
+  n_38:
+    cpu: 5000
+    extra_parameters:
+      cost: 300
+      cpu_cost: 0.1
+      disk_capacity: 1500
+      disk_cost: 0.5
+      mem_cost: 0.2
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_7
+      - v_17
+      - v_3
+  n_39:
     cpu: 5000
     extra_parameters:
       cost: 200
@@ -1239,27 +1289,27 @@ nodes:
     mem: 5000
     type: compute
     vnfs:
-      - v_1
-      - v_0
       - v_2
-  n_38:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.2
-      disk_capacity: 1000
-      disk_cost: 1
-      mem_cost: 0.2
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_1
-      - v_0
-      - v_2
-  n_39:
+      - v_11
+      - v_6
+  n_4:
     cpu: 5000
     extra_parameters:
       cost: 300
+      cpu_cost: 0.2
+      disk_capacity: 1500
+      disk_cost: 0.5
+      mem_cost: 0.3
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_14
+      - v_13
+      - v_6
+  n_40:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
       cpu_cost: 0.2
       disk_capacity: 1000
       disk_cost: 0.5
@@ -1267,33 +1317,9 @@ nodes:
     mem: 5000
     type: compute
     vnfs:
-      - v_1
-      - v_2
-      - v_0
-  n_4:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.1
-      disk_capacity: 1000
-      disk_cost: 1
-      mem_cost: 0.3
-    mem: 5000
-    type: gateway
-  n_40:
-    cpu: 5000
-    extra_parameters:
-      cost: 300
-      cpu_cost: 0.1
-      disk_capacity: 1000
-      disk_cost: 1
-      mem_cost: 0.3
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_2
-      - v_0
-      - v_1
+      - v_6
+      - v_13
+      - v_4
   n_41:
     cpu: 5000
     extra_parameters:
@@ -1301,113 +1327,109 @@ nodes:
       cpu_cost: 0.1
       disk_capacity: 1500
       disk_cost: 1
+      mem_cost: 0.2
+    mem: 5000
+    type: gateway
+  n_42:
+    cpu: 5000
+    extra_parameters:
+      cost: 300
+      cpu_cost: 0.1
+      disk_capacity: 1500
+      disk_cost: 0.5
       mem_cost: 0.3
     mem: 5000
-    type: compute
-    vnfs:
-      - v_2
-      - v_1
-      - v_0
-  n_42:
+    type: access
+  n_43:
     cpu: 5000
     extra_parameters:
       cost: 200
       cpu_cost: 0.1
       disk_capacity: 1500
-      disk_cost: 1
-      mem_cost: 0.3
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_1
-      - v_2
-      - v_0
-  n_43:
-    cpu: 5000
-    extra_parameters:
-      cost: 200
-      cpu_cost: 0.2
-      disk_capacity: 1000
       disk_cost: 0.5
-      mem_cost: 0.3
+      mem_cost: 0.2
     mem: 5000
     type: compute
     vnfs:
-      - v_0
-      - v_1
       - v_2
+      - v_8
+      - v_18
   n_44:
     cpu: 5000
     extra_parameters:
       cost: 200
       cpu_cost: 0.2
-      disk_capacity: 1000
-      disk_cost: 0.5
-      mem_cost: 0.2
-    mem: 5000
-    type: compute
-    vnfs:
-      - v_0
-      - v_2
-      - v_1
-  n_45:
-    cpu: 5000
-    extra_parameters:
-      cost: 300
-      cpu_cost: 0.2
       disk_capacity: 1500
-      disk_cost: 0.5
-      mem_cost: 0.2
-    mem: 5000
-    type: gateway
-  n_46:
-    cpu: 5000
-    extra_parameters:
-      cost: 300
-      cpu_cost: 0.1
-      disk_capacity: 1000
       disk_cost: 0.5
       mem_cost: 0.3
     mem: 5000
+    type: access
+  n_45:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.2
+      disk_capacity: 1500
+      disk_cost: 1
+      mem_cost: 0.2
+    mem: 5000
     type: compute
     vnfs:
-      - v_0
-      - v_2
-      - v_1
+      - v_12
+      - v_9
+      - v_10
+  n_46:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.1
+      disk_capacity: 1000
+      disk_cost: 1
+      mem_cost: 0.2
+    mem: 5000
+    type: compute
+    vnfs:
+      - v_7
+      - v_18
+      - v_13
   n_47:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.1
-      disk_capacity: 1500
+      disk_capacity: 1000
       disk_cost: 1
-      mem_cost: 0.3
+      mem_cost: 0.2
     mem: 5000
-    type: access
+    type: compute
+    vnfs:
+      - v_1
+      - v_4
+      - v_14
   n_48:
     cpu: 5000
     extra_parameters:
       cost: 300
-      cpu_cost: 0.2
+      cpu_cost: 0.1
       disk_capacity: 1500
-      disk_cost: 1
+      disk_cost: 0.5
       mem_cost: 0.2
     mem: 5000
     type: access
   n_49:
     cpu: 5000
     extra_parameters:
-      cost: 200
-      cpu_cost: 0.1
+      cost: 300
+      cpu_cost: 0.2
       disk_capacity: 1000
       disk_cost: 0.5
       mem_cost: 0.3
     mem: 5000
     type: compute
     vnfs:
-      - v_0
+      - v_9
+      - v_3
       - v_2
-      - v_1
   n_5:
     cpu: 5000
     extra_parameters:
@@ -1417,8 +1439,22 @@ nodes:
       disk_cost: 1
       mem_cost: 0.3
     mem: 5000
-    type: gateway
+    type: compute
+    vnfs:
+      - v_7
+      - v_10
+      - v_12
   n_6:
+    cpu: 5000
+    extra_parameters:
+      cost: 200
+      cpu_cost: 0.1
+      disk_capacity: 1500
+      disk_cost: 0.5
+      mem_cost: 0.2
+    mem: 5000
+    type: gateway
+  n_7:
     cpu: 5000
     extra_parameters:
       cost: 200
@@ -1429,209 +1465,235 @@ nodes:
     mem: 5000
     type: compute
     vnfs:
-      - v_1
       - v_0
-      - v_2
-  n_7:
-    cpu: 5000
-    extra_parameters:
-      cost: 300
-      cpu_cost: 0.1
-      disk_capacity: 1000
-      disk_cost: 1
-      mem_cost: 0.2
-    mem: 5000
-    type: gateway
+      - v_16
+      - v_7
   n_8:
     cpu: 5000
     extra_parameters:
       cost: 200
       cpu_cost: 0.2
       disk_capacity: 1000
-      disk_cost: 0.5
-      mem_cost: 0.2
+      disk_cost: 1
+      mem_cost: 0.3
     mem: 5000
-    type: compute
-    vnfs:
-      - v_0
-      - v_2
-      - v_1
+    type: access
   n_9:
     cpu: 5000
     extra_parameters:
       cost: 300
       cpu_cost: 0.2
       disk_capacity: 1000
-      disk_cost: 0.5
+      disk_cost: 1
       mem_cost: 0.2
     mem: 5000
     type: compute
     vnfs:
       - v_2
-      - v_0
-      - v_1
+      - v_8
+      - v_4
 sfc_requests:
   sr_0:
-    arrival: 3000
-    dst: n_11
-    sfc: sfc_3
-    src: n_6
-    ue: ue_0
+    arrival: 7000
+    dst: n_14
+    sfc: sfc_6
+    src: n_10
+    ue: ue_1
   sr_1:
-    arrival: 2000
-    dst: n_33
-    sfc: sfc_4
-    src: n_22
-    ue: ue_0
+    arrival: 4000
+    dst: n_13
+    sfc: sfc_6
+    src: n_43
+    ue: ue_4
   sr_10:
-    arrival: 0
-    dst: n_17
-    sfc: sfc_1
-    src: n_41
-    ue: ue_0
+    arrival: 3000
+    dst: n_12
+    sfc: sfc_3
+    src: n_45
+    ue: ue_4
   sr_11:
     arrival: 0
-    dst: n_0
-    sfc: sfc_4
-    src: n_46
+    dst: n_33
+    sfc: sfc_2
+    src: n_43
     ue: ue_4
   sr_12:
     arrival: 7000
-    dst: n_17
-    sfc: sfc_0
-    src: n_25
-    ue: ue_1
+    dst: n_36
+    sfc: sfc_7
+    src: n_46
+    ue: ue_2
   sr_13:
-    arrival: 6000
-    dst: n_14
-    sfc: sfc_1
-    src: n_2
-    ue: ue_1
-  sr_14:
-    arrival: 8000
-    dst: n_22
+    arrival: 0
+    dst: n_11
     sfc: sfc_2
-    src: n_14
-    ue: ue_4
-  sr_15:
+    src: n_4
+    ue: ue_2
+  sr_14:
     arrival: 5000
-    dst: n_40
-    sfc: sfc_3
-    src: n_44
+    dst: n_25
+    sfc: sfc_6
+    src: n_15
+    ue: ue_2
+  sr_15:
+    arrival: 6000
+    dst: n_25
+    sfc: sfc_1
+    src: n_19
     ue: ue_0
   sr_16:
-    arrival: 4000
-    dst: n_44
-    sfc: sfc_2
-    src: n_41
-    ue: ue_3
+    arrival: 3000
+    dst: n_45
+    sfc: sfc_7
+    src: n_21
+    ue: ue_4
   sr_17:
-    arrival: 6000
-    dst: n_23
-    sfc: sfc_2
-    src: n_11
-    ue: ue_0
+    arrival: 4000
+    dst: n_47
+    sfc: sfc_1
+    src: n_45
+    ue: ue_2
   sr_18:
-    arrival: 8000
+    arrival: 6000
     dst: n_49
-    sfc: sfc_4
-    src: n_9
-    ue: ue_0
+    sfc: sfc_6
+    src: n_38
+    ue: ue_1
   sr_19:
     arrival: 2000
-    dst: n_33
-    sfc: sfc_1
-    src: n_30
-    ue: ue_0
-  sr_2:
-    arrival: 7000
-    dst: n_11
-    sfc: sfc_4
-    src: n_36
-    ue: ue_3
-  sr_3:
-    arrival: 4000
-    dst: n_32
-    sfc: sfc_1
-    src: n_36
-    ue: ue_2
-  sr_4:
-    arrival: 6000
-    dst: n_49
+    dst: n_5
     sfc: sfc_0
-    src: n_15
+    src: n_24
+    ue: ue_3
+  sr_2:
+    arrival: 0
+    dst: n_40
+    sfc: sfc_7
+    src: n_5
+    ue: ue_2
+  sr_3:
+    arrival: 5000
+    dst: n_34
+    sfc: sfc_4
+    src: n_38
+    ue: ue_3
+  sr_4:
+    arrival: 8000
+    dst: n_49
+    sfc: sfc_5
+    src: n_32
     ue: ue_4
   sr_5:
-    arrival: 1000
-    dst: n_49
-    sfc: sfc_4
-    src: n_33
+    arrival: 9000
+    dst: n_7
+    sfc: sfc_0
+    src: n_35
     ue: ue_0
   sr_6:
-    arrival: 5000
-    dst: n_24
-    sfc: sfc_4
-    src: n_36
+    arrival: 6000
+    dst: n_38
+    sfc: sfc_6
+    src: n_21
     ue: ue_0
   sr_7:
-    arrival: 8000
-    dst: n_44
-    sfc: sfc_2
-    src: n_44
-    ue: ue_2
+    arrival: 7000
+    dst: n_20
+    sfc: sfc_7
+    src: n_16
+    ue: ue_4
   sr_8:
-    arrival: 3000
-    dst: n_32
-    sfc: sfc_3
-    src: n_23
-    ue: ue_2
+    arrival: 6000
+    dst: n_14
+    sfc: sfc_0
+    src: n_33
+    ue: ue_3
   sr_9:
-    arrival: 3000
-    dst: n_11
-    sfc: sfc_4
-    src: n_20
-    ue: ue_2
+    arrival: 6000
+    dst: n_32
+    sfc: sfc_5
+    src: n_2
+    ue: ue_1
 sfcs:
   sfc_0:
-    max_delay: 50
-    required_bw: 10
-    timeout: 10000
-    vnfs:
-      - v_0
-      - v_1
-      - v_2
-  sfc_1:
     max_delay: 50
     required_bw: 90
     timeout: 10000
     vnfs:
-      - v_2
-      - v_0
-      - v_1
+      - v_9
+      - v_6
+      - v_8
+  sfc_1:
+    max_delay: 50
+    required_bw: 10
+    timeout: 10000
+    vnfs:
+      - v_6
+      - v_13
+      - v_5
   sfc_2:
     max_delay: 50
     required_bw: 90
     timeout: 10000
     vnfs:
-      - v_1
-      - v_2
+      - v_5
       - v_0
+      - v_8
   sfc_3:
-    max_delay: 50
-    required_bw: 10
-    timeout: 10000
-    vnfs:
-      - v_2
-      - v_1
-      - v_0
-  sfc_4:
     max_delay: 50
     required_bw: 90
     timeout: 10000
     vnfs:
       - v_0
+      - v_4
+      - v_17
+  sfc_4:
+    max_delay: 50
+    required_bw: 10
+    timeout: 10000
+    vnfs:
+      - v_3
+      - v_12
+      - v_15
+  sfc_5:
+    max_delay: 50
+    required_bw: 90
+    timeout: 10000
+    vnfs:
+      - v_13
+      - v_15
+      - v_19
+  sfc_6:
+    max_delay: 50
+    required_bw: 90
+    timeout: 10000
+    vnfs:
+      - v_16
       - v_1
+      - v_19
+  sfc_7:
+    max_delay: 50
+    required_bw: 10
+    timeout: 10000
+    vnfs:
+      - v_8
+      - v_10
+      - v_9
+  sfc_8:
+    max_delay: 50
+    required_bw: 10
+    timeout: 10000
+    vnfs:
+      - v_6
+      - v_11
+      - v_15
+  sfc_9:
+    max_delay: 50
+    required_bw: 90
+    timeout: 10000
+    vnfs:
+      - v_12
       - v_2
+      - v_4
 user_equipments:
   ue_0:
     type: phone
@@ -1650,6 +1712,57 @@ vnfs:
   v_1:
     cpu: 100
     mem: 100
+  v_10:
+    cpu: 100
+    mem: 100
+  v_11:
+    cpu: 100
+    mem: 100
+  v_12:
+    cpu: 100
+    mem: 100
+  v_13:
+    cpu: 100
+    mem: 100
+  v_14:
+    cpu: 100
+    mem: 100
+  v_15:
+    cpu: 100
+    mem: 100
+  v_16:
+    cpu: 100
+    mem: 100
+  v_17:
+    cpu: 100
+    mem: 100
+  v_18:
+    cpu: 100
+    mem: 100
+  v_19:
+    cpu: 100
+    mem: 100
   v_2:
+    cpu: 100
+    mem: 100
+  v_3:
+    cpu: 100
+    mem: 100
+  v_4:
+    cpu: 100
+    mem: 100
+  v_5:
+    cpu: 100
+    mem: 100
+  v_6:
+    cpu: 100
+    mem: 100
+  v_7:
+    cpu: 100
+    mem: 100
+  v_8:
+    cpu: 100
+    mem: 100
+  v_9:
     cpu: 100
     mem: 100
