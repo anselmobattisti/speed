@@ -473,7 +473,7 @@ class SPEEDSimulation:
         for child_zone_name, vnfs in selected_child_zones.items():
             cz = self.zones[child_zone_name]
 
-            timeout_to_child_zone = self.delay_between_distdributed_service_components(
+            timeout_to_child_zone = self.delay_between_distributed_service_components(
                 zone_1=zone,
                 zone_2=cz
             )

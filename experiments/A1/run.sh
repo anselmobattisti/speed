@@ -12,6 +12,7 @@ for file in "$BASEDIR"/*; do
       mkdir "$log_path"
     fi
 
+    export SPEED_RANDOM=0
     python3 ../../main.py --logs "$log_path/speed" --config ./config/config_simulation.yml --zones ./config/zone_topology.yml --entities "$file"
 
     export SPEED_RANDOM=1
