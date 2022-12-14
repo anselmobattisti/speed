@@ -31,6 +31,7 @@ from SPEED.entities.zone import Zone
 from SPEED.helpers.zone import ZoneHelper
 from SPEED.helpers.speed import SPEEDHelper
 from SPEED.helpers.distributed_service import DistributedServiceHelper
+from SPEED.logs.distributed_placement import DistributedPlacementLog
 from SPEED.logs.distributed_service import DistributedServiceLog
 from SPEED.logs.vnf_segment import VNFSegmentLog
 from SPEED.speed import SPEED
@@ -128,6 +129,12 @@ class SPEEDSimulation:
         self.placement_log: PlacementLog = self.log.get_log(SimLog.LOG_NAME_PLACEMENT)
         """
         The object for logging the placement events.
+        """
+
+        self.distributed_placement_log: DistributedPlacementLog = DistributedPlacementLog()
+        self.log.register_log(name=DistributedPlacementLog.NAME, log_obj=self.distributed_placement_log)
+        """
+        The object for logging the distributed placement events.
         """
 
         self.vnf_instance_log: VNFInstanceLog = self.log.get_log(SimLog.LOG_NAME_VNF_INSTANCE)
@@ -355,6 +362,12 @@ class SPEEDSimulation:
                             sfc_request_name=sfc_request.name,
                             zone_manager_name="Not Found"
                         )
+
+                        self.distributed_placement_log.add_event(
+                            event=DistributedPlacementLog.FAIL,
+                            time=self.env.now,
+                            sfc_request_name=sfc_request.name
+                        )
                         continue
 
                     # Zone manager executing the game
@@ -418,7 +431,7 @@ class SPEEDSimulation:
                 zone=zone
             )
 
-            # The computed zone were selected after the timeout
+            # The computed zone selected after the timeout
             if not ret:
                 self.vnf_segment_log.add_event(
                     event=VNFSegmentLog.TIMEOUT,
@@ -467,8 +480,6 @@ class SPEEDSimulation:
         if algorithm == "random":
             child_zones = zone.child_zone_names
             selected_child_zones = {random.choice(child_zones): {'vnfs': vnf_names}}
-
-        print(algorithm)
 
         for child_zone_name, vnfs in selected_child_zones.items():
             cz = self.zones[child_zone_name]
@@ -1088,6 +1099,12 @@ class SPEEDSimulation:
                             zone_manager_name=zone.name
                         )
 
+                        self.distributed_placement_log.add_event(
+                            event=DistributedPlacementLog.FAIL,
+                            time=self.env.now,
+                            sfc_request_name=sfc_request_name
+                        )
+
     def execute_placement(self, ds: DistributedService) -> bool:
         """
         Execute the placement of the VNFs Segments at the nodes inside the selected compute zone.
@@ -1129,6 +1146,13 @@ class SPEEDSimulation:
                         time=self.env.now,
                         sfc_request_name=ds.sfc_request.name,
                         zone_manager_name=""
+                    )
+
+                    # Create the log from Placement Fails.
+                    self.distributed_placement_log.add_event(
+                        event=DistributedPlacementLog.FAIL,
+                        time=self.env.now,
+                        sfc_request_name=ds.sfc_request.name
                     )
 
                     for vnf_instance in vnf_instances:
@@ -1176,6 +1200,13 @@ class SPEEDSimulation:
             time=self.env.now,
             sfc_request_name=ds.sfc_request.name,
             zone_manager_name=""
+        )
+
+        # Create the log from Placement SUCCESS.
+        self.distributed_placement_log.add_event(
+            event=DistributedPlacementLog.SUCCESS,
+            time=self.env.now,
+            sfc_request_name=ds.sfc_request.name
         )
 
         return placed
