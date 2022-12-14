@@ -1,3 +1,4 @@
+import os
 import random
 
 import networkx as nx
@@ -439,23 +440,40 @@ class SPEEDSimulation:
                 vnf_names=vnf_names
             )
 
-        # THIS IS THE GAME IMPLEMENTATION
-        # Run the distributed placement to the other zones
-        dsm: DistributedServiceManager = self.zdsm[zone.name]
+        # Compute the total of resources used by the VNF Instances and save it in a file
+        algorithm = "speed"
+        try:
+            if os.environ["SPEED_RANDOM"] == "1":
+                algorithm = "random"
+        except KeyError as ke:
+            pass
 
-        plans = self.find_valid_vnf_segment_plan(
-            zone=zone,
-            vnf_names=vnf_names
-        )
+        selected_child_zones = ""
 
-        selected_segmentation_plan = dsm.speed.select_segmentation_plan(plans)
+        if algorithm == "speed":
+            # THIS IS THE GAME IMPLEMENTATION
+            # Run the distributed placement to the other zones
+            dsm: DistributedServiceManager = self.zdsm[zone.name]
 
-        selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
+            plans = self.find_valid_vnf_segment_plan(
+                zone=zone,
+                vnf_names=vnf_names
+            )
+
+            selected_segmentation_plan = dsm.speed.select_segmentation_plan(plans)
+
+            selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
+
+        if algorithm == "random":
+            child_zones = zone.child_zone_names
+            selected_child_zones = {random.choice(child_zones): {'vnfs': vnf_names}}
+
+        print(algorithm)
 
         for child_zone_name, vnfs in selected_child_zones.items():
             cz = self.zones[child_zone_name]
 
-            timeout_to_child_zone = self.delay_between_distributed_service_components(
+            timeout_to_child_zone = self.delay_between_distdributed_service_components(
                 zone_1=zone,
                 zone_2=cz
             )
@@ -1083,23 +1101,82 @@ class SPEEDSimulation:
                 vnfs_per_zone[zone_name] = list()
             vnfs_per_zone[zone_name].append(vnf_name)
 
+        vnf_instances = []
         for zone_name, vnf_names in vnfs_per_zone.items():
             zone = self.zones[zone_name]
             domain = self.domains[zone.domain_name]
+
+            # Sort the VNFs based on the amount of nodes available to execute the VNF.
+            sorted_vnfs = []
+            vnfs_available = domain.vnfs_nodes_available()
+            vnfs = dict(sorted(vnfs_available.items(), key=lambda item: item[1]))
+
+            for vnf in vnfs:
+                if vnf in vnf_names:
+                    sorted_vnfs.append(vnf)
 
             for vnf_name in vnf_names:
                 vnf = self.environment['vnfs'][vnf_name]
                 nodes = domain.get_nodes_available(
                     vnf=vnf
                 )
-                node = random.choice(nodes)
+
+                # The zone does not have the reserved resource anymore
+                if not nodes:
+                    # Create the log from VNF Instance creation.
+                    self.distributed_service_log.add_event(
+                        event=DistributedServiceLog.COMPUTE_ZONE_NO_RESOURCE,
+                        time=self.env.now,
+                        sfc_request_name=ds.sfc_request.name,
+                        zone_manager_name=""
+                    )
+
+                    for vnf_instance in vnf_instances:
+                        node: Node  = self.environment['nodes'][vnf_instance.node]
+                        node.del_vnf_instance(vnf_instance)
+
+                        # Log that the previously created VNF was removed.
+                        self.vnf_instance_log.add_event(
+                            event=VNFInstanceLog.DESTROYED,
+                            time=self.env.now,
+                            domain_name=domain.name,
+                            vnf_instance=vnf_instance
+                        )
+
+                    return False
+
+                node: Node = random.choice(nodes)
+
                 speed: SPEED = self.zdsm[zone_name].speed
-                vnf_instance_name = "{}_{}_{}_{}".format(speed.name, vnf_name, ds.sfc_request.name, random.randint(1, 1000))
+
+                vnf_instance_name = "{}_{}_{}_{}_{}".format(zone.name, node.name, vnf_name, ds.sfc_request.name, random.randint(1, 1000))
 
                 vnf_instance = node.create_vnf_instance(
                     name=vnf_instance_name,
                     vnf_name=vnf_name
                 )
+
+                vnf_instances.append(vnf_instance)
+
+                vnf_instance.set_status("active",["active"])
+
+                self.simpy_resource_vnf_instances[vnf_instance.name] = simpy.Resource(self.env, capacity=1)
+
+                # Create the log from VNF Instance creation.
+                self.vnf_instance_log.add_event(
+                    event=VNFInstanceLog.CREATED,
+                    time=self.env.now,
+                    domain_name=domain.name,
+                    vnf_instance=vnf_instance
+                )
+
+        # Create the log from VNF Instance creation.
+        self.distributed_service_log.add_event(
+            event=DistributedServiceLog.PLACED,
+            time=self.env.now,
+            sfc_request_name=ds.sfc_request.name,
+            zone_manager_name=""
+        )
 
         return placed
 

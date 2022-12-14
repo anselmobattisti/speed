@@ -1,0 +1,58 @@
+zones:
+  A_6:
+    zone_type: "aggregation"
+  A_5:
+    zone_type: "aggregation"
+    parent_zone: "A_6"
+  A_4:
+    zone_type: "aggregation"
+    parent_zone: "A_6"
+  A_1:
+    zone_type: "aggregation"
+    parent_zone: "A_5"
+  A_2:
+    zone_type: "aggregation"
+    parent_zone: "A_5"
+  A_3:
+    zone_type: "aggregation"
+    parent_zone: "A_5"
+  C_1:
+    zone_type: "compute"
+    parent_zone: "A_1"
+    domain: "dom_0"
+  C_2:
+    zone_type: "compute"
+    parent_zone: "A_1"
+    domain: "dom_1"
+  C_3:
+    zone_type: "compute"
+    parent_zone: "A_1"
+    domain: "dom_2"
+  C_4:
+    zone_type: "compute"
+    parent_zone: "A_2"
+    domain: "dom_3"
+  C_5:
+    zone_type: "compute"
+    parent_zone: "A_2"
+    domain: "dom_4"
+  C_6:
+    zone_type: "compute"
+    parent_zone: "A_3"
+    domain: "dom_5"
+  C_7:
+    zone_type: "compute"
+    parent_zone: "A_3"
+    domain: "dom_6"
+  C_8:
+    zone_type: "compute"
+    parent_zone: "A_6"
+    domain: "dom_7"
+  C_9:
+    zone_type: "compute"
+    parent_zone: "A_4"
+    domain: "dom_8"
+  C_10:
+    zone_type: "compute"
+    parent_zone: "A_4"
+    domain: "dom_9"

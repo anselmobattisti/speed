@@ -1,0 +1,11 @@
+simulation:
+  seed: 1
+  duration: 20000
+  node_cpu_default_cost: 1
+  node_mem_default_cost: 1
+  link_default_cost: 1
+  placement_timeout: 100
+  vnf_instances:
+    initial_status: "active"
+    status_to_count_resource_usage:
+      - "active"

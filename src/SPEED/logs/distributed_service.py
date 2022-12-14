@@ -31,6 +31,11 @@ class DistributedServiceLog(Log):
     Caused when the distributed service fails during the distributed placement process.
     """
 
+    COMPUTE_ZONE_NO_RESOURCE = "COMPUTE_ZONE_NO_RESOURCE"
+    """
+    Caused when the compute zone selected to execute a VNF Instance does not have the resource anymore.
+    """
+
     PLACED = "PLACED"
     """
     Caused when all the VNFs were placed.

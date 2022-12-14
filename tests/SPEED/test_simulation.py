@@ -501,13 +501,15 @@ class SPEEDTest(unittest.TestCase):
         log_file = "{}/{}".format(new_log_path, VNFSegmentLog.FILE_NAME)
         df = pd.read_csv(log_file, sep=";")
 
-    def test_entities_1_sfc_request_placement_resource_allocation(self):
+    def test_entities_2_sfc_request_placement_only_one(self):
         """
         Allocate the resource in the compute zone after the zone selection to execute the VNFs.
+
+        The second SFC Request will fail due to lack of resources.
         """
-        entities_file = "{}/config/entities_1_sfc_request_placement.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        entities_file = "{}/config/entities_2_sfc_request_placement.yml".format(os.path.dirname(os.path.abspath(__file__)))
         zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
-        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config_2.yml".format(os.path.dirname(os.path.abspath(__file__)))
 
         environment = Setup.load_entities(
             entities_file=entities_file
@@ -529,7 +531,7 @@ class SPEEDTest(unittest.TestCase):
         )
 
         # change the path where the simulation will save the logs.
-        new_log_path = "{}/logs/entities_1_sfc_request_placement/".format(os.path.dirname(os.path.abspath(__file__)))
+        new_log_path = "{}/logs/entities_2_sfc_request_placement_only_one/".format(os.path.dirname(os.path.abspath(__file__)))
         simulation.log.set_log_path(new_log_path)
 
         simulation.run()
@@ -538,6 +540,118 @@ class SPEEDTest(unittest.TestCase):
             environment=environment
         )
 
-        log_file = "{}/{}".format(new_log_path, VNFSegmentLog.FILE_NAME)
+        log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
         df = pd.read_csv(log_file, sep=";")
 
+        self.assertEqual("COMPUTE_ZONE_NO_RESOURCE", df['Event'][0])
+
+    def test_random(self):
+        """
+        Test the random zone selection.
+        """
+        entities_file = "{}/config/entities_2_sfc_request_placement.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config_2.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEEDSimulation(
+            env=simpy.Environment(),
+            config=config["simulation"],
+            environment=environment
+        )
+
+        # change the path where the simulation will save the logs.
+        new_log_path = "{}/logs/entities_2_sfc_request_placement_only_one/".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation.log.set_log_path(new_log_path)
+
+        os.environ["SPEED_RANDOM"] = "1"
+
+        simulation.run()
+
+        SimulationHelper.print_environment_topology(
+            environment=environment
+        )
+
+        log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
+        df = pd.read_csv(log_file, sep=";")
+
+        self.assertEqual("PLACED", df['Event'][0])
+
+    def test_run_experiment_A1(self):
+        """
+        Run the experiment A1
+        """
+        zone_file = "{}/../../experiments/A1/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/../../experiments/A1/config/config_simulation.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        requests = [10]
+        rounds = 1
+
+        for i in range(0, len(requests)):
+            for j in range(0, rounds):
+                entities_file = "{}/../../experiments/A1/{}_{}.yml".format(os.path.dirname(os.path.abspath(__file__))
+                                                                            , requests[i], j)
+
+                environment = Setup.load_entities(
+                    entities_file=entities_file
+                )
+
+                environment['zones'] = ZoneHelper.load(
+                    data_file=zone_file,
+                    environment=environment
+                )
+
+                config = Helper.load_yml_file(
+                    data_file=simulation_file
+                )
+
+                simulation = SPEEDSimulation(
+                    env=simpy.Environment(),
+                    config=config["simulation"],
+                    environment=environment
+                )
+
+                # change the path where the simulation will save the logs.
+
+                new_log_path = "{}/../../experiments/A1/logs/{}_{}".format(os.path.dirname(os.path.abspath(__file__))
+                                                                            ,requests[i], j)
+                simulation.log.set_log_path(new_log_path)
+
+                simulation.run()
+
+                img_file = "{}/../../experiments/A1/imgs/{}_{}_zone.png".format(os.path.dirname(os.path.abspath(__file__)),
+                                                                           requests[i], j)
+                ZoneHelper.save_image(
+                    zones=environment['zones'],
+                    title="Exp 1 - 10_0",
+                    file_name=img_file,
+                    img_width=15,
+                    img_height=15
+                )
+
+                img_topology = "{}/../../experiments/A1/imgs/{}_{}_topology.png".format(os.path.dirname(os.path.abspath(__file__)),
+                                                                           requests[i], j)
+                environment['topology'].save_image(
+                    environment['topology'].get_graph(),
+                    "Full Topology",
+                    img_topology
+                )
+
+                # SimulationHelper.print_environment_topology(
+                #     environment=environment
+                # )
+                #
+                # log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
+                # df = pd.read_csv(log_file, sep=";")
