@@ -156,6 +156,15 @@ class ZoneHelper(Helper):
 
         graph = ZoneHelper.build_zone_tree(zones)
 
+        for zone in zones.values():
+            if zone.zone_type == Zone.TYPE_COMPUTE:
+                graph.add_node(
+                    zone.domain_name,
+                    node_color="grey"
+                )
+
+                graph.add_edge(zone.name, zone.domain_name)
+
         node_color = []
 
         for node_name in graph.nodes:
@@ -190,6 +199,16 @@ class ZoneHelper(Helper):
                    color=ZoneHelper.ZONE_AGGREGATION_COLOR,
                    markeredgecolor=ZoneHelper.ZONE_AGGREGATION_COLOR,
                    label="Aggregation Zone",
+                   markeredgewidth=1,
+                   markersize=10)
+        )
+
+        legend_elements.append(
+            Line2D([], [],
+                   marker='o',
+                   color="grey",
+                   markeredgecolor=ZoneHelper.ZONE_AGGREGATION_COLOR,
+                   label="Domain",
                    markeredgewidth=1,
                    markersize=10)
         )

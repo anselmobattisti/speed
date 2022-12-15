@@ -19,10 +19,10 @@ def main():
 
     args = parser.parse_args()
 
-    print("Loading configuration file...")
+    # print("Loading configuration file...")
     config = Helper.load_yml_file(args.config)
 
-    print("Loading entities...")
+    # print("Loading entities...")
     environment = Setup.load_entities(args.entities)
 
     environment['zones'] = ZoneHelper.load(

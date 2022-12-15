@@ -56,6 +56,11 @@ class DistributedServiceLog(Log):
     Caused when the ZONE MANAGER TO A requested services is selected.
     """
 
+    NO_SEGMENTATION_PLANS = "NO_SEGMENTATION_PLANS"
+    """
+    Caused when the creation of the segmentation plan fails.
+    """
+
     def __init__(self):
         """
         Distributed Service logs.

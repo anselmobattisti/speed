@@ -456,8 +456,12 @@ class SPEEDSimulation:
         # Compute the total of resources used by the VNF Instances and save it in a file
         algorithm = "speed"
         try:
-            if os.environ["SPEED_RANDOM"] == "1":
+            if os.environ["ALGORITHM"] == "random":
                 algorithm = "random"
+
+            if os.environ["ALGORITHM"] == "greedy":
+                algorithm = "greedy"
+
         except KeyError as ke:
             pass
 
@@ -473,6 +477,21 @@ class SPEEDSimulation:
                 vnf_names=vnf_names
             )
 
+            if not plans:
+                self.distributed_service_log.add_event(
+                    event=DistributedServiceLog.NO_SEGMENTATION_PLANS,
+                    time=self.env.now,
+                    sfc_request_name=sfc_request.name,
+                    zone_manager_name=zone.name
+                )
+
+                self.distributed_placement_log.add_event(
+                    event=DistributedPlacementLog.FAIL,
+                    time=self.env.now,
+                    sfc_request_name=sfc_request.name
+                )
+                return
+
             selected_segmentation_plan = dsm.speed.select_segmentation_plan(plans)
 
             selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
@@ -480,6 +499,31 @@ class SPEEDSimulation:
         if algorithm == "random":
             child_zones = zone.child_zone_names
             selected_child_zones = {random.choice(child_zones): {'vnfs': vnf_names}}
+
+        if algorithm == "greedy":
+            child_zones = zone.child_zone_names
+
+            valid_zone = []
+            for z in child_zones:
+                speed = self.zdsm[z].speed
+                vnfs_available = speed.vnfs_available()
+                # check = all(item in vnf_names for item in vnfs_available)
+                check = set(vnf_names).issubset(set(vnfs_available))
+
+                if check:
+                    valid_zone.append(z)
+
+            if not valid_zone:
+                # self.distributed_placement_log.add_event(
+                #     event=DistributedPlacementLog.FAIL,
+                #     time=self.env.now,
+                #     sfc_request_name=sfc_request.name
+                # )
+                # print(vnf_names)
+                # print(child_zones)
+                return
+
+            selected_child_zones = {random.choice(valid_zone): {'vnfs': vnf_names}}
 
         for child_zone_name, vnfs in selected_child_zones.items():
             cz = self.zones[child_zone_name]

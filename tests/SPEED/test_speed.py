@@ -224,3 +224,44 @@ class SPEEDTest(unittest.TestCase):
         valid_plans_2 = simulation.zdsm[zone_manager.name].speed.valid_segmentation_plans(segmentation_plans)
 
         self.assertEqual(['plan_0', 'plan_1'], list(valid_plans_2.keys()))
+
+    def test_vnfs_available(self):
+        """
+        Test the vnfs_available function.
+        """
+        env = simpy.Environment()
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology_3.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/simulation_config.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEEDSimulation(
+            env=env,
+            config=config["simulation"],
+            environment=environment
+        )
+
+        simulation.setup()
+
+        simulation.update_aggregated_data()
+
+        speed = simulation.zdsm['z_0'].speed
+        vnfs = speed.vnfs_available()
+
+        speed_5 = simulation.zdsm['z_5'].speed
+        vnfs_5 = speed.vnfs_available()
+
+        self.assertEqual(['vnf_1', 'vnf_3', 'vnf_2'], vnfs)
+        self.assertEqual(['vnf_1', 'vnf_3', 'vnf_2'], vnfs_5)

@@ -299,3 +299,16 @@ class SPEED(Entity):
 
         return cost
 
+    def vnfs_available(self):
+        """
+        Return a list with the VNFs available in the zone
+        :return:
+        """
+        vnfs = dict()
+        for data in self.aggregated_data.values():
+            vnfs[data['vnf']] = 1
+
+        for data in self.aggregated_infrastructure_data.values():
+            vnfs[data['vnf']] = 1
+
+        return list(vnfs.keys())

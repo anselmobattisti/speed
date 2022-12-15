@@ -576,7 +576,51 @@ class SPEEDTest(unittest.TestCase):
         new_log_path = "{}/logs/entities_2_sfc_request_placement_only_one/".format(os.path.dirname(os.path.abspath(__file__)))
         simulation.log.set_log_path(new_log_path)
 
-        os.environ["SPEED_RANDOM"] = "1"
+        os.environ["ALGORITHM"] = "random"
+
+        simulation.run()
+
+        SimulationHelper.print_environment_topology(
+            environment=environment
+        )
+
+        log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
+        df = pd.read_csv(log_file, sep=";")
+
+        self.assertEqual("COMPUTE_ZONE_NO_RESOURCE", df['Event'][0])
+
+    def test_greedy(self):
+        """
+        Test the random zone selection.
+        """
+        entities_file = "{}/config/greedy/files/10_0.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/greedy/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/greedy/config/config_simulation.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEEDSimulation(
+            env=simpy.Environment(),
+            config=config["simulation"],
+            environment=environment
+        )
+
+        # change the path where the simulation will save the logs.
+        new_log_path = "{}/config/greedy/logs/".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation.log.set_log_path(new_log_path)
+
+        os.environ["ALGORITHM"] = "greedy"
 
         simulation.run()
 
@@ -588,6 +632,15 @@ class SPEEDTest(unittest.TestCase):
         df = pd.read_csv(log_file, sep=";")
 
         self.assertEqual("PLACED", df['Event'][0])
+
+        img_file = "{}/config/greedy/zone_topology.png".format(os.path.dirname(os.path.abspath(__file__)))
+        ZoneHelper.save_image(
+            zones=environment['zones'],
+            title="",
+            file_name=img_file,
+            img_width=10,
+            img_height=10
+        )
 
     def test_run_experiment_A1(self):
         """

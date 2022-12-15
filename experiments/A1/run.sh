@@ -2,7 +2,7 @@
 
 BASEDIR=$(dirname $0)
 
-for file in "$BASEDIR"/*; do
+for file in "$BASEDIR"/files/*; do
 
   if [ "${file: -4}" == ".yml" ]; then
     filename=$(basename -- "$file")
@@ -12,11 +12,15 @@ for file in "$BASEDIR"/*; do
       mkdir "$log_path"
     fi
 
-    export SPEED_RANDOM=0
+    export ALGORITHM="speed"
     python3 ../../main.py --logs "$log_path/speed" --config ./config/config_simulation.yml --zones ./config/zone_topology.yml --entities "$file"
 
-    export SPEED_RANDOM=1
+    export ALGORITHM="random"
     python3 ../../main.py --logs "$log_path/random" --config ./config/config_simulation.yml --zones ./config/zone_topology.yml --entities "$file"
+
+    export ALGORITHM="greedy"
+    python3 ../../main.py --logs "$log_path/greedy" --config ./config/config_simulation.yml --zones ./config/zone_topology.yml --entities "$file"
+
   fi
 
 done;
