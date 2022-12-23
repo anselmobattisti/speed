@@ -11,7 +11,7 @@ class DistributedPlacementLog(Log):
     """
     NAME = "distributed_placement"
 
-    COLUMNS = ["Event", "Time", "SFC_Request_Name"]
+    COLUMNS = ["Event", "Time", "SFC_Request_Name", "Cost"]
     """
     The column title of the CSV file.
     """
@@ -37,10 +37,11 @@ class DistributedPlacementLog(Log):
         """
         self.events = list()
 
-    def add_event(self, event: str, time: int, sfc_request_name: str):
+    def add_event(self, event: str, time: int, sfc_request_name: str, cost: float = 0):
         """
         Add a new event.
 
+        :param cost: The cost of the placement.
         :param event: The name of the event.
         :param time: Time of the event.
         :param sfc_request_name: The name of the SFC Requested.
@@ -51,7 +52,8 @@ class DistributedPlacementLog(Log):
         log = [
             event,
             "{:.2f}".format(time),
-            sfc_request_name
+            sfc_request_name,
+            cost
         ]
         self.events.insert(0, log)
 

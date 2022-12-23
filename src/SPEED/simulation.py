@@ -1246,14 +1246,31 @@ class SPEEDSimulation:
             zone_manager_name=""
         )
 
+        self.log_success_placement(ds)
+        return placed
+
+    def log_success_placement(self, ds):
+        """
+        Log the success placement
+
+        :param ds: The distributed service
+        :return:
+        """
+
+        cost = 0
+
+        for vnf in ds.vnf_zones:
+            zone = ds.vnf_zones[vnf]
+            speed: SPEED = self.zdsm[zone].speed
+            cost += speed.min_cost(vnf)
+
         # Create the log from Placement SUCCESS.
         self.distributed_placement_log.add_event(
             event=DistributedPlacementLog.SUCCESS,
             time=self.env.now,
-            sfc_request_name=ds.sfc_request.name
+            sfc_request_name=ds.sfc_request.name,
+            cost=cost
         )
-
-        return placed
 
     def shutdown(self):
         """

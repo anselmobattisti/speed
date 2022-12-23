@@ -312,3 +312,13 @@ class SPEED(Entity):
             vnfs[data['vnf']] = 1
 
         return list(vnfs.keys())
+
+    def min_cost(self, vnf_name):
+        """
+        """
+        costs = []
+        for d in self.aggregated_data.values():
+            if d['vnf'] == vnf_name:
+                costs.append(d['cost'])
+
+        return min(costs)
