@@ -1,51 +1,48 @@
 import csv
 import os
+from typing import List
+
 import pandas as pd
 
 from SimPlacement.logs.log import Log
+from SimPlacement.entities.vnf import VNF
 
 
-class DistributedPlacementLog(Log):
+class DataAggregationLog(Log):
     """
     This class manages the Segments logs.
     """
-    NAME = "distributed_placement"
+    NAME = "data_aggregation"
 
-    COLUMNS = ["Event", "Time", "SFC_Request_Name", "Cost", "Placement_Time"]
+    COLUMNS = ["Event", "Time", "Zone", "Size"]
     """
     The column title of the CSV file.
     """
 
-    FILE_NAME = "distributed_placement.csv"
+    FILE_NAME = "data_aggregation.csv"
     """
     Name of the CSV file.
     """
 
-    SUCCESS = "SUCCESS"
+    COMPUTED = "COMPUTED"
     """
-    Caused when the distributed service is placed.
-    """
-
-    FAIL = "FAIL"
-    """
-    Caused when the distributed service is NOT placed.
+    Caused when the data aggregation is computed.
     """
 
     def __init__(self):
         """
-        Distributed Service Placement logs.
+        Segment logs.
         """
         self.events = list()
 
-    def add_event(self, event: str, time: int, sfc_request_name: str, cost: float = 0, placement_time :int = 0):
+    def add_event(self, event: str, time: int, zone_name: str, size: int):
         """
         Add a new event.
 
-        :param cost: The cost of the placement.
         :param event: The name of the event.
         :param time: Time of the event.
-        :param sfc_request_name: The name of the SFC Requested.
-        :param placement_time: The placement time.
+        :param zone_name: The name of the Zone.
+        :param size: The data aggregation size.
 
         :return:
         """
@@ -53,9 +50,8 @@ class DistributedPlacementLog(Log):
         log = [
             event,
             "{:.2f}".format(time),
-            sfc_request_name,
-            cost,
-            placement_time
+            zone_name,
+            size
         ]
         self.events.insert(0, log)
 

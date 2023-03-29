@@ -654,7 +654,7 @@ class SPEEDTest(unittest.TestCase):
 
         for i in range(0, len(requests)):
             for j in range(0, rounds):
-                entities_file = "{}/../../experiments/A1/{}_{}.yml".format(os.path.dirname(os.path.abspath(__file__))
+                entities_file = "{}/../../experiments/A1/files/{}_{}.yml".format(os.path.dirname(os.path.abspath(__file__))
                                                                             , requests[i], j)
 
                 environment = Setup.load_entities(
@@ -688,7 +688,7 @@ class SPEEDTest(unittest.TestCase):
                                                                            requests[i], j)
                 ZoneHelper.save_image(
                     zones=environment['zones'],
-                    title="Exp 1 - 10_0",
+                    title="Exp 1 - {}_{}".format(i, j),
                     file_name=img_file,
                     img_width=15,
                     img_height=15
@@ -698,7 +698,7 @@ class SPEEDTest(unittest.TestCase):
                                                                            requests[i], j)
                 environment['topology'].save_image(
                     environment['topology'].get_graph(),
-                    "Full Topology",
+                    "Full Topology {}_{}".format(i, j),
                     img_topology
                 )
 

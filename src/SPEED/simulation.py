@@ -1,5 +1,6 @@
 import os
 import random
+from sys import getsizeof
 
 import networkx as nx
 import numpy as np
@@ -33,6 +34,7 @@ from SPEED.helpers.speed import SPEEDHelper
 from SPEED.helpers.distributed_service import DistributedServiceHelper
 from SPEED.logs.distributed_placement import DistributedPlacementLog
 from SPEED.logs.distributed_service import DistributedServiceLog
+from SPEED.logs.data_aggregation import DataAggregationLog
 from SPEED.logs.vnf_segment import VNFSegmentLog
 from SPEED.speed import SPEED
 
@@ -150,6 +152,12 @@ class SPEEDSimulation:
         self.sfc_instance_log: SFCInstanceLog = self.log.get_log(SimLog.LOG_SFC_INSTANCE)
         """
         The object for logging the SFC Instance events.
+        """
+
+        self.data_aggregation_log: DataAggregationLog = DataAggregationLog()
+        self.log.register_log(name=DataAggregationLog.NAME, log_obj=self.data_aggregation_log)
+        """
+        The object for logging the data aggregation events.
         """
 
         # self.distributed_service_log = DistributedServiceLog()
@@ -596,6 +604,14 @@ class SPEEDSimulation:
 
         # Aggregate the data from its own child zone
         aggregated_data = dsm.speed.aggregate_date()
+        data_size = getsizeof(aggregated_data)
+
+        self.data_aggregation_log.add_event(
+            event=DataAggregationLog.COMPUTED,
+            time=self.env.now,
+            zone_name=zone.name,
+            size=data_size
+        )
 
         # Send data to the parent zone.
         if zone.parent_zone_name:
@@ -1269,7 +1285,8 @@ class SPEEDSimulation:
             event=DistributedPlacementLog.SUCCESS,
             time=self.env.now,
             sfc_request_name=ds.sfc_request.name,
-            cost=cost
+            cost=cost,
+            placement_time=(self.env.now - self.sfc_requests[ds.sfc_request.name].arrival)
         )
 
     def shutdown(self):
