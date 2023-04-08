@@ -244,13 +244,14 @@ class SPEED(Entity):
 
         return aux
 
-    def select_segmentation_plan(self, segmentation_plan: dict) -> dict:
+    @staticmethod
+    def select_segmentation_plan(segmentation_plan: dict) -> dict:
         """
         Select the best segmentation plan to be processed.
 
         We select the plan with few VNF Segments.
 
-        :param segmentation_plan:
+        :param segmentation_plan: dict with all the possible segmentation plan.
         :return: dict
         """
         plans = list(segmentation_plan.keys())

@@ -675,7 +675,7 @@ class SPEEDSimulation:
 
     def find_valid_vnf_segment_plan(self, zone: Zone, vnf_names: List) -> dict:
         """
-        Select the valid VNF Segments based on the zone where the game will be playerd.
+        Select the valid VNF Segments based on the zone where the game will be played.
 
         :param zone: The zone that will play the game.
         :param vnf_names: The list with the name of VNFs.

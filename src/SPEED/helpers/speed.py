@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 from SimPlacement.helper import Helper
@@ -36,6 +37,27 @@ class SPEEDHelper(Helper):
             count_plan += 1
 
             plans[plan_name]['segments'] = segments
+
+        # Returns only the plan with the biggest segment
+        biggest_segment = False
+        try:
+            if os.environ["BIGGEST_SEGMENT"] == "True":
+                biggest_segment = True
+        except KeyError as ke:
+            pass
+
+        # Select only the biggest plan.
+        if biggest_segment:
+            selected_plan = None
+            selected_plan_size = 1000
+            for plan_name in plans.keys():
+                plan = plans[plan_name]
+                plan_len = len(plan['segments'].keys())
+                if plan_len < selected_plan_size:
+                    selected_plan_size = plan_len
+                    selected_plan = {plan_name: plan}
+
+            plans = selected_plan
 
         return plans
 
