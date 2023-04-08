@@ -1,0 +1,1939 @@
+domains:
+  dom_0:
+    nodes:
+      - n_85
+      - n_91
+      - n_15
+      - n_33
+      - n_57
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_1:
+    nodes:
+      - n_41
+      - n_62
+      - n_60
+      - n_36
+      - n_16
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_2:
+    nodes:
+      - n_42
+      - n_10
+      - n_50
+      - n_32
+      - n_18
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_3:
+    nodes:
+      - n_82
+      - n_95
+      - n_99
+      - n_63
+      - n_22
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_4:
+    nodes:
+      - n_69
+      - n_47
+      - n_45
+      - n_79
+      - n_68
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_5:
+    nodes:
+      - n_89
+      - n_74
+      - n_35
+      - n_30
+      - n_64
+      - n_97
+      - n_20
+      - n_19
+      - n_49
+      - n_34
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_6:
+    nodes:
+      - n_44
+      - n_5
+      - n_17
+      - n_54
+      - n_58
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_7:
+    nodes:
+      - n_66
+      - n_92
+      - n_2
+      - n_83
+      - n_93
+      - n_73
+      - n_37
+      - n_71
+      - n_14
+      - n_29
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_8:
+    nodes:
+      - n_72
+      - n_98
+      - n_40
+      - n_24
+      - n_55
+      - n_0
+      - n_77
+      - n_48
+      - n_39
+      - n_61
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+  dom_9:
+    nodes:
+      - n_4
+      - n_65
+      - n_70
+      - n_12
+      - n_86
+    placement:
+      class_name: BasicShortestDelayPlacement
+      module_name: SimPlacement.mano.placement.basic_delay
+links:
+  l_1:
+    bw: 100000
+    delay: 1
+    dst: n_91
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_85
+  l_10:
+    bw: 100000
+    delay: 3
+    dst: n_32
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_10
+  l_11:
+    bw: 100000
+    delay: 2
+    dst: n_18
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_50
+  l_12:
+    bw: 100000
+    delay: 3
+    dst: n_18
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_32
+  l_13:
+    bw: 100000
+    delay: 3
+    dst: n_22
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_82
+  l_14:
+    bw: 100000
+    delay: 3
+    dst: n_22
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_95
+  l_15:
+    bw: 100000
+    delay: 3
+    dst: n_22
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_99
+  l_16:
+    bw: 100000
+    delay: 2
+    dst: n_22
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_63
+  l_17:
+    bw: 100000
+    delay: 3
+    dst: n_45
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_69
+  l_18:
+    bw: 100000
+    delay: 1
+    dst: n_68
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_47
+  l_19:
+    bw: 100000
+    delay: 1
+    dst: n_79
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_45
+  l_2:
+    bw: 100000
+    delay: 3
+    dst: n_33
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_91
+  l_20:
+    bw: 100000
+    delay: 2
+    dst: n_68
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_79
+  l_21:
+    bw: 100000
+    delay: 1
+    dst: n_97
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_89
+  l_22:
+    bw: 100000
+    delay: 3
+    dst: n_20
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_74
+  l_23:
+    bw: 100000
+    delay: 1
+    dst: n_34
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_35
+  l_24:
+    bw: 100000
+    delay: 2
+    dst: n_64
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_35
+  l_25:
+    bw: 100000
+    delay: 3
+    dst: n_34
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_30
+  l_26:
+    bw: 100000
+    delay: 2
+    dst: n_20
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_30
+  l_27:
+    bw: 100000
+    delay: 2
+    dst: n_49
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_64
+  l_28:
+    bw: 100000
+    delay: 3
+    dst: n_49
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_97
+  l_29:
+    bw: 100000
+    delay: 2
+    dst: n_19
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_20
+  l_3:
+    bw: 100000
+    delay: 1
+    dst: n_33
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_15
+  l_30:
+    bw: 100000
+    delay: 3
+    dst: n_49
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_19
+  l_31:
+    bw: 100000
+    delay: 3
+    dst: n_34
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_49
+  l_32:
+    bw: 100000
+    delay: 1
+    dst: n_17
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_44
+  l_33:
+    bw: 100000
+    delay: 2
+    dst: n_54
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_5
+  l_34:
+    bw: 100000
+    delay: 1
+    dst: n_58
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_17
+  l_35:
+    bw: 100000
+    delay: 3
+    dst: n_58
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_54
+  l_36:
+    bw: 100000
+    delay: 2
+    dst: n_29
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_66
+  l_37:
+    bw: 100000
+    delay: 2
+    dst: n_92
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_66
+  l_38:
+    bw: 100000
+    delay: 3
+    dst: n_83
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_92
+  l_39:
+    bw: 100000
+    delay: 1
+    dst: n_73
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_2
+  l_4:
+    bw: 100000
+    delay: 1
+    dst: n_57
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_33
+  l_40:
+    bw: 100000
+    delay: 2
+    dst: n_73
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_83
+  l_41:
+    bw: 100000
+    delay: 3
+    dst: n_29
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_93
+  l_42:
+    bw: 100000
+    delay: 2
+    dst: n_14
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_73
+  l_43:
+    bw: 100000
+    delay: 1
+    dst: n_14
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_37
+  l_44:
+    bw: 100000
+    delay: 2
+    dst: n_14
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_71
+  l_45:
+    bw: 100000
+    delay: 3
+    dst: n_29
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_14
+  l_46:
+    bw: 100000
+    delay: 1
+    dst: n_55
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_72
+  l_47:
+    bw: 100000
+    delay: 3
+    dst: n_48
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_98
+  l_48:
+    bw: 100000
+    delay: 2
+    dst: n_55
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_40
+  l_49:
+    bw: 100000
+    delay: 1
+    dst: n_48
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_24
+  l_5:
+    bw: 100000
+    delay: 1
+    dst: n_16
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_41
+  l_50:
+    bw: 100000
+    delay: 3
+    dst: n_39
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_55
+  l_51:
+    bw: 100000
+    delay: 3
+    dst: n_77
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_0
+  l_52:
+    bw: 100000
+    delay: 3
+    dst: n_48
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_77
+  l_53:
+    bw: 100000
+    delay: 3
+    dst: n_39
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_48
+  l_54:
+    bw: 100000
+    delay: 3
+    dst: n_61
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_39
+  l_55:
+    bw: 100000
+    delay: 1
+    dst: n_12
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_4
+  l_56:
+    bw: 100000
+    delay: 3
+    dst: n_86
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_65
+  l_57:
+    bw: 100000
+    delay: 1
+    dst: n_86
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_70
+  l_58:
+    bw: 100000
+    delay: 3
+    dst: n_86
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_12
+  l_59:
+    bw: 100000
+    delay: 3
+    dst: n_24
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_85
+  l_6:
+    bw: 100000
+    delay: 2
+    dst: n_60
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_62
+  l_60:
+    bw: 100000
+    delay: 2
+    dst: n_10
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_16
+  l_61:
+    bw: 100000
+    delay: 2
+    dst: n_24
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_10
+  l_62:
+    bw: 100000
+    delay: 1
+    dst: n_49
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_10
+  l_63:
+    bw: 100000
+    delay: 1
+    dst: n_68
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_95
+  l_64:
+    bw: 100000
+    delay: 3
+    dst: n_24
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_68
+  l_65:
+    bw: 100000
+    delay: 3
+    dst: n_24
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_49
+  l_66:
+    bw: 100000
+    delay: 3
+    dst: n_83
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_58
+  l_67:
+    bw: 100000
+    delay: 3
+    dst: n_24
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_83
+  l_68:
+    bw: 100000
+    delay: 2
+    dst: n_65
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_24
+  l_7:
+    bw: 100000
+    delay: 3
+    dst: n_16
+    extra_parameters:
+      bidirectional: true
+      cost: 3
+    src: n_60
+  l_8:
+    bw: 100000
+    delay: 3
+    dst: n_16
+    extra_parameters:
+      bidirectional: true
+      cost: 1
+    src: n_36
+  l_9:
+    bw: 100000
+    delay: 3
+    dst: n_50
+    extra_parameters:
+      bidirectional: true
+      cost: 2
+    src: n_42
+nodes:
+  n_0:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 3
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_6
+      - v_7
+      - v_4
+      - v_0
+      - v_1
+  n_10:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 10000
+    type: gateway
+  n_12:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 20000
+    type: access
+  n_14:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 2
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_0
+      - v_1
+      - v_4
+      - v_9
+      - v_7
+      - v_8
+      - v_2
+      - v_5
+      - v_3
+      - v_6
+  n_15:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_2
+      - v_3
+      - v_9
+      - v_0
+      - v_7
+  n_16:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 20000
+    type: gateway
+  n_17:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_9
+      - v_0
+      - v_8
+      - v_5
+      - v_4
+  n_18:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 1
+    mem: 30000
+    type: access
+  n_19:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_7
+      - v_1
+      - v_0
+      - v_3
+      - v_8
+  n_2:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_3
+      - v_2
+      - v_7
+      - v_5
+      - v_9
+      - v_6
+      - v_4
+      - v_1
+      - v_8
+      - v_0
+  n_20:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_1
+      - v_8
+      - v_0
+      - v_7
+      - v_5
+  n_22:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 2
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_6
+      - v_1
+      - v_3
+      - v_7
+      - v_0
+  n_24:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 2
+    mem: 10000
+    type: gateway
+  n_29:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 2
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_1
+      - v_2
+      - v_3
+      - v_0
+      - v_7
+      - v_8
+      - v_6
+      - v_5
+      - v_9
+      - v_4
+  n_30:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 1
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_3
+      - v_1
+      - v_5
+      - v_9
+      - v_7
+      - v_4
+      - v_6
+      - v_2
+      - v_8
+      - v_0
+  n_32:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 3
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_2
+      - v_6
+      - v_4
+      - v_1
+      - v_7
+      - v_8
+      - v_3
+      - v_5
+      - v_0
+      - v_9
+  n_33:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 1
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_0
+      - v_5
+      - v_6
+      - v_8
+      - v_1
+      - v_4
+      - v_2
+      - v_3
+      - v_9
+      - v_7
+  n_34:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 2
+    mem: 30000
+    type: access
+  n_35:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_1
+      - v_4
+      - v_7
+      - v_6
+      - v_9
+      - v_8
+      - v_2
+      - v_0
+      - v_5
+      - v_3
+  n_36:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 3
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_2
+      - v_6
+      - v_9
+      - v_0
+      - v_5
+      - v_4
+      - v_7
+      - v_3
+      - v_1
+      - v_8
+  n_37:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 2
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_9
+      - v_8
+      - v_4
+      - v_3
+      - v_6
+      - v_5
+      - v_7
+      - v_1
+      - v_0
+      - v_2
+  n_39:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_8
+      - v_5
+      - v_2
+      - v_7
+      - v_9
+  n_4:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 2
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_4
+      - v_8
+      - v_6
+      - v_7
+      - v_3
+  n_40:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_7
+      - v_4
+      - v_0
+      - v_5
+      - v_6
+      - v_8
+      - v_9
+      - v_3
+      - v_2
+      - v_1
+  n_41:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 2
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_3
+      - v_8
+      - v_9
+      - v_6
+      - v_0
+  n_42:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_8
+      - v_2
+      - v_4
+      - v_1
+      - v_9
+  n_44:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_3
+      - v_7
+      - v_8
+      - v_9
+      - v_0
+  n_45:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_1
+      - v_6
+      - v_7
+      - v_5
+      - v_2
+      - v_9
+      - v_8
+      - v_0
+      - v_3
+      - v_4
+  n_47:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 3
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_7
+      - v_9
+      - v_1
+      - v_2
+      - v_0
+      - v_3
+      - v_6
+      - v_5
+      - v_4
+      - v_8
+  n_48:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 3
+    mem: 20000
+    type: access
+  n_49:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 1
+    mem: 10000
+    type: gateway
+  n_5:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_7
+      - v_6
+      - v_4
+      - v_3
+      - v_9
+  n_50:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 2
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_1
+      - v_5
+      - v_3
+      - v_4
+      - v_9
+  n_54:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 10000
+    type: access
+  n_55:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 2
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_2
+      - v_0
+      - v_5
+      - v_4
+      - v_6
+      - v_3
+      - v_7
+      - v_1
+      - v_8
+      - v_9
+  n_57:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 2
+    mem: 20000
+    type: access
+  n_58:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 3
+    mem: 20000
+    type: gateway
+  n_60:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 2
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_1
+      - v_5
+      - v_7
+      - v_4
+      - v_8
+  n_61:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 2
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_6
+      - v_0
+      - v_9
+      - v_8
+      - v_4
+  n_62:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 3
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_2
+      - v_1
+      - v_5
+      - v_3
+      - v_6
+  n_63:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 1
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_9
+      - v_1
+      - v_0
+      - v_2
+      - v_7
+      - v_8
+      - v_5
+      - v_4
+      - v_6
+      - v_3
+  n_64:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 2
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_7
+      - v_0
+      - v_1
+      - v_9
+      - v_4
+  n_65:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 2
+    mem: 30000
+    type: gateway
+  n_66:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 3
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_7
+      - v_0
+      - v_6
+      - v_2
+      - v_9
+      - v_4
+      - v_8
+      - v_1
+      - v_3
+      - v_5
+  n_68:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 30000
+    type: gateway
+  n_69:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 2
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_1
+      - v_5
+      - v_7
+      - v_0
+      - v_9
+      - v_4
+      - v_2
+      - v_6
+      - v_3
+      - v_8
+  n_70:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 2
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_7
+      - v_3
+      - v_8
+      - v_4
+      - v_5
+      - v_0
+      - v_1
+      - v_2
+      - v_9
+      - v_6
+  n_71:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 3
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_0
+      - v_3
+      - v_4
+      - v_9
+      - v_8
+  n_72:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 3
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_0
+      - v_2
+      - v_6
+      - v_4
+      - v_3
+      - v_7
+      - v_1
+      - v_9
+      - v_5
+      - v_8
+  n_73:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 2
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_6
+      - v_8
+      - v_4
+      - v_1
+      - v_9
+      - v_5
+      - v_3
+      - v_7
+      - v_2
+      - v_0
+  n_74:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 2
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_2
+      - v_3
+      - v_9
+      - v_5
+      - v_6
+  n_77:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 3
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_7
+      - v_0
+      - v_2
+      - v_3
+      - v_5
+  n_79:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 2
+    mem: 30000
+    type: access
+  n_82:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_0
+      - v_8
+      - v_6
+      - v_2
+      - v_5
+  n_83:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 10000
+    type: gateway
+  n_85:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 20000
+    type: gateway
+  n_86:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 1
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_9
+      - v_1
+      - v_0
+      - v_8
+      - v_5
+  n_89:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 3
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_1
+      - v_8
+      - v_0
+      - v_9
+      - v_2
+  n_91:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 3
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_0
+      - v_6
+      - v_4
+      - v_3
+      - v_5
+  n_92:
+    cpu: 10000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 2
+    mem: 20000
+    type: access
+  n_93:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 30000
+    type: compute
+    vnfs:
+      - v_7
+      - v_3
+      - v_8
+      - v_6
+      - v_0
+      - v_2
+      - v_1
+      - v_4
+      - v_9
+      - v_5
+  n_95:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 1
+    mem: 10000
+    type: gateway
+  n_97:
+    cpu: 30000
+    extra_parameters:
+      cpu_cost: 1
+      mem_cost: 1
+    mem: 10000
+    type: compute
+    vnfs:
+      - v_5
+      - v_3
+      - v_7
+      - v_8
+      - v_0
+  n_98:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 3
+      mem_cost: 3
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_8
+      - v_1
+      - v_2
+      - v_0
+      - v_9
+      - v_5
+      - v_3
+      - v_7
+      - v_4
+      - v_6
+  n_99:
+    cpu: 20000
+    extra_parameters:
+      cpu_cost: 2
+      mem_cost: 2
+    mem: 20000
+    type: compute
+    vnfs:
+      - v_1
+      - v_5
+      - v_7
+      - v_3
+      - v_0
+sfc_requests:
+  sr_0:
+    arrival: 0
+    dst: n_20
+    sfc: sfc_8
+    src: n_61
+    ue: ue_2
+  sr_1:
+    arrival: 0
+    dst: n_2
+    sfc: sfc_9
+    src: n_40
+    ue: ue_3
+  sr_10:
+    arrival: 0
+    dst: n_42
+    sfc: sfc_9
+    src: n_55
+    ue: ue_2
+  sr_11:
+    arrival: 0
+    dst: n_73
+    sfc: sfc_1
+    src: n_44
+    ue: ue_1
+  sr_12:
+    arrival: 0
+    dst: n_64
+    sfc: sfc_6
+    src: n_71
+    ue: ue_2
+  sr_13:
+    arrival: 0
+    dst: n_77
+    sfc: sfc_3
+    src: n_32
+    ue: ue_0
+  sr_14:
+    arrival: 0
+    dst: n_98
+    sfc: sfc_9
+    src: n_44
+    ue: ue_4
+  sr_15:
+    arrival: 0
+    dst: n_42
+    sfc: sfc_3
+    src: n_71
+    ue: ue_0
+  sr_16:
+    arrival: 0
+    dst: n_97
+    sfc: sfc_8
+    src: n_22
+    ue: ue_1
+  sr_17:
+    arrival: 0
+    dst: n_97
+    sfc: sfc_5
+    src: n_63
+    ue: ue_3
+  sr_18:
+    arrival: 0
+    dst: n_63
+    sfc: sfc_1
+    src: n_14
+    ue: ue_3
+  sr_19:
+    arrival: 0
+    dst: n_35
+    sfc: sfc_4
+    src: n_33
+    ue: ue_3
+  sr_2:
+    arrival: 0
+    dst: n_77
+    sfc: sfc_7
+    src: n_44
+    ue: ue_1
+  sr_20:
+    arrival: 0
+    dst: n_30
+    sfc: sfc_6
+    src: n_55
+    ue: ue_2
+  sr_21:
+    arrival: 0
+    dst: n_70
+    sfc: sfc_6
+    src: n_82
+    ue: ue_2
+  sr_22:
+    arrival: 0
+    dst: n_71
+    sfc: sfc_3
+    src: n_71
+    ue: ue_3
+  sr_23:
+    arrival: 0
+    dst: n_77
+    sfc: sfc_0
+    src: n_22
+    ue: ue_3
+  sr_24:
+    arrival: 0
+    dst: n_14
+    sfc: sfc_5
+    src: n_69
+    ue: ue_4
+  sr_25:
+    arrival: 0
+    dst: n_99
+    sfc: sfc_4
+    src: n_39
+    ue: ue_3
+  sr_26:
+    arrival: 0
+    dst: n_74
+    sfc: sfc_4
+    src: n_60
+    ue: ue_1
+  sr_27:
+    arrival: 0
+    dst: n_73
+    sfc: sfc_6
+    src: n_64
+    ue: ue_3
+  sr_28:
+    arrival: 0
+    dst: n_99
+    sfc: sfc_2
+    src: n_39
+    ue: ue_4
+  sr_29:
+    arrival: 0
+    dst: n_77
+    sfc: sfc_9
+    src: n_97
+    ue: ue_2
+  sr_3:
+    arrival: 0
+    dst: n_69
+    sfc: sfc_7
+    src: n_33
+    ue: ue_2
+  sr_30:
+    arrival: 0
+    dst: n_42
+    sfc: sfc_3
+    src: n_44
+    ue: ue_2
+  sr_31:
+    arrival: 0
+    dst: n_70
+    sfc: sfc_3
+    src: n_32
+    ue: ue_1
+  sr_32:
+    arrival: 0
+    dst: n_63
+    sfc: sfc_1
+    src: n_91
+    ue: ue_4
+  sr_33:
+    arrival: 0
+    dst: n_97
+    sfc: sfc_2
+    src: n_47
+    ue: ue_2
+  sr_34:
+    arrival: 0
+    dst: n_17
+    sfc: sfc_0
+    src: n_82
+    ue: ue_1
+  sr_35:
+    arrival: 0
+    dst: n_93
+    sfc: sfc_8
+    src: n_17
+    ue: ue_2
+  sr_36:
+    arrival: 0
+    dst: n_45
+    sfc: sfc_8
+    src: n_64
+    ue: ue_0
+  sr_37:
+    arrival: 0
+    dst: n_60
+    sfc: sfc_5
+    src: n_72
+    ue: ue_2
+  sr_38:
+    arrival: 0
+    dst: n_45
+    sfc: sfc_4
+    src: n_64
+    ue: ue_4
+  sr_39:
+    arrival: 0
+    dst: n_72
+    sfc: sfc_7
+    src: n_15
+    ue: ue_4
+  sr_4:
+    arrival: 0
+    dst: n_45
+    sfc: sfc_7
+    src: n_73
+    ue: ue_3
+  sr_40:
+    arrival: 0
+    dst: n_61
+    sfc: sfc_1
+    src: n_17
+    ue: ue_4
+  sr_41:
+    arrival: 0
+    dst: n_29
+    sfc: sfc_3
+    src: n_99
+    ue: ue_4
+  sr_42:
+    arrival: 0
+    dst: n_36
+    sfc: sfc_5
+    src: n_77
+    ue: ue_3
+  sr_43:
+    arrival: 0
+    dst: n_64
+    sfc: sfc_0
+    src: n_2
+    ue: ue_2
+  sr_44:
+    arrival: 0
+    dst: n_39
+    sfc: sfc_8
+    src: n_69
+    ue: ue_1
+  sr_45:
+    arrival: 0
+    dst: n_82
+    sfc: sfc_7
+    src: n_72
+    ue: ue_2
+  sr_46:
+    arrival: 0
+    dst: n_71
+    sfc: sfc_1
+    src: n_20
+    ue: ue_2
+  sr_47:
+    arrival: 0
+    dst: n_22
+    sfc: sfc_4
+    src: n_36
+    ue: ue_0
+  sr_48:
+    arrival: 0
+    dst: n_39
+    sfc: sfc_1
+    src: n_4
+    ue: ue_1
+  sr_49:
+    arrival: 0
+    dst: n_2
+    sfc: sfc_3
+    src: n_63
+    ue: ue_2
+  sr_5:
+    arrival: 0
+    dst: n_93
+    sfc: sfc_5
+    src: n_69
+    ue: ue_4
+  sr_6:
+    arrival: 0
+    dst: n_69
+    sfc: sfc_4
+    src: n_93
+    ue: ue_1
+  sr_7:
+    arrival: 0
+    dst: n_4
+    sfc: sfc_4
+    src: n_32
+    ue: ue_0
+  sr_8:
+    arrival: 0
+    dst: n_62
+    sfc: sfc_5
+    src: n_30
+    ue: ue_2
+  sr_9:
+    arrival: 0
+    dst: n_86
+    sfc: sfc_5
+    src: n_17
+    ue: ue_2
+sfcs:
+  sfc_0:
+    max_delay: 30
+    required_bw: 20
+    timeout: 10000
+    vnfs:
+      - v_3
+      - v_8
+      - v_5
+      - v_7
+      - v_4
+  sfc_1:
+    max_delay: 30
+    required_bw: 30
+    timeout: 10000
+    vnfs:
+      - v_9
+      - v_4
+      - v_0
+  sfc_2:
+    max_delay: 20
+    required_bw: 100
+    timeout: 10000
+    vnfs:
+      - v_5
+      - v_2
+      - v_7
+  sfc_3:
+    max_delay: 30
+    required_bw: 30
+    timeout: 10000
+    vnfs:
+      - v_4
+      - v_7
+      - v_8
+      - v_0
+      - v_3
+  sfc_4:
+    max_delay: 30
+    required_bw: 100
+    timeout: 10000
+    vnfs:
+      - v_0
+      - v_8
+      - v_9
+      - v_3
+      - v_7
+  sfc_5:
+    max_delay: 30
+    required_bw: 10
+    timeout: 10000
+    vnfs:
+      - v_4
+      - v_2
+      - v_6
+  sfc_6:
+    max_delay: 30
+    required_bw: 100
+    timeout: 10000
+    vnfs:
+      - v_2
+      - v_4
+      - v_1
+  sfc_7:
+    max_delay: 20
+    required_bw: 30
+    timeout: 10000
+    vnfs:
+      - v_8
+      - v_6
+      - v_7
+      - v_3
+      - v_9
+  sfc_8:
+    max_delay: 20
+    required_bw: 100
+    timeout: 10000
+    vnfs:
+      - v_6
+      - v_0
+      - v_3
+  sfc_9:
+    max_delay: 30
+    required_bw: 10
+    timeout: 10000
+    vnfs:
+      - v_1
+      - v_6
+      - v_0
+      - v_5
+      - v_9
+slice_auctions: {}
+user_equipments:
+  ue_0:
+    type: phone
+  ue_1:
+    type: phone
+  ue_2:
+    type: phone
+  ue_3:
+    type: phone
+  ue_4:
+    type: phone
+vnfs:
+  v_0:
+    cpu: 300
+    mem: 300
+  v_1:
+    cpu: 200
+    mem: 100
+  v_2:
+    cpu: 100
+    mem: 200
+  v_3:
+    cpu: 100
+    mem: 300
+  v_4:
+    cpu: 100
+    mem: 300
+  v_5:
+    cpu: 100
+    mem: 100
+  v_6:
+    cpu: 300
+    mem: 100
+  v_7:
+    cpu: 300
+    mem: 300
+  v_8:
+    cpu: 200
+    mem: 100
+  v_9:
+    cpu: 100
+    mem: 100
