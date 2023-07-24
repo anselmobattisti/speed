@@ -1,8 +1,10 @@
 import os
 import unittest
+
+import networkx as nx
 import simpy
 import pandas as pd
-
+import json
 from SimPlacement.setup import Setup
 from SPEED.entities.zone import Zone
 from SPEED.helpers.simulation import SimulationHelper
@@ -708,3 +710,15 @@ class SPEEDTest(unittest.TestCase):
                 #
                 # log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
                 # df = pd.read_csv(log_file, sep=";")
+
+
+    def test_simulation_helper_zone_topology_generation(self):
+
+        zone_topology, G = SimulationHelper.zone_topology_generation(10, 0)
+
+        self.assertEqual(10, zone_topology['zones'].__len__())
+        self.assertEqual("compute", zone_topology['zones']['C_2']['zone_type'])
+
+        # Print the zone topology
+        # print(json.dumps(zone_topology, indent=1))
+        # nx.write_network_text(G)

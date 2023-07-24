@@ -1,7 +1,7 @@
 simpy==4.0.1
 PyYAML==6.0
 beautifultable==1.1.0
-networkx==2.8.4
+networkx==3.1
 matplotlib==3.5.2
 distinctipy==1.2.2
 progressbar
