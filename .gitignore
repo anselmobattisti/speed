@@ -141,3 +141,4 @@ tests/MobilitySimulation/config/sim_mobility/logs/
 examples/*/logs/*
 
 *.csv
+/experiments/A1/files/
