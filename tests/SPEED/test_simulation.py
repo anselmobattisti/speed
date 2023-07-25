@@ -714,7 +714,7 @@ class SPEEDTest(unittest.TestCase):
 
     def test_simulation_helper_zone_topology_generation(self):
 
-        zone_topology, G = SimulationHelper.zone_topology_generation(10, 0)
+        zone_topology, *_ = SimulationHelper.zone_topology_generation(10, 0)
 
         self.assertEqual(10, zone_topology['zones'].__len__())
         self.assertEqual("compute", zone_topology['zones']['C_2']['zone_type'])
@@ -722,3 +722,22 @@ class SPEEDTest(unittest.TestCase):
         # Print the zone topology
         # print(json.dumps(zone_topology, indent=1))
         # nx.write_network_text(G)
+
+    def test_generate_topology_with_x_leafs_without_fixes_size(self):
+
+        zone_topology, *_ = SimulationHelper.generate_topology_with_x_leafs(
+            num_leafs=6,
+            seed=10
+        )
+
+        self.assertEqual(18, len(zone_topology['zones']))
+
+    def test_generate_topology_with_x_leafs_with_fixes_size(self):
+        zone_topology, *_ = SimulationHelper.generate_topology_with_x_leafs(
+            num_leafs=10,
+            size=15,
+            seed=10
+        )
+
+        self.assertEqual(15, len(zone_topology['zones']))
+

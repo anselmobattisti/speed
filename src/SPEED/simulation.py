@@ -632,6 +632,10 @@ class SPEEDSimulation:
         # Update the aggregated data for all the zones.
         self.update_aggregated_data()
 
+        if not sfc_request.src.domain_name in self.domain_zone:
+            print(self.domain_zone)
+            raise TypeError("The domain {} requested by {} was not found.".format(sfc_request.src.domain_name, sfc_request.name))
+
         src_domain_name = self.domain_zone[sfc_request.src.domain_name]
         dst_domain_name = self.domain_zone[sfc_request.dst.domain_name]
 

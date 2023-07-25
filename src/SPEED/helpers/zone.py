@@ -53,9 +53,6 @@ class ZoneHelper(Helper):
             if 'parent_zone' in zone.keys():
                 aux_parent_zone_name = zone['parent_zone']
 
-                if aux_parent_zone_name not in zones.keys():
-                    raise TypeError("The parent zone {} does not exist.".format(aux_parent_zone_name))
-
             domain_name = ""
             if 'domain' in zone.keys():
                 domain_name = zone['domain']
@@ -74,8 +71,13 @@ class ZoneHelper(Helper):
 
         # Add child zones
         for zone_name, zone in zones.items():
+
             if zone.parent_zone_name:
+                if zone.parent_zone_name not in zones.keys():
+                    raise TypeError("The parent zone {} does not exist.".format(zone.parent_zone_name))
+
                 zones[zone.parent_zone_name].add_child_zone_name(zone_name)
+
 
         return zones
 

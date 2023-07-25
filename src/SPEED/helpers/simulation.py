@@ -61,7 +61,7 @@ class SimulationHelper(Helper):
 
         :param size: the size of the zone topology
         :param seed: the seed used to generate the topology
-        :return: YAML with the topology
+        :return: YAML Topology, DiGraph, List of leafs
 
             zones:
               A_4:
@@ -99,12 +99,37 @@ class SimulationHelper(Helper):
                 parent_zone = ""
 
             topo['zones'][zone_name] = {
-                "zone_type": zone_type,
-                "parent_zone": parent_zone
+                "zone_type": "{}".format(zone_type),
+                "parent_zone": "{}".format(parent_zone)
             }
 
             # Remove the parent zone for the root
             if not parent_zone:
                 del(topo['zones'][zone_name]['parent_zone'])
 
-        return topo, G
+        return topo, G, leafs
+
+    @staticmethod
+    def generate_topology_with_x_leafs(num_leafs: int, size: int = 0, seed: int = random.randint(0, 100)):
+        """
+        Create a topology with the specific leafs number.
+
+        :param size: The zones total.
+        :param num_leafs: Leaf numbers required.
+        :param seed: Random Seed used to generate the topology.
+
+        :return:
+        """
+        if size == 0:
+            size = 3 * num_leafs
+
+        leafs = []
+        zone_topology = ""
+        while len(leafs) != num_leafs:
+            zone_topology, G, leafs = SimulationHelper.zone_topology_generation(
+                size=size,
+                seed=seed
+            )
+            seed += 1
+
+        return zone_topology, G, leafs
