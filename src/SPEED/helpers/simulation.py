@@ -160,7 +160,7 @@ class SimulationHelper(Helper):
 
         # the number of leafs must be greater than the number of domains
         if len(domains) < len(leafs):
-            raise TypeError("The number of domains is lower than the number of leaf zoned in the topology. Increase the number of generated domains in the simulation.")
+            raise TypeError("The number of domains {} is lower than the number of leafs {} zoned in the topology. Increase the number of generated domains in the simulation.".format(len(domains), len(leafs)))
 
         topo = {
             "zones": {}
@@ -199,6 +199,25 @@ class SimulationHelper(Helper):
                 "domain": domain_name
             }
 
+        # The intermediate aggregation zones
+        internal_zones = [x for x in list(aggregation_zones.nodes) if x not in leafs]
+
+        for leaf in internal_zones:
+            # all the domains were binded to an aggregation zone
+            if not domains_name:
+                continue
+
+            domain_name:str = domains_name.pop()
+            name = domain_name.split("_")
+            zone_name = "C_{}".format(name[1])
+
+            topo['zones'][zone_name] = {
+                "zone_type": "compute",
+                "parent_zone": "A_{}".format(leaf),
+                "domain": domain_name
+            }
+
+        # The remainder domains will be random distributed
         for domain_name in domains_name:
 
             name = domain_name.split("_")

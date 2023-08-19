@@ -11,17 +11,17 @@ num_sfc_requests = 50
 num_domains = [5, 10, 20, 30, 40, 50]
 
 # Amount of rounds (for each round a set of files will be created)
-num_rounds = 2
+num_rounds = 5
 
 # Amount of aggregation zones
-num_aggregation_zones = [20, 20, 20, 20, 20, 20]
+num_aggregation_zones = [5, 5, 10, 10, 15, 15]
 
 # The max height of the topology (create a topology were the compute zone of low level have less nodes)
 # 1 - Global Cloud Provider
 # 2 - National Cloud Provider
 # 3 - Regional Cloud Provider
 # 4 - Local Edge Provider
-max_height = [4, 4, 4, 4, 4, 4]
+max_height = [3, 3, 4, 4, 4, 4]
 
 path = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,8 +30,9 @@ for i in range(0, num_rounds):
     # The seed of the topology generation
     random.seed(i)
 
+    j = -1
     for num_domain in num_domains:
-
+        j += 1
         fe = "{}/config/config_entities.yml".format(path)
         ofe = "{}/files/{}_{}.yml".format(path, num_domain, i)
         oft = "{}/files/{}_{}_topo.yml".format(path, num_domain, i)
@@ -49,15 +50,20 @@ for i in range(0, num_rounds):
         aux['intra_domain'] = 0.30
         config_topology['link_probability'] = aux
 
-        topology = TopologyGeneratorHelper.generate(
+        TopologyGeneratorHelper.generate(
             config_file=fe,
             output_file=ofe,
             config_topology=config_topology
         )
 
+        # load the generated environment
+        topology = TopologyGeneratorHelper.load_yml_file(
+            data_file=ofe
+        )
+
         zone_topology = SimulationHelper.generate_zone_topology(
-            num_aggregation_zones=num_aggregation_zones[i],
-            max_height=max_height[i],
+            num_aggregation_zones=num_aggregation_zones[j],
+            max_height=max_height[j],
             domains=topology['domains']
         )
 
