@@ -1,11 +1,12 @@
 import os
 import unittest
-
+import random
 import networkx as nx
 import simpy
 import pandas as pd
 import json
 from SimPlacement.setup import Setup
+from SimPlacement.helpers.topology_generator import TopologyGeneratorHelper
 from SPEED.entities.zone import Zone
 from SPEED.helpers.simulation import SimulationHelper
 from SPEED.helpers.zone import ZoneHelper
@@ -15,7 +16,7 @@ from SimPlacement.helper import Helper
 
 from SPEED.distributed_service_manager import DistributedServiceManager
 from SPEED.logs.distributed_service import DistributedServiceLog
-
+import networkx as nx
 
 class SPEEDTest(unittest.TestCase):
 
@@ -711,33 +712,69 @@ class SPEEDTest(unittest.TestCase):
                 # log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
                 # df = pd.read_csv(log_file, sep=";")
 
+    def test_generate_random_tree_with_max_height(self):
+        """
+        Generate the random tree with a max_height
+        :return:
+        """
+        random.seed(98)
+        G = ZoneHelper.generate_random_tree_with_max_height(
+            max_height=4,
+            num_aggregation_zones=10
+        )
+
+        # check if the amount of nodes was generated correctly
+        self.assertEqual(10, len(G))
+
+        # check if the max depth was generated correctly
+        self.assertEqual(4, nx.dag_longest_path_length(G))
+
+        # print("\n")
+        # print(nx.write_network_text(G))
+
 
     def test_simulation_helper_zone_topology_generation(self):
 
-        zone_topology, *_ = SimulationHelper.zone_topology_generation(10, 0)
+        random.seed(1)
+        zone_topology, G, leafs = SimulationHelper.zone_topology_generation(3)
 
-        self.assertEqual(10, zone_topology['zones'].__len__())
-        self.assertEqual("compute", zone_topology['zones']['C_2']['zone_type'])
+        self.assertEqual(12, zone_topology['zones'].__len__())
+        self.assertEqual("compute", zone_topology['zones']['C_3']['zone_type'])
 
         # Print the zone topology
         # print(json.dumps(zone_topology, indent=1))
         # nx.write_network_text(G)
 
-    def test_generate_topology_with_x_leafs_without_fixes_size(self):
+    def test_generate_zone_topology(self):
+        """
+        Test the generation of the zone topology
+        :return:
+        """
+        entities_file = "{}/logs/generate_zone_topology/10_0.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        # entities_file = "{}/logs/generate_zone_topology/environment.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        oft = "{}/logs/generate_zone_topology/topo.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        oft_dot = "{}/logs/generate_zone_topology/topo.dot".format(os.path.dirname(os.path.abspath(__file__)))
 
-        zone_topology, *_ = SimulationHelper.generate_topology_with_x_leafs(
-            num_leafs=6,
-            seed=10
+        environment = Setup.load_entities(
+            entities_file=entities_file
         )
 
-        self.assertEqual(18, len(zone_topology['zones']))
-
-    def test_generate_topology_with_x_leafs_with_fixes_size(self):
-        zone_topology, *_ = SimulationHelper.generate_topology_with_x_leafs(
-            num_leafs=10,
-            size=15,
-            seed=10
+        zone_topology = SimulationHelper.generate_zone_topology(
+            num_aggregation_zones=10,
+            max_height=4,
+            domains=environment['domains']
         )
 
-        self.assertEqual(15, len(zone_topology['zones']))
+        TopologyGeneratorHelper.save_file(
+            output_file=oft,
+            data=zone_topology
+        )
 
+        dot_str = ZoneHelper.build_dot_from_zone_file(
+            file=oft
+        )
+
+        with open(oft_dot, 'w') as file:
+            file.write(dot_str)
+
+        self.assertEqual(True, False)

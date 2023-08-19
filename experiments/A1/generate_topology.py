@@ -1,21 +1,33 @@
-import json
 import os
 import random
 
-import networkx as nx
 from SimPlacement.helpers.topology_generator import TopologyGeneratorHelper
-from SimPlacement.setup import Setup
-from SimPlacement.topology import Topology
-
 from SPEED.helpers.simulation import SimulationHelper
 
+# Amount of SFC Requests
 num_sfc_requests = 50
+
+# Amount of domains in each iteration
 num_domains = [5, 10, 20, 30, 40, 50]
+
+# Amount of rounds (for each round a set of files will be created)
 num_rounds = 2
+
+# Amount of aggregation zones
+num_aggregation_zones = [20, 20, 20, 20, 20, 20]
+
+# The max height of the topology (create a topology were the compute zone of low level have less nodes)
+# 1 - Global Cloud Provider
+# 2 - National Cloud Provider
+# 3 - Regional Cloud Provider
+# 4 - Local Edge Provider
+max_height = [4, 4, 4, 4, 4, 4]
 
 path = os.path.dirname(os.path.abspath(__file__))
 
 for i in range(0, num_rounds):
+
+    # The seed of the topology generation
     random.seed(i)
 
     for num_domain in num_domains:
@@ -37,23 +49,17 @@ for i in range(0, num_rounds):
         aux['intra_domain'] = 0.30
         config_topology['link_probability'] = aux
 
-        TopologyGeneratorHelper.generate(
+        topology = TopologyGeneratorHelper.generate(
             config_file=fe,
             output_file=ofe,
             config_topology=config_topology
         )
 
-        zone_topology, G, leafs = SimulationHelper.generate_topology_with_x_leafs(
-            num_leafs=num_domain,
-            seed=random.randint(0, 10000)
+        zone_topology = SimulationHelper.generate_zone_topology(
+            num_aggregation_zones=num_aggregation_zones[i],
+            max_height=max_height[i],
+            domains=topology['domains']
         )
-
-        aux = 0
-        for zone in zone_topology['zones']:
-            z = zone_topology['zones'][zone]
-            if z['zone_type'] == "compute":
-                zone_topology['zones'][zone]['domain'] = "dom_{}".format(aux)
-                aux += 1
 
         TopologyGeneratorHelper.save_file(
             output_file=oft,

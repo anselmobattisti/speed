@@ -1,6 +1,7 @@
 import random
 
 from SimPlacement.entities.node import Node
+from SimPlacement.helpers.topology_generator import TopologyGeneratorHelper
 from networkx.drawing.nx_pydot import graphviz_layout
 from typing import Dict, List
 from beautifultable import BeautifulTable
@@ -307,3 +308,53 @@ class ZoneHelper(Helper):
             zone=cz,
             environment=environment
         )
+
+    @staticmethod
+    def build_dot_from_zone_file(file: str) -> str:
+        """
+        Create a string used by dot to generate the image of the topology.
+
+        :param file: File with the zones.
+        :return: String dot formatted.
+        """
+        zones = TopologyGeneratorHelper.load_yml_file(file)
+
+        text = ""
+        relation = []
+        for zone in zones['zones']:
+            z = zones['zones'][zone]
+
+            if 'parent_zone' in z:
+                color = "red"
+                if z['zone_type'] == "compute":
+                    color="blue"
+
+                relation.append("{} -> {} [fillcolor={}]".format(z['parent_zone'], zone, color))
+
+        digstr:str = "digraph D {{ {} }}".format("\n".join(relation))
+
+        return digstr
+
+    @staticmethod
+    def generate_random_tree_with_max_height(max_height: int, num_aggregation_zones: int):
+        """
+        Generate a tree with a max_height
+
+        Used to build the aggregation zone topology.
+
+        :param max_height: Tree max height.
+        :param num_aggregation_zones: Amount of aggregation zones.
+        :return:
+        """
+
+        tree = nx.DiGraph()
+
+        height = -1
+
+        while height != max_height:
+            tree: nx.DiGraph = nx.random_tree(n=num_aggregation_zones, create_using=nx.DiGraph)
+
+            # Get the longest path length in the DiGraph
+            height = nx.dag_longest_path_length(tree)
+
+        return tree

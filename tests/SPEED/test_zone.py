@@ -126,3 +126,15 @@ class ZoneTest(unittest.TestCase):
 
         self.assertEqual(['z_4', 'z_5', 'z_6', 'z_7', 'z_8'], compute_zone_names)
         self.assertEqual(['z_1', 'z_2', 'z_3'], aggregation_zone_names)
+
+    def test_build_dot_from_zone_file(self):
+        """
+        Test the function that create a string used to plot the zone topology
+        using dot.
+        :return:
+        """
+        zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        dot_str = ZoneHelper.build_dot_from_zone_file(zone_file)
+
+        self.assertEqual(96, len(dot_str))
