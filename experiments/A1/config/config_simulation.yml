@@ -1,6 +1,6 @@
 simulation:
   seed: 1
-  duration: 10000
+  duration: 50
   node_cpu_default_cost: 1
   node_mem_default_cost: 1
   link_default_cost: 1

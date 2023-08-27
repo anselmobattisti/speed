@@ -9,6 +9,7 @@ from SimPlacement.entities.node import Node
 from SPEED.types import InfrastructureData
 from SPEED.types import AggregatedData
 
+delay_to_all_gws_aux = {}
 
 class SPEED(Entity):
     """
@@ -234,6 +235,9 @@ class SPEED(Entity):
         :param node: The node.
         :return: Dict with the name of the GW as key, and the delay as value.
         """
+        if node.name in delay_to_all_gws_aux:
+            return delay_to_all_gws_aux[node.name]
+
         g = self.environment['topology'].get_graph()
         aux: Dict[str, int] = dict()
         nodes: Dict[str, Node] = self.environment['nodes']
@@ -241,6 +245,8 @@ class SPEED(Entity):
             if aux_node.is_gateway():
                 delay = nx.shortest_path_length(g, node.name, node_name, weight="delay")
                 aux[node_name] = delay
+
+        delay_to_all_gws_aux[node.name] = aux
 
         return aux
 

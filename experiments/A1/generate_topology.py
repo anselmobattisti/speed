@@ -9,7 +9,7 @@ num_sfc_requests = 50
 
 # Amount of domains in each iteration
 # num_domains = [5, 10, 20, 30, 40, 50]
-num_domains = [5, 10, 20]
+num_domains = [5, 10, 20, 30]
 
 # Amount of rounds (for each round a set of files will be created)
 num_rounds = 5
