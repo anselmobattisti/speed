@@ -83,6 +83,9 @@ nodes:
       - 300
 domains:
   node_num:
+    - 2
+    - 5
+    - 10
     - 20
   placement:
     module_name:

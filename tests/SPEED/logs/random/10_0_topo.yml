@@ -1,0 +1,55 @@
+zones:
+  A_0:
+    zone_type: aggregation
+  A_1:
+    parent_zone: A_0
+    zone_type: aggregation
+  A_2:
+    parent_zone: A_1
+    zone_type: aggregation
+  A_3:
+    parent_zone: A_2
+    zone_type: aggregation
+  A_4:
+    parent_zone: A_0
+    zone_type: aggregation
+  C_0:
+    domain: dom_0
+    parent_zone: A_1
+    zone_type: compute
+  C_1:
+    domain: dom_1
+    parent_zone: A_3
+    zone_type: compute
+  C_2:
+    domain: dom_2
+    parent_zone: A_3
+    zone_type: compute
+  C_3:
+    domain: dom_3
+    parent_zone: A_0
+    zone_type: compute
+  C_4:
+    domain: dom_4
+    parent_zone: A_0
+    zone_type: compute
+  C_5:
+    domain: dom_5
+    parent_zone: A_2
+    zone_type: compute
+  C_6:
+    domain: dom_6
+    parent_zone: A_1
+    zone_type: compute
+  C_7:
+    domain: dom_7
+    parent_zone: A_0
+    zone_type: compute
+  C_8:
+    domain: dom_8
+    parent_zone: A_4
+    zone_type: compute
+  C_9:
+    domain: dom_9
+    parent_zone: A_3
+    zone_type: compute

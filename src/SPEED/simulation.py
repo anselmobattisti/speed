@@ -221,6 +221,8 @@ class SPEEDSimulation:
         The default value for the distributed service wait until set the placement as a fail.
         """
 
+
+
         self.setup()
         """
         Setup the initial configurations to execute the Auction Simulation.
@@ -311,10 +313,32 @@ class SPEEDSimulation:
         After the simulation flush the data and create the logs.
         """
 
+    @staticmethod
+    def which_algorithm() -> str:
+        """
+        The used algorithm
+
+        :return: The name of the algorithm
+        """
+        algorithm = "speed"
+        try:
+            if os.environ["ALGORITHM"] == "random":
+                algorithm = "random"
+
+            if os.environ["ALGORITHM"] == "greedy":
+                algorithm = "greedy"
+        except KeyError as ke:
+            pass
+
+        return algorithm
+
     def simulate(self):
         """
         Execute the simulation main process.
         """
+        # Compute the total of resources used by the VNF Instances and save it in a file
+
+        algorithm = self.which_algorithm()
 
         while True:
 
@@ -380,6 +404,14 @@ class SPEEDSimulation:
 
                     # Zone manager executing the game
                     try:
+                        if algorithm == "random":
+                            cz = ZoneHelper.get_random_compute_zone(
+                                mother_zone=zone_manager,
+                                zone_tree=self.graph_zones
+                            )
+
+                            zone_manager = self.zones[cz]
+
                         self.env.process(
                             self.distributed_sfc_placement_process(
                                 sfc_request=sfc_request,
@@ -461,17 +493,9 @@ class SPEEDSimulation:
                 vnf_names=vnf_names
             )
 
+        algorithm = self.which_algorithm()
+
         # Compute the total of resources used by the VNF Instances and save it in a file
-        algorithm = "speed"
-        try:
-            if os.environ["ALGORITHM"] == "random":
-                algorithm = "random"
-
-            if os.environ["ALGORITHM"] == "greedy":
-                algorithm = "greedy"
-
-        except KeyError as ke:
-            pass
 
         selected_child_zones = ""
 

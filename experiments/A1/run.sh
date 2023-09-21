@@ -34,8 +34,8 @@ for file in "$BASEDIR"/files/*; do
     export ALGORITHM="random"
     python3 ../../main.py --logs "$log_path/random" --config ./config/config_simulation.yml --zones "$topology_name" --entities "$file" &
 
-    export ALGORITHM="greedy"
-    python3 ../../main.py --logs "$log_path/greedy" --config ./config/config_simulation.yml --zones "$topology_name" --entities "$file" &
+#    export ALGORITHM="greedy"
+#    python3 ../../main.py --logs "$log_path/greedy" --config ./config/config_simulation.yml --zones "$topology_name" --entities "$file" &
 
   fi
 

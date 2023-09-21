@@ -145,6 +145,33 @@ class ZoneHelper(Helper):
         return graph
 
     @staticmethod
+    def get_random_compute_zone(mother_zone: Zone, zone_tree: nx.Graph) -> str:
+        """
+        Return a random compute zone name that is child of the zone.
+
+        :param mother_zone: The mother zone.
+        :param zone_tree: The zone tree.
+        :return:
+        """
+        descendants = nx.descendants(zone_tree, mother_zone.name)
+        descendants_compute = []
+
+        # if the zone is already a compute zone.
+        if mother_zone.zone_type == "compute":
+            return mother_zone.name
+
+        for d in descendants:
+            if zone_tree.nodes[d]['zone_type'] == "compute":
+                descendants_compute.append(d)
+
+        if not descendants_compute:
+            raise TypeError("There are no compute zones bellow the zone {}.".format(mother_zone.name))
+
+        zone_name = random.choice(descendants_compute)
+
+        return zone_name
+
+    @staticmethod
     def save_image(zones: Dict[str, Zone], title: str, file_name: str, img_width: int = 20, img_height: int = 20):  # pragma: no cover
         """
         Save an image of the topology.

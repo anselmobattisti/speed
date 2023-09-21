@@ -1,7 +1,9 @@
 import os
 import os.path
+import random
 
 import unittest
+
 from typing import Dict
 
 from SimPlacement.setup import Setup
@@ -137,4 +139,30 @@ class ZoneTest(unittest.TestCase):
 
         dot_str = ZoneHelper.build_dot_from_zone_file(zone_file)
 
-        self.assertEqual(96, len(dot_str))
+        self.assertEqual(207, len(dot_str))
+
+    def test_get_random_compute_zone(self):
+        """
+        Test the process of getting a random compute zone bellow a certain zone.
+        :return:
+        """
+        random.seed(1)
+
+        entities_file = "{}/config/entities_topology_build.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/zone_topology.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(entities_file)
+
+        zones = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        zt = ZoneHelper.build_zone_tree(zones)
+
+        cz = ZoneHelper.get_random_compute_zone(
+            mother_zone=zones['z_3'],
+            zone_tree=zt
+        )
+
+        self.assertEqual(cz, 'z_7')
