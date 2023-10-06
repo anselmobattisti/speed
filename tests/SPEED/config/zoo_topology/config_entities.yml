@@ -1,0 +1,132 @@
+user_equipments:
+  type:
+    - phone
+vnfs:
+  cpu:
+    - 1.2
+    - 1.6
+    - 2
+    - 2.8
+  mem:
+    - 0.29
+    - 1.55
+    - 2
+    - 3.4
+    - 4
+sfcs:
+  vnf_num:
+    - 3
+  max_delay:
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+    - 60
+    - 70
+    - 80
+    - 90
+    - 100
+  required_bw:
+    - 10
+    - 90
+  timeout:
+    - 10000
+nodes:
+  vnf_num:
+    - 5
+  cpu:
+    - 5000
+  mem:
+    - 5000
+  extra_parameters:
+    disk_capacity:
+      - 1500
+      - 1000
+    cpu_cost:
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      - 0.5
+      - 0.6
+      - 0.7
+      - 0.8
+      - 0.9
+      - 1.0
+    mem_cost:
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      - 0.5
+      - 0.6
+      - 0.7
+      - 0.8
+      - 0.9
+      - 1.0
+    disk_cost:
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      - 0.5
+      - 0.6
+      - 0.7
+      - 0.8
+      - 0.9
+      - 1.0
+    cost:
+      - 200
+      - 300
+domains:
+  node_num:
+    - 2
+    - 5
+    - 10
+    - 20
+  placement:
+    module_name:
+      - SimPlacement.mano.placement.basic_delay: BasicShortestDelayPlacement
+sfc_requests:
+    arrival:
+      - 0
+links:
+  bw:
+    - 100000
+    - 200000
+    - 500000
+  delay:
+    - 1
+    - 2
+    - 3
+  extra_parameters:
+    bidirectional:
+      - true
+    buffer_capacity:
+      - 100
+      - 200
+    bandwidth_cost:
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      - 0.5
+      - 0.6
+      - 0.7
+      - 0.8
+      - 0.9
+      - 1.0
+    buffer_cost:
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      - 0.5
+      - 0.6
+      - 0.7
+      - 0.8
+      - 0.9
+      - 1.0
+    loss:
+      - 0

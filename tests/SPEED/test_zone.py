@@ -6,8 +6,13 @@ import unittest
 
 from typing import Dict
 
+import networkx as nx
+import matplotlib.pyplot as plt
+from SimPlacement.helpers.topology_generator import TopologyGeneratorHelper
+
 from SimPlacement.setup import Setup
 from SPEED.entities.zone import Zone
+from SPEED.helpers.simulation import SimulationHelper
 from SPEED.helpers.zone import ZoneHelper
 
 
@@ -166,3 +171,135 @@ class ZoneTest(unittest.TestCase):
         )
 
         self.assertEqual(cz, 'z_7')
+
+    def test_generate_zone_topology_zoo(self):
+        """
+        Test the creation of the topology hierarchy based on the zoo topology file.
+        """
+        path = os.path.dirname(os.path.abspath(__file__))
+
+        num_domain = 1
+
+        i = 1
+
+        # fe  = "{}/config/zoo_topology/config_entities.yml".format(path)
+        # oft = "{}/files/{}_{}_topo.yml".format(path, num_domain, i)
+        #
+        # config_topology = dict()
+        # config_topology['num_vnfs'] = 10
+        # config_topology['num_sfcs'] = 10
+        # config_topology['num_nodes'] = 1000
+        # config_topology['num_ues'] = 10
+        # config_topology['num_sfc_requests'] = 10
+        # config_topology['num_domains'] = 63
+        #
+        # aux = dict()
+        # aux['inter_domain'] = 0.02
+        # aux['intra_domain'] = 0.30
+        # config_topology['link_probability'] = aux
+        #
+        # TopologyGeneratorHelper.generate(
+        #     config_file=fe,
+        #     output_file=ofe,
+        #     config_topology=config_topology
+        # )
+        #
+        # generated_environment =  TopologyGeneratorHelper.load_yml_file(
+        #     data_file=ofe
+        # )
+
+        zoo_topology_file = "{}/config/zoo_topology/topology-zoo.org_files_Internode.gml".format(path)
+        ofe = "{}/config/zoo_topology/files/environment.yml".format(path)
+        topo_file = "{}/config/zoo_topology/files/topo.yml".format(path)
+
+        SimulationHelper.convert_environment_using_topology_zoo(
+            zoo_topology=zoo_topology_file,
+            zone_root=10,
+            environment_file=ofe,
+            topo_file = topo_file
+        )
+
+        self.assertEqual(True, False)
+
+    def test_import_zoo_topology(self):
+        """
+        Import the zoo topology to be executed in the simulation.
+        :return:
+        """
+        # Load the GML file
+        G = nx.read_gml("config/zoo_topology/topology-zoo.org_files_Internode.gml")
+
+        # Compute the centrality of all the nodes in the topology
+        centrality = nx.degree_centrality(G)
+
+        # Sort the nodes by the centrality, the first nodes has higher centrality
+        s = sorted(centrality.items(), key=lambda x: x[1], reverse=True)
+
+        # How many topologies to create?
+        zone_limit = 10
+
+        num_sfc_requests = [5, 10]
+
+        path = os.path.dirname(os.path.abspath(__file__))
+
+        fe  = "{}/config/zoo_topology/config_entities.yml".format(path)
+        # ofe = "{}/config/zoo_topology/files/{}_{}.yml".format(path, num_domain, i)
+        # oft = "{}/files/{}_{}_topo.yml".format(path, num_domain, i)
+
+        # For each topology do the task
+        for k, v in s[:zone_limit]:
+            # Construct the tree (topology hierarchic) using the breadth-first-search
+            tree = nx.bfs_tree(G, k)
+
+            # Save the tree image in the img folder
+            p = nx.drawing.nx_pydot.to_pydot(tree)
+            p.write_png('./config/zoo_topology/img/{}.png'.format(k))
+
+            # # All the nodes in the tree graph are Aggregation zones
+            #
+            # # For each Aggregation zone, one compute zone will be attached
+            #
+            # for num_sfc_request in num_sfc_requests:
+            #
+            #     config_topology = dict()
+            #     config_topology['num_vnfs'] = 10
+            #     config_topology['num_sfcs'] = 10
+            #     config_topology['num_nodes'] = 1000
+            #     config_topology['num_ues'] = 10
+            #     config_topology['num_sfc_requests'] = num_sfc_request
+            #     config_topology['num_domains'] = len(G.nodes)
+            #
+            #     aux = dict()
+            #     aux['inter_domain'] = 0.02
+            #     aux['intra_domain'] = 0.30
+            #     config_topology['link_probability'] = aux
+            #
+            #     TopologyGeneratorHelper.generate(
+            #         config_file=fe,
+            #         output_file=ofe,
+            #         config_topology=config_topology
+            #     )
+            #
+            #     # load the generated environment
+            #     topology = TopologyGeneratorHelper.load_yml_file(
+            #         data_file=ofe
+            #     )
+            #
+            #     zone_topology = SimulationHelper.generate_zone_topology_zoo(
+            #         num_aggregation_zones=num_aggregation_zones[j],
+            #         max_height=max_height[j],
+            #         domains=topology['domains']
+            #     )
+
+                # zone_topology = SimulationHelper.generate_zone_topology(
+                #     num_aggregation_zones=num_aggregation_zones[j],
+                #     max_height=max_height[j],
+                #     domains=topology['domains']
+                # )
+                #
+                # TopologyGeneratorHelper.save_file(
+                #     output_file=oft,
+                #     data=zone_topology
+                # )
+
+        self.assertEqual(True, True)
