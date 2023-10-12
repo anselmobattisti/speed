@@ -787,7 +787,6 @@ class SPEEDTest(unittest.TestCase):
 
         self.assertEqual(True, False)
 
-
     def test_random_10(self):
         """
         Test the random with the 10 topology
@@ -832,6 +831,55 @@ class SPEEDTest(unittest.TestCase):
         df = pd.read_csv(log_file, sep=";")
 
         self.assertEqual("COMPUTE_ZONE_NO_RESOURCE", df['Event'][0])
+
+        # dot_str = ZoneHelper.build_dot_from_zone_file(
+        #     file=zone_file
+        # )
+        #
+        # print(dot_str)
+
+    def test_error_5(self):
+        """
+        Verify why the placement plan for the request 4 is not being finded.
+        """
+        random.seed(1)
+        entities_file = "{}/config/error_5/5_4.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/error_5/5_4_topo.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/error_5/config_simulation.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEEDSimulation(
+            env=simpy.Environment(),
+            config=config["simulation"],
+            environment=environment
+        )
+
+        # change the path where the simulation will save the logs.
+        new_log_path = "{}/config/error_5/logs".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation.log.set_log_path(new_log_path)
+
+        simulation.run()
+
+        # SimulationHelper.print_environment_topology(
+        #     environment=environment
+        # )
+
+        # log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
+        # df = pd.read_csv(log_file, sep=";")
+        #
+        # self.assertEqual("COMPUTE_ZONE_NO_RESOURCE", df['Event'][0])
 
         # dot_str = ZoneHelper.build_dot_from_zone_file(
         #     file=zone_file

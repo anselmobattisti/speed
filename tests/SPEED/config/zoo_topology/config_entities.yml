@@ -82,9 +82,6 @@ nodes:
 domains:
   node_num:
     - 2
-    - 5
-    - 10
-    - 20
   placement:
     module_name:
       - SimPlacement.mano.placement.basic_delay: BasicShortestDelayPlacement

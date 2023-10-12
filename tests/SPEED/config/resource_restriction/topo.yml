@@ -1,0 +1,18 @@
+zones:
+  A_0:
+    parent_zone: ''
+    zone_type: aggregation
+  A_1:
+    parent_zone: A_0
+    zone_type: aggregation
+  A_2:
+    parent_zone: A_0
+    zone_type: aggregation
+  C_0:
+    domain: dom_0
+    parent_zone: A_1
+    zone_type: compute
+  C_1:
+    domain: dom_1
+    parent_zone: A_2
+    zone_type: compute

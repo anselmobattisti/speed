@@ -265,3 +265,44 @@ class SPEEDTest(unittest.TestCase):
 
         self.assertEqual(['vnf_1', 'vnf_3', 'vnf_2'], vnfs)
         self.assertEqual(['vnf_1', 'vnf_3', 'vnf_2'], vnfs_5)
+
+    def test_compute_zone_data_collect_resource_restriction(self):
+        """
+        After build the topology create a new VNF Instance and verify if the cpu available changes.
+        """
+        entities_file = "{}/config/resource_restriction/env.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/resource_restriction/topo.yml".format(os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(entities_file)
+
+        zones: Dict[str, Zone] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        # Create a VNF Instance in the node n_4
+        n_1: Node = environment['nodes']['n_1']
+        vnf1_name_teste: VNFInstance = n_1.create_vnf_instance(
+            name='vnf1_name_teste',
+            vnf_name='v_3'
+        )
+
+        vnf1_name_teste.set_status(
+            value="active",
+            status_to_count_resource_usage=["active"]
+        )
+
+        dsm = DistributedServiceManager(
+            zone=zones['C_0'],
+            environment=environment
+        )
+
+        speed = dsm.speed
+
+        data_collected = speed.compute_zone_data_collect()
+
+        self.assertEqual(True, False)
+
+        # dc_0: InfrastructureData = data_collected[0]
+        # self.assertEqual('z_5', dc_0['zone'])
+        # self.assertEqual(375, dc_0['cost'])

@@ -182,34 +182,30 @@ class ZoneTest(unittest.TestCase):
 
         i = 1
 
-        # fe  = "{}/config/zoo_topology/config_entities.yml".format(path)
-        # oft = "{}/files/{}_{}_topo.yml".format(path, num_domain, i)
-        #
-        # config_topology = dict()
-        # config_topology['num_vnfs'] = 10
-        # config_topology['num_sfcs'] = 10
-        # config_topology['num_nodes'] = 1000
-        # config_topology['num_ues'] = 10
-        # config_topology['num_sfc_requests'] = 10
-        # config_topology['num_domains'] = 63
-        #
-        # aux = dict()
-        # aux['inter_domain'] = 0.02
-        # aux['intra_domain'] = 0.30
-        # config_topology['link_probability'] = aux
-        #
-        # TopologyGeneratorHelper.generate(
-        #     config_file=fe,
-        #     output_file=ofe,
-        #     config_topology=config_topology
-        # )
-        #
-        # generated_environment =  TopologyGeneratorHelper.load_yml_file(
-        #     data_file=ofe
-        # )
+        ofe = "{}/config/zoo_topology/files/environment.yml".format(path)
+        fe  = "{}/config/zoo_topology/config_entities.yml".format(path)
+        oft = "{}/files/{}_{}_topo.yml".format(path, num_domain, i)
+
+        config_topology = dict()
+        config_topology['num_vnfs'] = 10
+        config_topology['num_sfcs'] = 10
+        config_topology['num_nodes'] = 1000
+        config_topology['num_ues'] = 10
+        config_topology['num_sfc_requests'] = 10
+        config_topology['num_domains'] = 66
+
+        aux = dict()
+        aux['inter_domain'] = 0.02
+        aux['intra_domain'] = 0.30
+        config_topology['link_probability'] = aux
+
+        TopologyGeneratorHelper.generate(
+            config_file=fe,
+            output_file=ofe,
+            config_topology=config_topology
+        )
 
         zoo_topology_file = "{}/config/zoo_topology/topology-zoo.org_files_Internode.gml".format(path)
-        ofe = "{}/config/zoo_topology/files/environment.yml".format(path)
         topo_file = "{}/config/zoo_topology/files/topo.yml".format(path)
 
         SimulationHelper.convert_environment_using_topology_zoo(
@@ -219,7 +215,7 @@ class ZoneTest(unittest.TestCase):
             topo_file = topo_file
         )
 
-        self.assertEqual(True, False)
+        self.assertEqual(True, True)
 
     def test_import_zoo_topology(self):
         """

@@ -8,6 +8,7 @@ from SimPlacement.entities.domain import Domain
 from SimPlacement.entities.node import Node
 from SPEED.types import InfrastructureData
 from SPEED.types import AggregatedData
+from SimPlacement.types import Resource
 
 delay_to_all_gws_aux = {}
 
@@ -95,8 +96,15 @@ class SPEED(Entity):
         infrastructure_data = []
         for node_name, node in self.domain.nodes.items():
             delay_to_all_gws = self.delay_to_all_gws(node)
+
+            already_allocated: Resource = Resource(cpu=0, mem=0)
+
             for vnf_name, vnf in node.vnfs.items():
-                if node.has_resources_to_execute_vnf(vnf):
+
+                if node.has_resources_to_execute_vnf(vnf, already_allocated):
+
+                    already_allocated['cpu'] += vnf.cpu
+                    already_allocated['mem'] += vnf.mem
 
                     cpu_cost = node.get_extra_parameter("cpu_cost")
                     mem_cost = node.get_extra_parameter("mem_cost")
@@ -327,5 +335,8 @@ class SPEED(Entity):
         for d in self.aggregated_data.values():
             if d['vnf'] == vnf_name:
                 costs.append(d['cost'])
+
+        if len(costs) == 0:
+            return 0
 
         return min(costs)

@@ -83,16 +83,13 @@ nodes:
       - 300
 domains:
   node_num:
-    - 2
-    - 5
-    - 10
-    - 20
+    - 3
   placement:
     module_name:
       - SimPlacement.mano.placement.basic_delay: BasicShortestDelayPlacement
 sfc_requests:
     arrival:
-      - 0
+      - 50
 links:
   bw:
     - 100000
