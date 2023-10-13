@@ -205,14 +205,14 @@ class SPEEDTest(unittest.TestCase):
         simulation.update_aggregated_data()
 
         # SFC ['vnf_1', 'vnf_2', 'vnf_3']
-        sr_1: SFCRequest = environment['sfc_requests']['sr_1']
+        sr_2: SFCRequest = environment['sfc_requests']['sr_2']
         zone_selected = simulation.select_zone_manager(
-            sfc_request=sr_1
+            sfc_request=sr_2
         )
 
         vnf_names: List[str] = list()
 
-        for vnf in sr_1.sfc.vnfs:
+        for vnf in sr_2.sfc.vnfs:
             vnf_names.append(vnf.name)
 
         zone_manager: Zone = zone_selected['zone_manager']

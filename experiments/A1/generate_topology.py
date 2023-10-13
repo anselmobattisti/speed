@@ -7,7 +7,7 @@ from SimPlacement.helpers.topology_generator import TopologyGeneratorHelper
 from SPEED.helpers.simulation import SimulationHelper
 
 # Amount of SFC Requests
-num_sfc_requests = [5, 10, 20, 50, 80, 100]
+num_sfc_requests = [5, 20, 50, 80, 100]
 
 # Amount of domains in each iteration
 # num_domains = [5, 10, 20, 30, 40, 50]
@@ -15,16 +15,6 @@ num_sfc_requests = [5, 10, 20, 50, 80, 100]
 
 # Amount of rounds (for each round a set of files will be created)
 num_rounds = 10
-
-# Amount of aggregation zones
-num_aggregation_zones = [5, 5, 10, 10, 15, 15]
-
-# The max height of the topology (create a topology were the compute zone of low level have less nodes)
-# 1 - Global Cloud Provider
-# 2 - National Cloud Provider
-# 3 - Regional Cloud Provider
-# 4 - Local Edge Provider
-# max_height = [3, 3, 4, 4, 4, 4]
 
 path = os.path.dirname(os.path.abspath(__file__))
 files_path = "{}/files/*".format(path)

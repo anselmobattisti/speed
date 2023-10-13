@@ -5789,25 +5789,25 @@ sfc_requests:
     src: n_2
     ue: ue_2
   sr_1:
-    arrival: 50
+    arrival: 51
     dst: n_92
     sfc: sfc_0
     src: n_2
     ue: ue_3
   sr_2:
-    arrival: 50
+    arrival: 52
     dst: n_123
     sfc: sfc_0
     src: n_2
     ue: ue_0
   sr_3:
-    arrival: 50
+    arrival: 53
     dst: n_89
     sfc: sfc_0
     src: n_2
     ue: ue_0
   sr_4:
-    arrival: 50
+    arrival: 54
     dst: n_172
     sfc: sfc_0
     src: n_2

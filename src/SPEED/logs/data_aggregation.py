@@ -14,7 +14,7 @@ class DataAggregationLog(Log):
     """
     NAME = "data_aggregation"
 
-    COLUMNS = ["Event", "Time", "Zone", "Size"]
+    COLUMNS = ["Event", "Time", "Zone", "Size", "Data"]
     """
     The column title of the CSV file.
     """
@@ -35,7 +35,7 @@ class DataAggregationLog(Log):
         """
         self.events = list()
 
-    def add_event(self, event: str, time: int, zone_name: str, size: int):
+    def add_event(self, event: str, time: int, zone_name: str, size: int, data):
         """
         Add a new event.
 
@@ -43,6 +43,7 @@ class DataAggregationLog(Log):
         :param time: Time of the event.
         :param zone_name: The name of the Zone.
         :param size: The data aggregation size.
+        :param data: The aggregated data.
 
         :return:
         """
@@ -51,7 +52,8 @@ class DataAggregationLog(Log):
             event,
             "{:.2f}".format(time),
             zone_name,
-            size
+            size,
+            data
         ]
         self.events.insert(0, log)
 

@@ -528,6 +528,10 @@ class SPEEDSimulation:
 
             selected_child_zones = dsm.select_zones_to_vnf_segments(selected_segmentation_plan)
 
+            # if sfc_request.name == "sr_4":
+            #     print(sfc_request.name)
+            #     print(selected_child_zones)
+            #     print("-----")
         if algorithm == "random":
             child_zones = zone.child_zone_names
             selected_child_zones = {random.choice(child_zones): {'vnfs': vnf_names}}
@@ -634,7 +638,8 @@ class SPEEDSimulation:
             event=DataAggregationLog.COMPUTED,
             time=self.env.now,
             zone_name=zone.name,
-            size=data_size
+            size=data_size,
+            data=""
         )
 
         # Send data to the parent zone.
