@@ -32,13 +32,12 @@ for file in "$BASEDIR"/files/*; do
 #    export ALGORITHM="random"
 #    python3 ../../main.py --logs "$log_path/random" --config ./config/config_simulation.yml --zones "$topology_name" --entities "$file" &
 
-     python3 /home/battisti/versionado/SimPlacement/main.py --logs "$log_path/domain" --config ./config/config_simulation.yml --entities "$file" --sfc_auction_sim --not_auction &
+#     python3 /home/battisti/versionado/SimPlacement/main.py --logs "$log_path/domain" --config ./config/config_simulation.yml --entities "$file" --sfc_auction_sim --not_auction &
 
-    python3 /home/battisti/versionado/SimPlacement/main.py --logs "$log_path/auction" --config ./config/config_simulation.yml --entities "$file" --sfc_auction_sim &
+#     python3 /home/battisti/versionado/SimPlacement/main.py --logs "$log_path/auction" --config ./config/config_simulation.yml --entities "$file" --sfc_auction_sim &
 
-#    export ALGORITHM="greedy"
-#    python3 ../../main.py --logs "$log_path/greedy" --config ./config/config_simulation.yml --zones "$topology_name" --entities "$file" &
-
+    export ALGORITHM="greedy"
+    python3 ../../main.py --logs "$log_path/greedy" --config ./config/config_simulation.yml --zones "$topology_name" --entities "$file" &
 
   fi
 
