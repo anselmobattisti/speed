@@ -871,18 +871,3 @@ class SPEEDTest(unittest.TestCase):
         simulation.log.set_log_path(new_log_path)
 
         simulation.run()
-
-        # SimulationHelper.print_environment_topology(
-        #     environment=environment
-        # )
-
-        # log_file = "{}/{}".format(new_log_path, DistributedServiceLog.FILE_NAME)
-        # df = pd.read_csv(log_file, sep=";")
-        #
-        # self.assertEqual("COMPUTE_ZONE_NO_RESOURCE", df['Event'][0])
-
-        # dot_str = ZoneHelper.build_dot_from_zone_file(
-        #     file=zone_file
-        # )
-        #
-        # print(dot_str)

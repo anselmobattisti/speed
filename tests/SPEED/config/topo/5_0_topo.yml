@@ -1,0 +1,463 @@
+zones:
+  A_0:
+    parent_zone: A_3
+    zone_type: aggregation
+  A_1:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_10:
+    parent_zone: A_3
+    zone_type: aggregation
+  A_11:
+    parent_zone: A_0
+    zone_type: aggregation
+  A_12:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_13:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_14:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_15:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_16:
+    parent_zone: A_25
+    zone_type: aggregation
+  A_17:
+    parent_zone: A_16
+    zone_type: aggregation
+  A_18:
+    parent_zone: A_1
+    zone_type: aggregation
+  A_19:
+    parent_zone: ''
+    zone_type: aggregation
+  A_2:
+    parent_zone: A_61
+    zone_type: aggregation
+  A_20:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_21:
+    parent_zone: A_1
+    zone_type: aggregation
+  A_22:
+    parent_zone: A_4
+    zone_type: aggregation
+  A_23:
+    parent_zone: A_4
+    zone_type: aggregation
+  A_24:
+    parent_zone: A_45
+    zone_type: aggregation
+  A_25:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_26:
+    parent_zone: A_45
+    zone_type: aggregation
+  A_27:
+    parent_zone: A_45
+    zone_type: aggregation
+  A_28:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_29:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_3:
+    parent_zone: A_1
+    zone_type: aggregation
+  A_30:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_31:
+    parent_zone: A_25
+    zone_type: aggregation
+  A_32:
+    parent_zone: A_25
+    zone_type: aggregation
+  A_33:
+    parent_zone: A_25
+    zone_type: aggregation
+  A_34:
+    parent_zone: A_24
+    zone_type: aggregation
+  A_35:
+    parent_zone: A_45
+    zone_type: aggregation
+  A_36:
+    parent_zone: A_45
+    zone_type: aggregation
+  A_37:
+    parent_zone: A_18
+    zone_type: aggregation
+  A_38:
+    parent_zone: A_16
+    zone_type: aggregation
+  A_39:
+    parent_zone: A_18
+    zone_type: aggregation
+  A_4:
+    parent_zone: A_6
+    zone_type: aggregation
+  A_40:
+    parent_zone: A_18
+    zone_type: aggregation
+  A_41:
+    parent_zone: A_20
+    zone_type: aggregation
+  A_42:
+    parent_zone: A_20
+    zone_type: aggregation
+  A_43:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_44:
+    parent_zone: A_20
+    zone_type: aggregation
+  A_45:
+    parent_zone: A_19
+    zone_type: aggregation
+  A_46:
+    parent_zone: A_6
+    zone_type: aggregation
+  A_47:
+    parent_zone: A_10
+    zone_type: aggregation
+  A_48:
+    parent_zone: A_3
+    zone_type: aggregation
+  A_49:
+    parent_zone: A_5
+    zone_type: aggregation
+  A_5:
+    parent_zone: A_3
+    zone_type: aggregation
+  A_50:
+    parent_zone: A_0
+    zone_type: aggregation
+  A_51:
+    parent_zone: A_6
+    zone_type: aggregation
+  A_52:
+    parent_zone: A_6
+    zone_type: aggregation
+  A_53:
+    parent_zone: A_10
+    zone_type: aggregation
+  A_54:
+    parent_zone: A_10
+    zone_type: aggregation
+  A_55:
+    parent_zone: A_60
+    zone_type: aggregation
+  A_56:
+    parent_zone: A_59
+    zone_type: aggregation
+  A_57:
+    parent_zone: A_61
+    zone_type: aggregation
+  A_58:
+    parent_zone: A_61
+    zone_type: aggregation
+  A_59:
+    parent_zone: A_16
+    zone_type: aggregation
+  A_6:
+    parent_zone: A_1
+    zone_type: aggregation
+  A_60:
+    parent_zone: A_6
+    zone_type: aggregation
+  A_61:
+    parent_zone: A_1
+    zone_type: aggregation
+  A_62:
+    parent_zone: A_45
+    zone_type: aggregation
+  A_63:
+    parent_zone: A_60
+    zone_type: aggregation
+  A_64:
+    parent_zone: A_59
+    zone_type: aggregation
+  A_65:
+    parent_zone: A_59
+    zone_type: aggregation
+  A_7:
+    parent_zone: A_1
+    zone_type: aggregation
+  A_8:
+    parent_zone: A_45
+    zone_type: aggregation
+  A_9:
+    parent_zone: A_45
+    zone_type: aggregation
+  C_0:
+    domain: dom_0
+    parent_zone: A_65
+    zone_type: compute
+  C_1:
+    domain: dom_1
+    parent_zone: A_64
+    zone_type: compute
+  C_10:
+    domain: dom_10
+    parent_zone: A_56
+    zone_type: compute
+  C_11:
+    domain: dom_11
+    parent_zone: A_63
+    zone_type: compute
+  C_12:
+    domain: dom_12
+    parent_zone: A_55
+    zone_type: compute
+  C_13:
+    domain: dom_13
+    parent_zone: A_23
+    zone_type: compute
+  C_14:
+    domain: dom_14
+    parent_zone: A_22
+    zone_type: compute
+  C_15:
+    domain: dom_15
+    parent_zone: A_47
+    zone_type: compute
+  C_16:
+    domain: dom_16
+    parent_zone: A_54
+    zone_type: compute
+  C_17:
+    domain: dom_17
+    parent_zone: A_53
+    zone_type: compute
+  C_18:
+    domain: dom_18
+    parent_zone: A_49
+    zone_type: compute
+  C_19:
+    domain: dom_19
+    parent_zone: A_50
+    zone_type: compute
+  C_2:
+    domain: dom_2
+    parent_zone: A_11
+    zone_type: compute
+  C_20:
+    domain: dom_20
+    parent_zone: A_38
+    zone_type: compute
+  C_21:
+    domain: dom_21
+    parent_zone: A_59
+    zone_type: compute
+  C_22:
+    domain: dom_22
+    parent_zone: A_17
+    zone_type: compute
+  C_23:
+    domain: dom_23
+    parent_zone: A_34
+    zone_type: compute
+  C_24:
+    domain: dom_24
+    parent_zone: A_58
+    zone_type: compute
+  C_25:
+    domain: dom_25
+    parent_zone: A_57
+    zone_type: compute
+  C_26:
+    domain: dom_26
+    parent_zone: A_2
+    zone_type: compute
+  C_27:
+    domain: dom_27
+    parent_zone: A_39
+    zone_type: compute
+  C_28:
+    domain: dom_28
+    parent_zone: A_37
+    zone_type: compute
+  C_29:
+    domain: dom_29
+    parent_zone: A_40
+    zone_type: compute
+  C_3:
+    domain: dom_3
+    parent_zone: A_60
+    zone_type: compute
+  C_30:
+    domain: dom_30
+    parent_zone: A_52
+    zone_type: compute
+  C_31:
+    domain: dom_31
+    parent_zone: A_51
+    zone_type: compute
+  C_32:
+    domain: dom_32
+    parent_zone: A_46
+    zone_type: compute
+  C_33:
+    domain: dom_33
+    parent_zone: A_4
+    zone_type: compute
+  C_34:
+    domain: dom_34
+    parent_zone: A_48
+    zone_type: compute
+  C_35:
+    domain: dom_35
+    parent_zone: A_10
+    zone_type: compute
+  C_36:
+    domain: dom_36
+    parent_zone: A_5
+    zone_type: compute
+  C_37:
+    domain: dom_37
+    parent_zone: A_0
+    zone_type: compute
+  C_38:
+    domain: dom_38
+    parent_zone: A_31
+    zone_type: compute
+  C_39:
+    domain: dom_39
+    parent_zone: A_33
+    zone_type: compute
+  C_4:
+    domain: dom_4
+    parent_zone: A_32
+    zone_type: compute
+  C_40:
+    domain: dom_40
+    parent_zone: A_16
+    zone_type: compute
+  C_41:
+    domain: dom_41
+    parent_zone: A_41
+    zone_type: compute
+  C_42:
+    domain: dom_42
+    parent_zone: A_44
+    zone_type: compute
+  C_43:
+    domain: dom_43
+    parent_zone: A_42
+    zone_type: compute
+  C_44:
+    domain: dom_44
+    parent_zone: A_62
+    zone_type: compute
+  C_45:
+    domain: dom_45
+    parent_zone: A_36
+    zone_type: compute
+  C_46:
+    domain: dom_46
+    parent_zone: A_35
+    zone_type: compute
+  C_47:
+    domain: dom_47
+    parent_zone: A_27
+    zone_type: compute
+  C_48:
+    domain: dom_48
+    parent_zone: A_26
+    zone_type: compute
+  C_49:
+    domain: dom_49
+    parent_zone: A_24
+    zone_type: compute
+  C_5:
+    domain: dom_5
+    parent_zone: A_9
+    zone_type: compute
+  C_50:
+    domain: dom_50
+    parent_zone: A_8
+    zone_type: compute
+  C_51:
+    domain: dom_51
+    parent_zone: A_61
+    zone_type: compute
+  C_52:
+    domain: dom_52
+    parent_zone: A_21
+    zone_type: compute
+  C_53:
+    domain: dom_53
+    parent_zone: A_18
+    zone_type: compute
+  C_54:
+    domain: dom_54
+    parent_zone: A_7
+    zone_type: compute
+  C_55:
+    domain: dom_55
+    parent_zone: A_6
+    zone_type: compute
+  C_56:
+    domain: dom_56
+    parent_zone: A_3
+    zone_type: compute
+  C_57:
+    domain: dom_57
+    parent_zone: A_30
+    zone_type: compute
+  C_58:
+    domain: dom_58
+    parent_zone: A_29
+    zone_type: compute
+  C_59:
+    domain: dom_59
+    parent_zone: A_28
+    zone_type: compute
+  C_6:
+    domain: dom_6
+    parent_zone: A_25
+    zone_type: compute
+  C_60:
+    domain: dom_60
+    parent_zone: A_20
+    zone_type: compute
+  C_61:
+    domain: dom_61
+    parent_zone: A_45
+    zone_type: compute
+  C_62:
+    domain: dom_62
+    parent_zone: A_43
+    zone_type: compute
+  C_63:
+    domain: dom_63
+    parent_zone: A_15
+    zone_type: compute
+  C_64:
+    domain: dom_64
+    parent_zone: A_14
+    zone_type: compute
+  C_65:
+    domain: dom_65
+    parent_zone: A_13
+    zone_type: compute
+  C_7:
+    domain: dom_7
+    parent_zone: A_12
+    zone_type: compute
+  C_8:
+    domain: dom_8
+    parent_zone: A_1
+    zone_type: compute
+  C_9:
+    domain: dom_9
+    parent_zone: A_19
+    zone_type: compute
