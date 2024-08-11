@@ -871,3 +871,51 @@ class SPEEDTest(unittest.TestCase):
         simulation.log.set_log_path(new_log_path)
 
         simulation.run()
+
+    def test_print_generated_image_A3(self):
+        """
+        Generate the image from exp3
+        """
+        entities_file = "{}/config/A3/5_0.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        zone_file = "{}/config/A3/5_0_topo.yml".format(os.path.dirname(os.path.abspath(__file__)))
+        simulation_file = "{}/config/A3/config_simulation.yml".format(
+
+        os.path.dirname(os.path.abspath(__file__)))
+
+        environment = Setup.load_entities(
+            entities_file=entities_file
+        )
+
+        environment['zones'] = ZoneHelper.load(
+            data_file=zone_file,
+            environment=environment
+        )
+
+        config = Helper.load_yml_file(
+            data_file=simulation_file
+        )
+
+        simulation = SPEEDSimulation(
+            env=simpy.Environment(),
+            config=config["simulation"],
+            environment=environment
+        )
+
+        simulation.setup()
+
+        simulation.update_aggregated_data()
+
+        sr_1 = environment['sfc_requests']['sr_1']
+
+        z_sr1 = simulation.select_zone_manager(sr_1)
+
+        self.assertEqual("z_2", z_sr1['zone_manager'].name)
+
+        # img_file = "{}/config/A3/zone_topology.png".format(os.path.dirname(os.path.abspath(__file__)))
+        # ZoneHelper.save_image(
+        #     zones=environment['zones'],
+        #     title="",
+        #     file_name=img_file,
+        #     img_width=50,
+        #     img_height=50
+        # )
